@@ -21,7 +21,7 @@
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=cl.maneja.app">
-    <img src="https://img.shields.io/badge/Google_Play-Disponible-414141?logo=google-play&logoColor=white" alt="Disponible en Google Play">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png" alt="Disponible en Google Play" height="60">
   </a>
 </p>
 

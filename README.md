@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://unpkg.com/lucide-static@latest/icons/car.svg" width="32" height="32" /><br/>
+  <img src="https://github.com/erikurt9/Maneja/assets/logo-readme.png" width="64" height="64" /><br/>
   Maneja
 </h1>
 
@@ -51,7 +51,7 @@ Simulador de práctica para la licencia de conducir en Chile (Clase B y C), con 
 
 ### <img src="https://unpkg.com/lucide-static@latest/icons/shield-check.svg" width="20" height="20" /> Seguridad: Row Level Security con `WITH CHECK`
 
-Este proyecto pasó por una revisión de seguridad enfocada en Supabase (con ayuda de [React Doctor](https://react.doctor)) que encontró y cerró un problema real, no menor:
+Este proyecto pasó por una revisión de seguridad enfocada en Supabase (con ayuda de [React Doctor](https://react.doctor)) que encontró y cerró un problema real, no cosmético:
 
 Las políticas RLS originales usaban `for all using (auth.uid() = user_id)` **sin** `with check`. En PostgreSQL/PostgREST, la cláusula `USING` solo protege lecturas y actualizaciones de filas que **ya existen** — la única cláusula que valida un `INSERT` es `WITH CHECK`. Como ninguna de las 5 tablas (`examenes`, `respuestas_detalle`, `rachas`, `profiles`, `pregunta_stats`) la tenía, un cliente con la anon key (pública, va en el bundle de cualquier app) podía en teoría insertar filas con el `user_id` de otra persona sin que RLS lo bloqueara.
 
@@ -71,7 +71,7 @@ Ver [`migration_authz_fields.sql`](./migration_authz_fields.sql) para el script 
 | Animación | Framer Motion |
 | Empaquetado nativo | Capacitor (Android) |
 | Backend | Supabase (Postgres + Auth + Row Level Security) |
-| Pagos | RevenueCat |
+| Pagos | Mercado Pago + RevenueCat |
 | Analítica | Vercel Analytics |
 
 ### <img src="https://unpkg.com/lucide-static@latest/icons/package.svg" width="20" height="20" /> Instalación

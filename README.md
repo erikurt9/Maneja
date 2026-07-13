@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://manejacl-full.vercel.app/"><b>Ver Demo en vivo / Live Demo</b></a>
+  <a href="https://manejacl-full.vercel.app/"><b>Demo</b></a>
 </p>
 
 <p align="center">

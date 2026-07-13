@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/erikurt9/Maneja/assets/logo-readme.png" width="64" height="64" /><br/>
+  <img src="./assets/logo-readme.png/logo-readme.png" width="64" height="64" /><br/>
   Maneja
 </h1>
 

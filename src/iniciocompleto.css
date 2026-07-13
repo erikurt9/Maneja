@@ -1,0 +1,214 @@
+/* Estilos extraídos de iniciocompleto.jsx (landing page).
+   Regla: react-doctor/no-inline-exhaustive-style — objetos de estilo inline
+   con muchas propiedades se recrean en cada render y son difíciles de leer.
+   Convención usada acá:
+   - Lo que es SIEMPRE igual (no depende de props/estado) -> clase CSS.
+   - Lo que varía por instancia pero tiene pocos valores discretos (ej. booleanos
+     como primary/banner, o scroll > 40px) -> clase modificadora.
+   - Lo que es realmente dinámico por instancia (color de acento, hover en
+     tiempo real) -> variable CSS (--accent, --badge-color) seteada inline,
+     consumida acá con rgba(var(--x), alpha). */
+
+/* ── DashCard ── */
+.dashcard-inner {
+  transform-style: preserve-3d;
+  border-radius: 18px;
+  height: 100%;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.dashcard-inner--primary,
+.dashcard-inner--banner {
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+}
+.dashcard-inner--primary { padding: 20px 24px; }
+.dashcard-inner--banner { padding: 14px 20px; }
+.dashcard-inner--vertical { padding: 22px 22px 20px; }
+
+.dashcard-badge {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  align-self: flex-start;
+  background: rgba(var(--badge-color), 0.16);
+  border: 1px solid rgba(var(--badge-color), 0.38);
+  color: rgba(var(--badge-color), 1);
+}
+
+.dashcard-cta-full {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  transition: box-shadow 0.25s;
+  padding: 9px 18px;
+  font-size: 12.5px;
+}
+.dashcard-cta-full--primary {
+  padding: 10px 22px;
+  font-size: 13px;
+}
+
+/* ── StatsBadge ── */
+.stats-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 7px 18px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* ── ScrollIndicator ── */
+.scroll-indicator-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+  padding: 8px;
+}
+
+/* ── FaqItem ── */
+.faq-item-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  text-align: left;
+}
+
+/* ── FaqSection ── */
+.faq-top-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(2, 4, 7, 0), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.faq-radial-glow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(20, 50, 160, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(10px);
+}
+.faq-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(60, 100, 255, 0.10);
+  border: 1px solid rgba(60, 100, 255, 0.22);
+  margin-bottom: 18px;
+}
+.faq-title {
+  font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(38px, 6vw, 58px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 12px;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(60, 100, 255, 0.3);
+}
+
+/* ── InicioCompleto: nav ── */
+.hero-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: calc(env(safe-area-inset-left, 0px) + 28px);
+  padding-right: calc(env(safe-area-inset-right, 0px) + 28px);
+  height: calc(58px + env(safe-area-inset-top, 0px));
+  background: rgba(8, 13, 26, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  transition: background 0.4s;
+}
+.hero-nav--scrolled {
+  background: rgba(6, 11, 24, 0.97);
+}
+
+.hero-faq-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(150, 180, 230, 0.60);
+  transition: color 0.2s;
+  padding: 4px 0;
+}
+.hero-faq-link:hover {
+  color: rgba(180, 210, 255, 0.9);
+}
+
+/* ── InicioCompleto: hero title ── */
+.hero-title {
+  font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(54px, 8.5vw, 84px);
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(60, 120, 255, 0.40), 0 4px 28px rgba(0, 0, 0, 0.75);
+}
+
+/* ── InicioCompleto: footer legal links ── */
+.legal-link {
+  font-size: 12px;
+  color: rgba(70, 90, 120, 0.55);
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+}
+.legal-link:hover {
+  color: rgba(140, 170, 220, 0.85);
+}

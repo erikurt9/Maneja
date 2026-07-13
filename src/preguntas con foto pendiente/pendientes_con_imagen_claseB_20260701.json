@@ -1,0 +1,61 @@
+{
+  "descripcion": "Preguntas Clase B que requieren imagen. Importadas 2026-07-01.",
+  "total": 5,
+  "preguntas": [
+    {
+      "numero_en_examen": 8,
+      "pregunta": "¿Por qué el vehículo gris que se ve en la imagen está correctamente estacionado a un costado izquierdo de la calle?",
+      "opciones": [
+        "Porque una señal esta expresando que se puede estacionar.",
+        "Porque no obstruye el paso de otros vehículos que desean circular por la calle.",
+        "Porque hay otro vehículo estacionado en el mismo lugar."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_08.png"
+    },
+    {
+      "numero_en_examen": 10,
+      "pregunta": "¿Qué significa esta señal?",
+      "opciones": [
+        "Cruce de peatones.",
+        "Niños jugando.",
+        "Zona de escuela."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_10.png"
+    },
+    {
+      "numero_en_examen": 14,
+      "pregunta": "Si un Carabinero se encuentra en una intersección con el brazo levantado verticalmente, ¿qué significa esta señal para los conductores?",
+      "opciones": [
+        "Indica advertencia. Vehículos detenidos podrán avanzar cuando el carabinero esté de costado y quienes tengan vía libre deben detenerse.",
+        "Que deben detenerse, pues la señal equivale a luz roja.",
+        "Que solo los peatones pueden cruzar."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_14.png"
+    },
+    {
+      "numero_en_examen": 17,
+      "pregunta": "¿Qué significa esta señal?",
+      "opciones": [
+        "Más adelante incorporación de tránsito lateral derecho",
+        "Más adelante empalmes contrarios consecutivos",
+        "Más adelante camino lateral"
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_17.png"
+    },
+    {
+      "numero_en_examen": 26,
+      "pregunta": "Usted circula por una autopista y observa la situación que muestra la imagen: un vehículo en panne se encuentra detenido en la pista izquierda con el triángulo de seguridad ubicado en la calzada. ¿Qué debería hacer la persona que conduce el vehículo en panne en esta situación?",
+      "opciones": [
+        "Intentar empujar el vehículo hacia la pista derecha en plena marcha.",
+        "Encender las luces de emergencia (intermitentes), señalizar con el triángulo a la distancia adecuada y, si es posible, mover el vehículo hacia la berma derecha o el lugar más seguro disponible.",
+        "Permanecer dentro del vehículo y esperar ayuda en el mismo lugar."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_26.png"
+    }
+  ]
+}

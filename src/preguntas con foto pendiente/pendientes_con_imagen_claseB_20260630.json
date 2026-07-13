@@ -1,0 +1,50 @@
+{
+  "descripcion": "Preguntas Clase B que requieren imagen para determinar la respuesta correcta. Revisar manualmente con las capturas de Practicatest.",
+  "total": 4,
+  "preguntas": [
+    {
+      "numero_en_examen": 13,
+      "pregunta": "¿Qué significa esta señal?",
+      "opciones": [
+        "Que a partir de la señal la velocidad máxima permitida es la establecida en la Ley de Tránsito.",
+        "Que a partir de la señal se puede adelantar.",
+        "Que a partir de la señal se puede adelantar y el límite de velocidad máxima es el establecido en la Ley de Tránsito."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_13.png"
+    },
+    {
+      "numero_en_examen": 15,
+      "pregunta": "Si intenta virar a la izquierda en una intersección en T como se indica en la figura: ¿Debe ceder el paso a los vehículos que se aproximen por la derecha e izquierda?",
+      "opciones": [
+        "Sí, pero solamente al vehículo de la derecha azul",
+        "No, usted tiene preferencia de vía",
+        "Si, Debe ceder el paso a los vehículos que se aproximen por la derecha e izquierda"
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_15.png"
+    },
+    {
+      "numero_en_examen": 25,
+      "pregunta": "Su vehículo se encuentra de frente con los peatones y el vehículo gris, ¿Qué hace usted ante esta situación?",
+      "opciones": [
+        "Reduce su velocidad y continúa conduciendo.",
+        "Hace señales a los peatones para que se alejen de la calzada.",
+        "Espera y deja pasar primero al vehículo que viene en contra, y luego usted continúa y pasa a los peatones."
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_25.png"
+    },
+    {
+      "numero_en_examen": 34,
+      "pregunta": "¿Qué significa esta señal de tránsito?",
+      "opciones": [
+        "Peligro de zonas de derrumbes",
+        "Peligro de granizos",
+        "Peligro por río caudaloso"
+      ],
+      "correcta": "⚠️ PENDIENTE — requiere ver la imagen",
+      "foto": "fotos/pregunta_34.png"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "appId": "com.maneja.app",
+  "appName": "Maneja",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#0d1626",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  }
+}

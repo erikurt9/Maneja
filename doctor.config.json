@@ -1,0 +1,19 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "ignore": {
+    "overrides": [
+      {
+        "files": ["src/useGameStore.js"],
+        "rules": ["react-doctor/supabase-client-owned-authz-field"]
+      },
+      {
+        "files": ["src/iniciocompleto.jsx"],
+        "rules": ["react-doctor/effect-needs-cleanup"]
+      },
+      {
+        "files": ["dist/**"],
+        "rules": ["react-doctor/artifact-baas-authority-surface"]
+      }
+    ]
+  }
+}

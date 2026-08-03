@@ -30,7 +30,7 @@ import {
   inicializarNotificaciones,
   programarNotificacionVidaLista,
   programarRecordatorioRacha,
-} from "./Notificaciones.js";
+} from "./notificaciones.js";
 
 export default function App() {
   const { pantalla, modo } = useStore();

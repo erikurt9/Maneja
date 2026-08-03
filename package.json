@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/app": "^8.0.0",
     "@capacitor/core": "^8.3.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/local-notifications": "^8.0.0",
     "@revenuecat/purchases-capacitor": "^13.1.1",
     "@supabase/supabase-js": "^2.49.4",
+    "@tabler/icons-react": "^3.44.0",
     "@vercel/analytics": "^1.6.1",
     "framer-motion": "^12.35.1",
     "react": "^19.2.0",

@@ -10,9 +10,9 @@ export const MAX_LIVES = 5;
 
 // ─── DIVISIONES ──────────────────────────────────────────────────────────────
 export const DIVISIONES = [
-  { id: "bronce", label: "Bronce", emoji: "🥉", minXP: 0,    maxXP: 500,  color: "#cd7f32" },
-  { id: "plata",  label: "Plata",  emoji: "🥈", minXP: 500,  maxXP: 1500, color: "#94a3b8" },
-  { id: "oro",    label: "Oro",    emoji: "🥇", minXP: 1500, maxXP: 9999, color: "#f59e0b" },
+  { id: "bronce", label: "Bronce", emoji: "medal", minXP: 0,    maxXP: 500,  color: "#cd7f32" },
+  { id: "plata",  label: "Plata",  emoji: "medal", minXP: 500,  maxXP: 1500, color: "#94a3b8" },
+  { id: "oro",    label: "Oro",    emoji: "medal", minXP: 1500, maxXP: 9999, color: "#f59e0b" },
 ];
 
 export function getDivision(xp) {

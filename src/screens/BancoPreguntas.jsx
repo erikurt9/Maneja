@@ -2,6 +2,11 @@ import { useState, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { PREGUNTAS } from "../preguntas.js";
 import { PREGUNTAS_MOTO } from "../preguntas_moto.js";
+import { PREGUNTAS_PROFESIONAL } from "../preguntas_profesional.js";
+import QuestionIcon from "../components/QuestionIcon";
+import { IconArrowLeft, IconBook2, IconCheck, IconBulb } from "@tabler/icons-react";
+
+const CLASES_PROFESIONALES = ["A1", "A2", "D", "E"];
 
 export default function BancoPreguntas({ onVolver, clase = "B" }) {
   const [busqueda, setBusqueda] = useState("");
@@ -9,7 +14,9 @@ export default function BancoPreguntas({ onVolver, clase = "B" }) {
   const [expandida, setExpandida] = useState(null);
   const scrollRef = useRef(null);
 
-  const banco = clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
+  const banco = CLASES_PROFESIONALES.includes(clase)
+    ? PREGUNTAS_PROFESIONAL.filter(p => p.clases.includes(clase))
+    : clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
 
   const categorias = ["Todas", ...Array.from(new Set(banco.map(p => p.categoria))).sort()];
 
@@ -41,7 +48,7 @@ export default function BancoPreguntas({ onVolver, clase = "B" }) {
         <div className="p-5 pb-3 flex-shrink-0">
           <button type="button" onClick={onVolver}
             className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-sm font-semibold mb-5 bg-transparent border-0 outline-none p-0">
-            ← Volver
+            <IconArrowLeft size={15} className="inline -mt-0.5 mr-1" /> Volver
           </button>
           <div className="flex items-center gap-2">
             <img src="/logo_new.png" alt="Maneja" className="w-7 h-7 object-contain" style={{ filter: "drop-shadow(0 2px 6px rgba(60,120,255,0.4))" }} />
@@ -77,8 +84,8 @@ export default function BancoPreguntas({ onVolver, clase = "B" }) {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-800 flex-shrink-0">
-          <button type="button" onClick={onVolver} className="md:hidden text-slate-300 hover:text-white transition-colors font-semibold text-sm bg-transparent border-0 outline-none p-0">← Volver</button>
-          <h2 className="text-white font-black text-base flex-1">📚 Banco de Preguntas</h2>
+          <button type="button" onClick={onVolver} className="md:hidden text-slate-300 hover:text-white transition-colors font-semibold text-sm bg-transparent border-0 outline-none p-0"><IconArrowLeft size={15} className="inline -mt-0.5 mr-1" /> Volver</button>
+          <h2 className="text-white font-black text-base flex-1 flex items-center gap-2"><IconBook2 size={17} /> Banco de Preguntas</h2>
           <input value={busqueda} onChange={e => handleBusqueda(e.target.value)}
             placeholder="Buscar pregunta..."
             className="hidden md:block w-64 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-600 border border-slate-700/60 focus:outline-none focus:border-blue-500 transition-colors"
@@ -113,10 +120,9 @@ export default function BancoPreguntas({ onVolver, clase = "B" }) {
                 style={{ background: "rgba(255,255,255,0.02)" }}>
                 <button type="button" className="w-full text-left px-5 py-4 flex items-start gap-4 bg-transparent border-0 outline-none"
                   onClick={() => setExpandida(expandida === p.id ? null : p.id)}>
-                  <span className="w-7 h-7 rounded-lg bg-slate-700/50 flex items-center justify-center text-xs font-black text-slate-500 flex-shrink-0 mt-0.5">{p.id}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs text-slate-500">{p.icono} {p.categoria}</span>
+                      <span className="text-xs text-slate-500 flex items-center gap-1"><QuestionIcon name={p.icono} className="w-3.5 h-3.5" /> {p.categoria}</span>
                       <span className="flex gap-0.5">{[1,2,3,4,5].map(n => <span key={n} className={`w-1.5 h-1.5 rounded-full ${n <= p.dificultad ? "bg-amber-400/70" : "bg-slate-700"}`}/>)}</span>
                     </div>
                     <p className="text-slate-200 text-sm font-medium leading-snug">{p.pregunta}</p>
@@ -138,14 +144,14 @@ export default function BancoPreguntas({ onVolver, clase = "B" }) {
                             <div key={j} className={`flex items-center gap-3 px-4 py-2.5 rounded-xl border text-sm font-medium ${j === p.correcta ? "border-emerald-500/50 text-emerald-300" : "border-slate-700/40 text-slate-500"}`}
                               style={{ background: j === p.correcta ? "rgba(16,185,129,0.06)" : "transparent" }}>
                               <span className={`w-6 h-6 rounded-lg border-2 border-current flex items-center justify-center flex-shrink-0 text-xs font-black ${j === p.correcta ? "bg-emerald-500/20" : ""}`}>
-                                {j === p.correcta ? "✓" : String.fromCharCode(65 + j)}
+                                {j === p.correcta ? <IconCheck size={14} /> : String.fromCharCode(65 + j)}
                               </span>
                               <span className="flex-1">{op}</span>
                             </div>
                           ))}
                         </div>
                         <div className="rounded-xl border border-slate-700/40 px-4 py-3" style={{ background: "rgba(255,255,255,0.02)" }}>
-                          <p className="text-xs text-slate-500 uppercase tracking-widest mb-1">💡 Explicación</p>
+                          <p className="text-xs text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-1"><IconBulb size={12} /> Explicación</p>
                           <p className="text-slate-300 text-sm leading-relaxed">{p.explicacion}</p>
                         </div>
                       </div>

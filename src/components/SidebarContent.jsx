@@ -2,6 +2,7 @@ import { m } from "framer-motion";
 import { useStore, fmt } from "../store/quizStore.js";
 import { useGameStore } from "../useGameStore.js";
 import { LivesDisplay, XPBar } from "../FreemiumUI.jsx";
+import { IconBrain, IconFlame, IconArrowLeft } from "@tabler/icons-react";
 
 export function SidebarContent({ onClose }) {
   const { preguntaActual, respuestas, tiempoRestante, modo, clase, preguntas } = useStore();
@@ -16,7 +17,7 @@ export function SidebarContent({ onClose }) {
           <img src="/logo_new.png" alt="Maneja" className="w-7 h-7 object-contain" style={{ filter: "drop-shadow(0 2px 6px rgba(60,120,255,0.4))" }} />
         </button>
         <span className={`ml-auto text-xs font-bold px-2 py-0.5 rounded-full ${modo === "examen" ? "bg-blue-500/20 text-blue-400" : modo === "inteligente" ? "bg-pink-500/20 text-pink-400" : "bg-amber-500/20 text-amber-400"}`}>
-          {modo === "examen" ? "Examen" : modo === "inteligente" ? "🧠" : "Estudio"}
+          {modo === "examen" ? "Examen" : modo === "inteligente" ? <IconBrain size={14} /> : "Estudio"}
         </span>
         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${clase === "C" ? "bg-orange-500/20 text-orange-400" : "bg-slate-700/60 text-slate-400"}`}>
           {clase === "C" ? "C" : "B"}
@@ -46,7 +47,7 @@ export function SidebarContent({ onClose }) {
           <div className="flex items-center gap-2">
             {streak >= 2 && (
               <span className="flex items-center gap-0.5 font-black" style={{ color: "#fb923c" }}>
-                <m.span animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }} style={{ filter: "drop-shadow(0 0 4px #f97316)", fontSize: "12px" }}>🔥</m.span>
+                <m.span animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }} style={{ filter: "drop-shadow(0 0 4px #f97316)", color: "#f97316" }}><IconFlame size={14} /></m.span>
                 <span style={{ fontSize: "12px" }}>{streak}</span>
               </span>
             )}
@@ -98,7 +99,7 @@ export function SidebarContent({ onClose }) {
 
       <button type="button" onClick={() => useStore.getState().reiniciar()}
         className="md:hidden mt-4 border border-slate-700 hover:border-slate-500 text-slate-500 hover:text-slate-300 text-sm font-semibold py-2.5 rounded-xl transition-all bg-transparent outline-none">
-        ← Salir al inicio
+        <IconArrowLeft size={14} className="inline -mt-0.5 mr-1" /> Salir al inicio
       </button>
       {/* XP Bar en sidebar */}
       <div className="mt-2">

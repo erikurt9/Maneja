@@ -12,7 +12,7 @@ export const PREGUNTAS = [
   {
     id: 1,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "¿Qué parte de la vía se debe utilizar exclusivamente al conducir un vehículo?",
     opciones: ["La berma.", "La calzada.", "La acera."],
@@ -22,7 +22,7 @@ export const PREGUNTAS = [
   {
     id: 2,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "¿En qué casos puedes circular por la berma con tu vehículo?",
     opciones: [
@@ -36,7 +36,7 @@ export const PREGUNTAS = [
   {
     id: 3,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "¿Por dónde debes circular con tu vehículo por norma general?",
     opciones: [
@@ -50,7 +50,7 @@ export const PREGUNTAS = [
   {
     id: 4,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Qué obligación especial te corresponde cuando circulas en tu vehículo en una vía de doble sentido de tránsito, al enfrentar a otro vehículo que transita en sentido contrario?",
     opciones: [
@@ -64,7 +64,7 @@ export const PREGUNTAS = [
   {
     id: 5,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "¿Qué debes hacer cuando te adelanta otro vehículo?",
     opciones: [
@@ -78,7 +78,7 @@ export const PREGUNTAS = [
   {
     id: 6,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "Al estar las pistas de la calzada demarcadas, ¿por dónde debes circular con tu vehículo?",
     opciones: [
@@ -92,7 +92,7 @@ export const PREGUNTAS = [
   {
     id: 7,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "Al circular por una calzada con varias pistas demarcadas en un sentido de tránsito, para virar a la derecha, ¿qué maniobra se debe efectuar?",
     opciones: [
@@ -106,7 +106,7 @@ export const PREGUNTAS = [
   {
     id: 8,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Dónde es posible realizar la maniobra viraje en 'U'?",
     opciones: [
@@ -120,7 +120,7 @@ export const PREGUNTAS = [
   {
     id: 9,
     categoria: "Conducta Vial",
-    icono: "🌧️",
+    icono: "cloud-rain",
     dificultad: 2,
     pregunta: "Al encontrarse la calzada húmeda, con hielo o con pavimento resbaladizo por la lluvia, ¿qué debe hacer la persona que conduce?",
     opciones: [
@@ -134,7 +134,7 @@ export const PREGUNTAS = [
   {
     id: 10,
     categoria: "Conducta Vial",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 2,
     pregunta: "Al aproximarse a una curva con visibilidad reducida, ¿qué debe hacer la persona que conduce?",
     opciones: [
@@ -148,7 +148,7 @@ export const PREGUNTAS = [
   {
     id: 11,
     categoria: "Conducta Vial",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 1,
     pregunta: "Si observas que en la parte trasera de un vehículo se encienden las luces blancas, ¿qué indica?",
     opciones: [
@@ -162,7 +162,7 @@ export const PREGUNTAS = [
   {
     id: 12,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Qué distancia tiene permitida recorrer un vehículo en marcha atrás por la calzada?",
     opciones: ["100 metros.", "150 metros.", "Ninguna de las anteriores."],
@@ -172,7 +172,7 @@ export const PREGUNTAS = [
   {
     id: 13,
     categoria: "Conducta Vial",
-    icono: "🚗",
+    icono: "car",
     dificultad: 1,
     pregunta: "Para adelantar, ¿qué norma general debes considerar?",
     opciones: [
@@ -186,7 +186,7 @@ export const PREGUNTAS = [
   {
     id: 14,
     categoria: "Conducta Vial",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 2,
     pregunta: "¿Qué maniobra debe realizar una persona conductora, al circular por una vía de dos sentidos, si va a girar hacia la izquierda?",
     opciones: [
@@ -200,7 +200,7 @@ export const PREGUNTAS = [
   {
     id: 15,
     categoria: "Conducta Vial",
-    icono: "🅿️",
+    icono: "square-letter-p",
     dificultad: 1,
     pregunta: "Por regla general, ¿cómo debes estacionar tu vehículo?",
     opciones: [
@@ -214,7 +214,7 @@ export const PREGUNTAS = [
   {
     id: 16,
     categoria: "Conducta Vial",
-    icono: "🅿️",
+    icono: "square-letter-p",
     dificultad: 2,
     pregunta: "Por regla general, ¿cómo debes estacionar tu vehículo en las vías rurales?",
     opciones: [
@@ -228,7 +228,7 @@ export const PREGUNTAS = [
   {
     id: 17,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿Puedes conducir sin licencia?",
     opciones: [
@@ -242,7 +242,7 @@ export const PREGUNTAS = [
   {
     id: 18,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     pregunta: "Al transitar con tu vehículo podrás pasar con luz roja del semáforo:",
     opciones: [
@@ -256,7 +256,7 @@ export const PREGUNTAS = [
   {
     id: 19,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿En qué caso puedes conducir, por la vía pública, un tipo de vehículo distinto a la Clase Licencia que posees?",
     opciones: [
@@ -270,7 +270,7 @@ export const PREGUNTAS = [
   {
     id: 20,
     categoria: "Conducta Vial",
-    icono: "⛰️",
+    icono: "mountain",
     dificultad: 2,
     pregunta: "¿De qué forma debes estacionar el vehículo en bajada?",
     opciones: [
@@ -284,7 +284,7 @@ export const PREGUNTAS = [
   {
     id: 21,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "Puedes conducir tu vehículo en las vías públicas:",
     opciones: [
@@ -298,7 +298,7 @@ export const PREGUNTAS = [
   {
     id: 22,
     categoria: "Conducta Vial",
-    icono: "🌙",
+    icono: "moon",
     dificultad: 1,
     pregunta: "Al transitar con tu vehículo en vías rurales, como norma de carácter general, durante la noche debes hacerlo con:",
     opciones: ["Luces altas.", "Luces bajas.", "Luces de estacionamiento."],
@@ -308,7 +308,7 @@ export const PREGUNTAS = [
   {
     id: 23,
     categoria: "Conducta Vial",
-    icono: "🌙",
+    icono: "moon",
     dificultad: 1,
     pregunta: "Al conducir tu vehículo durante la noche, por regla general, en las zonas urbanas debes hacerlo con:",
     opciones: [
@@ -322,7 +322,7 @@ export const PREGUNTAS = [
   {
     id: 24,
     categoria: "Conducta Vial",
-    icono: "📣",
+    icono: "speakerphone",
     dificultad: 1,
     pregunta: "Al conducir tu vehículo podrás usar la bocina para:",
     opciones: [
@@ -336,7 +336,7 @@ export const PREGUNTAS = [
   {
     id: 25,
     categoria: "Conducta Vial",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 3,
     pregunta: "Si la parte trasera de tu vehículo patina hacia un costado debes:",
     opciones: [
@@ -350,7 +350,7 @@ export const PREGUNTAS = [
   {
     id: 26,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Al transitar con tu vehículo podrás no tener espejo retrovisor interior, en los siguientes casos:",
     opciones: [
@@ -364,7 +364,7 @@ export const PREGUNTAS = [
   {
     id: 27,
     categoria: "Convivencia Vial",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 2,
     pregunta: "¿Cuánto es el espacio lateral que debes dejar al adelantar a una persona ciclista?",
     opciones: ["2 metros.", "1 metro.", "1,5 metros."],
@@ -374,7 +374,7 @@ export const PREGUNTAS = [
   {
     id: 28,
     categoria: "Señalización",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 1,
     pregunta: "¿Puedes estacionar en ciclovías?",
     opciones: ["Sí.", "No.", "Solo por 30 minutos."],
@@ -387,7 +387,7 @@ export const PREGUNTAS = [
   {
     id: 29,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El nombre que recibe el marcador de revoluciones del motor es:",
     opciones: ["Manómetro.", "Tacómetro.", "Pluviómetro."],
@@ -397,7 +397,7 @@ export const PREGUNTAS = [
   {
     id: 30,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El nivel correcto del electrolito en una batería es:",
     opciones: [
@@ -411,7 +411,7 @@ export const PREGUNTAS = [
   {
     id: 31,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Si el alternador de corriente del vehículo no carga, ¿qué pasa?",
     opciones: [
@@ -425,7 +425,7 @@ export const PREGUNTAS = [
   {
     id: 32,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Cuando la rueda del vehículo se calienta, indica que:",
     opciones: [
@@ -439,7 +439,7 @@ export const PREGUNTAS = [
   {
     id: 33,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Si se corta la correa del ventilador:",
     opciones: [
@@ -453,7 +453,7 @@ export const PREGUNTAS = [
   {
     id: 34,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "La función del embrague es:",
     opciones: [
@@ -467,7 +467,7 @@ export const PREGUNTAS = [
   {
     id: 35,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Una de las causas de que el motor de arranque no funcione es:",
     opciones: [
@@ -481,7 +481,7 @@ export const PREGUNTAS = [
   {
     id: 36,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El exceso de inflado en un neumático produce:",
     opciones: [
@@ -495,7 +495,7 @@ export const PREGUNTAS = [
   {
     id: 37,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El desgaste disparejo de los neumáticos delanteros se debe a:",
     opciones: [
@@ -509,7 +509,7 @@ export const PREGUNTAS = [
   {
     id: 38,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El conducir sin retirar totalmente el pie del pedal de embrague produce:",
     opciones: [
@@ -523,7 +523,7 @@ export const PREGUNTAS = [
   {
     id: 39,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "La excesiva temperatura en la batería puede deberse a:",
     opciones: [
@@ -537,7 +537,7 @@ export const PREGUNTAS = [
   {
     id: 40,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Si con el motor funcionando se enciende la luz roja indicadora de presión de aceite, se debe:",
     opciones: [
@@ -551,7 +551,7 @@ export const PREGUNTAS = [
   {
     id: 41,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Circulando con el vehículo se detecta que el motor se sobrecalienta; ello se puede deber a:",
     opciones: [
@@ -565,7 +565,7 @@ export const PREGUNTAS = [
   {
     id: 42,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Indica el modo más simple de limpiar los bornes sulfatados de la batería:",
     opciones: ["Ácido sulfúrico.", "Agua con bicarbonato.", "Agua destilada."],
@@ -575,7 +575,7 @@ export const PREGUNTAS = [
   {
     id: 43,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Si te encuentras bajando por una pendiente pronunciada, debes:",
     opciones: [
@@ -589,7 +589,7 @@ export const PREGUNTAS = [
   {
     id: 44,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Cuando un neumático delantero tiene baja presión:",
     opciones: [
@@ -603,7 +603,7 @@ export const PREGUNTAS = [
   {
     id: 45,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Para que las bandas de los neumáticos se desgasten en forma pareja se debe efectuar:",
     opciones: [
@@ -617,7 +617,7 @@ export const PREGUNTAS = [
   {
     id: 46,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 1,
     pregunta: "Antes de poner un vehículo en marcha, quien conduce debe verificar:",
     opciones: [
@@ -631,7 +631,7 @@ export const PREGUNTAS = [
   {
     id: 47,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "La falta de presión de aire en los neumáticos produce:",
     opciones: [
@@ -648,7 +648,7 @@ export const PREGUNTAS = [
   {
     id: 48,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿Cuándo las personas que conducen deben mantenerse atentas a las condiciones del tránsito del momento?",
     opciones: ["Siempre.", "Solo en días de lluvia y niebla.", "Solo en la noche."],
@@ -658,7 +658,7 @@ export const PREGUNTAS = [
   {
     id: 49,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 1,
     puntaje: 2,
     pregunta: "Una persona puede manejar un vehículo bajo la influencia del alcohol.",
@@ -669,7 +669,7 @@ export const PREGUNTAS = [
   {
     id: 50,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "En condiciones normales un vehículo podrá ser conducido marcha atrás solo:",
     opciones: [
@@ -683,7 +683,7 @@ export const PREGUNTAS = [
   {
     id: 51,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Los vehículos deberán circular por la mitad derecha de la calzada, salvo en el siguiente caso, entre otros:",
     opciones: [
@@ -697,7 +697,7 @@ export const PREGUNTAS = [
   {
     id: 52,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "En vías de doble tránsito, los vehículos que circulen en sentido opuesto, al cruzarse:",
     opciones: [
@@ -711,7 +711,7 @@ export const PREGUNTAS = [
   {
     id: 53,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Quien conduce un vehículo puede sobrepasar a otro por la derecha, cuando:",
     opciones: [
@@ -725,7 +725,7 @@ export const PREGUNTAS = [
   {
     id: 54,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "No se podrá adelantar en el siguiente caso:",
     opciones: [
@@ -739,7 +739,7 @@ export const PREGUNTAS = [
   {
     id: 55,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Cuál es la distancia que debe mantener quien conduce respecto al vehículo de adelante?",
     opciones: ["30 mts.", "100 mts.", "Una distancia razonable y prudente."],
@@ -749,7 +749,7 @@ export const PREGUNTAS = [
   {
     id: 56,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Cuando los vehículos circulan en caravana o convoy, la distancia entre los vehículos será:",
     opciones: [
@@ -763,7 +763,7 @@ export const PREGUNTAS = [
   {
     id: 57,
     categoria: "Conocimientos Legales",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 1,
     pregunta: "¿Qué deberá hacer una persona conductora al iniciar un viraje a la derecha?",
     opciones: [
@@ -777,7 +777,7 @@ export const PREGUNTAS = [
   {
     id: 58,
     categoria: "Conocimientos Legales",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 2,
     pregunta: "¿Qué deberá hacer una persona conductora al iniciar un viraje a la izquierda desde una vía de doble tránsito?",
     opciones: [
@@ -791,7 +791,7 @@ export const PREGUNTAS = [
   {
     id: 59,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Se prohíbe efectuar viraje en 'U' en el siguiente caso:",
     opciones: [
@@ -805,7 +805,7 @@ export const PREGUNTAS = [
   {
     id: 60,
     categoria: "Señalización",
-    icono: "🤚",
+    icono: "hand-stop",
     dificultad: 2,
     pregunta: "Para señalizar con el brazo el viraje a la izquierda, se debe colocar:",
     opciones: [
@@ -819,7 +819,7 @@ export const PREGUNTAS = [
   {
     id: 61,
     categoria: "Señalización",
-    icono: "🤚",
+    icono: "hand-stop",
     dificultad: 2,
     pregunta: "Para señalizar con el brazo la disminución de la velocidad o detención del vehículo, se debe poner:",
     opciones: [
@@ -833,7 +833,7 @@ export const PREGUNTAS = [
   {
     id: 62,
     categoria: "Conocimientos Legales",
-    icono: "📦",
+    icono: "package",
     dificultad: 1,
     pregunta: "¿Cuándo la carga podrá exceder los pesos máximos que las características técnicas del vehículo permitan?",
     opciones: ["Siempre.", "Cuando se pone carga líquida.", "Nunca."],
@@ -843,7 +843,7 @@ export const PREGUNTAS = [
   {
     id: 63,
     categoria: "Conocimientos Legales",
-    icono: "📦",
+    icono: "package",
     dificultad: 1,
     pregunta: "La carga deberá ser estibada y asegurada de manera que:",
     opciones: [
@@ -857,7 +857,7 @@ export const PREGUNTAS = [
   {
     id: 64,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿Cuándo se puede transportar pasajeros en vehículos de carga?",
     opciones: [
@@ -871,7 +871,7 @@ export const PREGUNTAS = [
   {
     id: 65,
     categoria: "Señalización",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 1,
     pregunta: "El color de las luces que proyecten hacia delante los vehículos deben ser:",
     opciones: ["Rojas y blancas.", "Blancas o amarillas.", "Rojas o blancas."],
@@ -881,7 +881,7 @@ export const PREGUNTAS = [
   {
     id: 66,
     categoria: "Señalización",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 1,
     pregunta: "¿De qué color deben ser las luces de viraje traseras?",
     opciones: ["Blancas.", "Rojas o amarillas.", "Verdes."],
@@ -891,7 +891,7 @@ export const PREGUNTAS = [
   {
     id: 67,
     categoria: "Señalización",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 2,
     pregunta: "¿Qué focos o luces se prohíben?",
     opciones: [
@@ -914,7 +914,7 @@ export const PREGUNTAS = [
   {
     id: 68,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Su vehículo se desvía hacia un lado cuando frena. ¿Qué debería hacer?",
     opciones: [
@@ -928,7 +928,7 @@ export const PREGUNTAS = [
   {
     id: 69,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Mientras conduce siente un fuerte olor a gasolina. ¿Qué debe hacer?",
     opciones: [
@@ -942,7 +942,7 @@ export const PREGUNTAS = [
   {
     id: 70,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 1,
     pregunta: "¿Cómo puede prevenir el riesgo de incendio de su vehículo?",
     opciones: [
@@ -956,7 +956,7 @@ export const PREGUNTAS = [
   {
     id: 71,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 1,
     pregunta: "¿Por qué es importante usar zapatos apropiados al conducir?",
     opciones: [
@@ -970,7 +970,7 @@ export const PREGUNTAS = [
   {
     id: 72,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Cuál elemento reduce el riesgo de lesiones de cuello en una colisión?",
     opciones: [
@@ -984,7 +984,7 @@ export const PREGUNTAS = [
   {
     id: 73,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "La presión de los neumáticos debe revisarse:",
     opciones: [
@@ -998,7 +998,7 @@ export const PREGUNTAS = [
   {
     id: 74,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Cuál de estos líquidos, si está en nivel bajo, podría causar un accidente?",
     opciones: [
@@ -1012,7 +1012,7 @@ export const PREGUNTAS = [
   {
     id: 75,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Cuándo usaría las luces intermitentes de advertencia de peligro?",
     opciones: [
@@ -1026,7 +1026,7 @@ export const PREGUNTAS = [
   {
     id: 76,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Al notar que su vehículo rebota u oscila al cargarlo en un extremo, ¿qué indica esto?",
     opciones: [
@@ -1040,7 +1040,7 @@ export const PREGUNTAS = [
   {
     id: 77,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿A qué se debe principalmente un alto consumo de combustible?",
     opciones: [
@@ -1054,7 +1054,7 @@ export const PREGUNTAS = [
   {
     id: 78,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "La profundidad de los surcos de los neumáticos no debería ser inferior a:",
     opciones: ["5.0 mm", "4.0 mm", "1.6 mm"],
@@ -1064,7 +1064,7 @@ export const PREGUNTAS = [
   {
     id: 79,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "Se le revienta un neumático trasero mientras conduce. ¿Qué debe hacer?",
     opciones: [
@@ -1078,7 +1078,7 @@ export const PREGUNTAS = [
   {
     id: 80,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "Se le revienta un neumático delantero. ¿Qué debe hacer?",
     opciones: [
@@ -1092,7 +1092,7 @@ export const PREGUNTAS = [
   {
     id: 81,
     categoria: "Mecánica Básica",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "¿Qué nunca debe hacer en una bomba de bencina?",
     opciones: ["Circular por ella.", "Fumar.", "Lavar los parabrisas."],
@@ -1102,7 +1102,7 @@ export const PREGUNTAS = [
   {
     id: 82,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Por qué no es bueno desengancharse del motor al ir circulando?",
     opciones: [
@@ -1116,7 +1116,7 @@ export const PREGUNTAS = [
   {
     id: 83,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "Para bajar una pendiente muy pronunciada, ¿qué debe hacer?",
     opciones: [
@@ -1130,7 +1130,7 @@ export const PREGUNTAS = [
   {
     id: 84,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Para qué sirven los seguros de niños de los vehículos?",
     opciones: [
@@ -1144,7 +1144,7 @@ export const PREGUNTAS = [
   {
     id: 85,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "En pavimento mojado, ¿influye el estado de los neumáticos en la distancia de frenado?",
     opciones: [
@@ -1158,7 +1158,7 @@ export const PREGUNTAS = [
   {
     id: 86,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "¿Cuál es la distancia aproximada de detención total a 90 km/h en asfalto seco?",
     opciones: ["Unos 30 metros.", "Unos 70 metros.", "Unos 120 metros."],
@@ -1168,7 +1168,7 @@ export const PREGUNTAS = [
   {
     id: 87,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "¿Cuál es la distancia aproximada de detención total a 70 km/h en asfalto seco?",
     opciones: ["Unos 15 metros.", "Unos 45 metros.", "Unos 80 metros."],
@@ -1178,7 +1178,7 @@ export const PREGUNTAS = [
   {
     id: 88,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "¿Cuál es el tiempo de reacción promedio de un conductor ante un imprevisto?",
     opciones: ["0.1 segundos.", "1 segundo.", "2 segundos."],
@@ -1188,7 +1188,7 @@ export const PREGUNTAS = [
   {
     id: 89,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "Si duplica su velocidad, ¿qué le ocurre a la energía cinética de su vehículo?",
     opciones: [
@@ -1202,7 +1202,7 @@ export const PREGUNTAS = [
   {
     id: 90,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué es lo más importante para evitar chocar al vehículo que va adelante?",
     opciones: [
@@ -1216,7 +1216,7 @@ export const PREGUNTAS = [
   {
     id: 91,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Cuál afirmación sobre gases de escape es verdadera?",
     opciones: [
@@ -1230,7 +1230,7 @@ export const PREGUNTAS = [
   {
     id: 92,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuál afirmación sobre el cinturón de seguridad es verdadera?",
@@ -1245,7 +1245,7 @@ export const PREGUNTAS = [
   {
     id: 93,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué elementos de su vehículo debe mantener siempre limpios?",
     opciones: [
@@ -1262,7 +1262,7 @@ export const PREGUNTAS = [
   {
     id: 94,
     categoria: "Velocidades",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuál es la velocidad máxima en autopistas urbanas en Chile?",
@@ -1273,7 +1273,7 @@ export const PREGUNTAS = [
   {
     id: 95,
     categoria: "Velocidades",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuál es la velocidad máxima en carreteras interurbanas para vehículos livianos?",
@@ -1284,7 +1284,7 @@ export const PREGUNTAS = [
   {
     id: 96,
     categoria: "Velocidades",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuál es la velocidad máxima frente a un establecimiento educacional en horario de clases?",
@@ -1295,7 +1295,7 @@ export const PREGUNTAS = [
   {
     id: 97,
     categoria: "Velocidades",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 3,
     puntaje: 2,
     pregunta: "A 50 km/h con buenas condiciones, ¿cuánto tarda aproximadamente en detenerse su vehículo?",
@@ -1306,7 +1306,7 @@ export const PREGUNTAS = [
   {
     id: 98,
     categoria: "Velocidades",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 3,
     puntaje: 2,
     pregunta: "A 70 km/h, ¿qué distancia recorre su vehículo desde que percibe un peligro hasta que comienza a frenar?",
@@ -1320,7 +1320,7 @@ export const PREGUNTAS = [
   {
     id: 99,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuánto mayor es el riesgo de accidente con una alcoholemia entre 0,3 y 0,5 g/l?",
@@ -1335,7 +1335,7 @@ export const PREGUNTAS = [
   {
     id: 100,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     puntaje: 2,
     pregunta: "Si ha consumido alcohol, ¿cuál es el mejor consejo para volver a casa?",
@@ -1350,7 +1350,7 @@ export const PREGUNTAS = [
   {
     id: 101,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuáles son los efectos probables del consumo de alcohol en la conducción?",
@@ -1365,7 +1365,7 @@ export const PREGUNTAS = [
   {
     id: 102,
     categoria: "Alcohol y Drogas",
-    icono: "💊",
+    icono: "pill",
     dificultad: 2,
     puntaje: 2,
     pregunta: "Está tomando remedios que pueden afectar su conducción. ¿Qué debe hacer?",
@@ -1380,7 +1380,7 @@ export const PREGUNTAS = [
   {
     id: 103,
     categoria: "Alcohol y Drogas",
-    icono: "💊",
+    icono: "pill",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Por qué debe consultar al médico si le han recetado un tratamiento?",
@@ -1395,7 +1395,7 @@ export const PREGUNTAS = [
   {
     id: 104,
     categoria: "Alcohol y Drogas",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Cuáles son los primeros síntomas de cansancio al conducir?",
@@ -1410,7 +1410,7 @@ export const PREGUNTAS = [
   {
     id: 105,
     categoria: "Alcohol y Drogas",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 2,
     puntaje: 2,
     pregunta: "Si siente cansancio mientras conduce y no puede detenerse aún, ¿qué debe hacer?",
@@ -1425,7 +1425,7 @@ export const PREGUNTAS = [
   {
     id: 106,
     categoria: "Alcohol y Drogas",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Qué efecto tiene la calefacción del vehículo en el nivel de somnolencia?",
@@ -1443,7 +1443,7 @@ export const PREGUNTAS = [
   {
     id: 107,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuál es el factor que con mayor frecuencia se presenta en los accidentes de tránsito?",
     opciones: [
@@ -1457,7 +1457,7 @@ export const PREGUNTAS = [
   {
     id: 108,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "En cuanto al estrés al conducir, ¿cuál afirmación es falsa?",
     opciones: [
@@ -1471,7 +1471,7 @@ export const PREGUNTAS = [
   {
     id: 109,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Qué puede esperarse de un conductor impulsivo?",
     opciones: [
@@ -1485,7 +1485,7 @@ export const PREGUNTAS = [
   {
     id: 110,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuál es el mejor consejo para una conducción segura?",
     opciones: [
@@ -1499,7 +1499,7 @@ export const PREGUNTAS = [
   {
     id: 111,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Qué efecto tiene conducir a unos 100 km/h sobre la visión?",
     opciones: [
@@ -1513,7 +1513,7 @@ export const PREGUNTAS = [
   {
     id: 112,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "Un conductor que va con mucha prisa tiende a:",
     opciones: [
@@ -1527,7 +1527,7 @@ export const PREGUNTAS = [
   {
     id: 113,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuáles son los 2 factores más frecuentes en accidentes de carretera con un solo vehículo?",
     opciones: [
@@ -1541,7 +1541,7 @@ export const PREGUNTAS = [
   {
     id: 114,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "Si conduce y alguien le molesta con su conducción, ¿qué debe hacer?",
     opciones: [
@@ -1555,7 +1555,7 @@ export const PREGUNTAS = [
   {
     id: 115,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "Si está enfermo antes de conducir, ¿qué debe hacer?",
     opciones: [
@@ -1572,7 +1572,7 @@ export const PREGUNTAS = [
   {
     id: 116,
     categoria: "Convivencia Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     pregunta: "Se aproxima a un paso de peatones y un peatón está cruzando. ¿Qué debe hacer?",
     opciones: [
@@ -1586,7 +1586,7 @@ export const PREGUNTAS = [
   {
     id: 117,
     categoria: "Convivencia Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 2,
     pregunta: "Al girar en una intersección, hay peatones y ciclistas cruzando. ¿Qué debe hacer?",
     opciones: [
@@ -1600,7 +1600,7 @@ export const PREGUNTAS = [
   {
     id: 118,
     categoria: "Convivencia Vial",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 2,
     pregunta: "Va detrás de un ciclista que se aproxima a una intersección. ¿Qué debe hacer?",
     opciones: [
@@ -1614,7 +1614,7 @@ export const PREGUNTAS = [
   {
     id: 119,
     categoria: "Convivencia Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 2,
     pregunta: "Ve una pelota rodar hacia la calzada cerca de niños. ¿Qué debe hacer?",
     opciones: [
@@ -1628,7 +1628,7 @@ export const PREGUNTAS = [
   {
     id: 120,
     categoria: "Convivencia Vial",
-    icono: "🚗",
+    icono: "car",
     dificultad: 2,
     pregunta: "Circula por una calle con vehículos estacionados al costado. ¿Por qué debe reducir velocidad?",
     opciones: [
@@ -1642,7 +1642,7 @@ export const PREGUNTAS = [
   {
     id: 121,
     categoria: "Convivencia Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 2,
     pregunta: "¿Por qué debe tener especial cuidado con las motocicletas en el tránsito?",
     opciones: [
@@ -1656,7 +1656,7 @@ export const PREGUNTAS = [
   {
     id: 122,
     categoria: "Convivencia Vial",
-    icono: "🚌",
+    icono: "bus",
     dificultad: 2,
     pregunta: "¿Qué debe hacer cuando un vehículo desea incorporarse a su pista desde un costado?",
     opciones: [
@@ -1673,7 +1673,7 @@ export const PREGUNTAS = [
   {
     id: 123,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Qué debe hacer al ver la luz amarilla del semáforo?",
     opciones: [
@@ -1687,7 +1687,7 @@ export const PREGUNTAS = [
   {
     id: 124,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Cuál es la finalidad de las señales reglamentarias?",
     opciones: [
@@ -1701,7 +1701,7 @@ export const PREGUNTAS = [
   {
     id: 125,
     categoria: "Señalización",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 2,
     pregunta: "¿Cuál es la finalidad de las señales de advertencia de peligro?",
     opciones: [
@@ -1715,7 +1715,7 @@ export const PREGUNTAS = [
   {
     id: 126,
     categoria: "Señalización",
-    icono: "🚧",
+    icono: "traffic-cone",
     dificultad: 2,
     pregunta: "Al llegar a una señal de CEDA EL PASO, ¿qué debe hacer?",
     opciones: [
@@ -1729,7 +1729,7 @@ export const PREGUNTAS = [
   {
     id: 127,
     categoria: "Señalización",
-    icono: "🚧",
+    icono: "traffic-cone",
     dificultad: 1,
     pregunta: "¿Qué diferencia existe entre una señal de PARE y una de CEDA EL PASO?",
     opciones: [
@@ -1743,7 +1743,7 @@ export const PREGUNTAS = [
   {
     id: 128,
     categoria: "Señalización",
-    icono: "🔄",
+    icono: "refresh",
     dificultad: 2,
     pregunta: "En una rotonda, ¿quién tiene preferencia de paso?",
     opciones: [
@@ -1757,7 +1757,7 @@ export const PREGUNTAS = [
   {
     id: 129,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿En qué tipo de vías aplica una velocidad máxima de 50 km/h?",
     opciones: [
@@ -1774,7 +1774,7 @@ export const PREGUNTAS = [
   {
     id: 130,
     categoria: "Prioridad de paso",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 2,
     pregunta: "En una intersección sin señalización, ¿a quién debe dar preferencia?",
     opciones: [
@@ -1788,7 +1788,7 @@ export const PREGUNTAS = [
   {
     id: 131,
     categoria: "Prioridad de paso",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 2,
     pregunta: "Al virar a la derecha con semáforo en verde, hay peatones cruzando. ¿Qué hace?",
     opciones: [
@@ -1802,7 +1802,7 @@ export const PREGUNTAS = [
   {
     id: 132,
     categoria: "Prioridad de paso",
-    icono: "🚑",
+    icono: "ambulance",
     dificultad: 1,
     pregunta: "¿Qué debe hacer cuando se aproxima un vehículo de emergencia con sirena y luces?",
     opciones: [
@@ -1816,7 +1816,7 @@ export const PREGUNTAS = [
   {
     id: 133,
     categoria: "Prioridad de paso",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 2,
     pregunta: "Dos vehículos llegan simultáneamente a una intersección no señalizada. ¿Cuál tiene preferencia?",
     opciones: [
@@ -1833,7 +1833,7 @@ export const PREGUNTAS = [
   {
     id: 134,
     categoria: "Condiciones climáticas",
-    icono: "🌧️",
+    icono: "cloud-rain",
     dificultad: 2,
     pregunta: "¿Por qué cuando hay nieve es conveniente conducir con la marcha más alta posible?",
     opciones: [
@@ -1847,7 +1847,7 @@ export const PREGUNTAS = [
   {
     id: 135,
     categoria: "Condiciones climáticas",
-    icono: "🌧️",
+    icono: "cloud-rain",
     dificultad: 2,
     pregunta: "Las condiciones climáticas adversas como lluvia, nieve o hielo, ¿qué efecto tienen?",
     opciones: [
@@ -1861,7 +1861,7 @@ export const PREGUNTAS = [
   {
     id: 136,
     categoria: "Condiciones climáticas",
-    icono: "🌙",
+    icono: "moon",
     dificultad: 2,
     pregunta: "Al conducir de noche por una zona urbana con alumbrado público, ¿qué luces debe usar?",
     opciones: [
@@ -1875,7 +1875,7 @@ export const PREGUNTAS = [
   {
     id: 137,
     categoria: "Conducción segura",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 2,
     pregunta: "¿Por qué los vehículos consumen más combustible en horas de congestión?",
     opciones: [
@@ -1889,7 +1889,7 @@ export const PREGUNTAS = [
   {
     id: 138,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Reducir la velocidad manteniendo una marcha puesta reduce el consumo de combustible?",
     opciones: [
@@ -1903,7 +1903,7 @@ export const PREGUNTAS = [
   {
     id: 139,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuál afirmación sobre conductores jóvenes inexpertos es verdadera?",
     opciones: [
@@ -1917,7 +1917,7 @@ export const PREGUNTAS = [
   {
     id: 140,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuándo es alto el riesgo de interpretar erróneamente la realidad al conducir?",
     opciones: [
@@ -1931,7 +1931,7 @@ export const PREGUNTAS = [
   {
     id: 141,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "No encuentra sus anteojos para conducir. ¿Qué debe hacer?",
     opciones: [
@@ -1948,7 +1948,7 @@ export const PREGUNTAS = [
   {
     id: 142,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Qué debe hacer antes de adelantar a otro vehículo?",
     opciones: [
@@ -1962,7 +1962,7 @@ export const PREGUNTAS = [
   {
     id: 143,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿En qué caso puede sobrepasar a otro vehículo por la derecha?",
     opciones: [
@@ -1976,7 +1976,7 @@ export const PREGUNTAS = [
   {
     id: 144,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Con qué puntaje mínimo se aprueba el examen teórico clase B?",
     opciones: ["28 puntos de 35.", "30 puntos de 35.", "33 puntos de 35."],
@@ -1986,7 +1986,7 @@ export const PREGUNTAS = [
   {
     id: 145,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     puntaje: 2,
     pregunta: "¿Es necesario usar cinturón de seguridad aunque el vehículo tenga airbag?",
@@ -2001,7 +2001,7 @@ export const PREGUNTAS = [
   {
     id: 146,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Qué debe verificar antes de poner el vehículo en marcha?",
     opciones: [
@@ -2015,7 +2015,7 @@ export const PREGUNTAS = [
   {
     id: 147,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Debe colaborar con un inspector fiscal que supervigila la Ley de Tránsito. ¿Qué debe hacer?",
     opciones: [
@@ -2032,7 +2032,7 @@ export const PREGUNTAS = [
   {
     id: 148,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "Al incorporarse desde una vía secundaria a una principal, ¿qué debe hacer?",
     opciones: [
@@ -2046,7 +2046,7 @@ export const PREGUNTAS = [
   {
     id: 149,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿En qué casos se puede hacer uso de la bocina en zona urbana?",
     opciones: [
@@ -2060,7 +2060,7 @@ export const PREGUNTAS = [
   {
     id: 150,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Qué debe hacer si al adelantar se da cuenta de que no tendrá suficiente espacio para completar la maniobra?",
     opciones: [
@@ -2074,7 +2074,7 @@ export const PREGUNTAS = [
   {
     id: 151,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuál afirmación sobre la falta de atención al conducir es correcta?",
     opciones: [
@@ -2088,7 +2088,7 @@ export const PREGUNTAS = [
   {
     id: 152,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Por qué los conductores que sobrestiman sus habilidades son más peligrosos?",
     opciones: [
@@ -2102,7 +2102,7 @@ export const PREGUNTAS = [
   {
     id: 153,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "¿Qué ocurre si duplica la velocidad de 30 a 60 km/h respecto a la distancia de reacción?",
     opciones: [
@@ -2116,7 +2116,7 @@ export const PREGUNTAS = [
   {
     id: 154,
     categoria: "Conducta Vial",
-    icono: "🅿️",
+    icono: "square-letter-p",
     dificultad: 2,
     pregunta: "¿En qué situaciones debe usar las luces de advertencia de peligro (hazard)?",
     opciones: [
@@ -2130,7 +2130,7 @@ export const PREGUNTAS = [
   {
     id: 155,
     categoria: "Convivencia Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     pregunta: "¿Quiénes son los usuarios más vulnerables de la vía y requieren mayor precaución?",
     opciones: [
@@ -2144,7 +2144,7 @@ export const PREGUNTAS = [
   {
     id: 156,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Consumir alcohol con el estómago vacío qué efecto produce?",
@@ -2159,7 +2159,7 @@ export const PREGUNTAS = [
   {
     id: 157,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "Al adelantar a un vehículo que adelanta a su vez, ¿cuándo puede comenzar?",
     opciones: [
@@ -2173,7 +2173,7 @@ export const PREGUNTAS = [
   {
     id: 158,
     categoria: "Conducta Vial",
-    icono: "🌙",
+    icono: "moon",
     dificultad: 2,
     pregunta: "Al ser adelantado de noche, ¿qué debe hacer con sus luces?",
     opciones: [
@@ -2190,7 +2190,7 @@ export const PREGUNTAS = [
   {
     id: 159,
     categoria: "Conducta Vial",
-    icono: "⛰️",
+    icono: "mountain",
     dificultad: 2,
     pregunta: "Al subir una cuesta en un cambio de velocidad no adecuado, ¿qué ocurre?",
     opciones: [
@@ -2204,7 +2204,7 @@ export const PREGUNTAS = [
   {
     id: 160,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "Al conducir por una vía rural con un empalme lateral a la izquierda, ¿qué debe hacer?",
     opciones: [
@@ -2221,7 +2221,7 @@ export const PREGUNTAS = [
   {
     id: 161,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "Frente a una situación normal, ¿cuál es la forma más segura de frenar?",
     opciones: [
@@ -2235,7 +2235,7 @@ export const PREGUNTAS = [
   {
     id: 162,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Cuáles son las 2 principales razones por las que no se debe desenganchar el motor al ir cuesta abajo?",
     opciones: [
@@ -2249,7 +2249,7 @@ export const PREGUNTAS = [
   {
     id: 163,
     categoria: "Convivencia Vial",
-    icono: "👪",
+    icono: "users-group",
     dificultad: 1,
     pregunta: "¿Para qué sirven los seguros de niños en las puertas traseras de los vehículos?",
     opciones: [
@@ -2263,7 +2263,7 @@ export const PREGUNTAS = [
   {
     id: 164,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "Si su distancia de reacción es de 10m y la de frenado es 8m a una velocidad X, ¿cuál será su distancia de detención si duplica la velocidad?",
     opciones: [
@@ -2277,7 +2277,7 @@ export const PREGUNTAS = [
   {
     id: 165,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Qué distancia de detención aproximada tiene un tren que circula a 100 km/h?",
     opciones: [
@@ -2291,7 +2291,7 @@ export const PREGUNTAS = [
   {
     id: 166,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Usted está descendiendo una pendiente muy larga. ¿Qué debería hacer para controlar la velocidad?",
     opciones: [
@@ -2305,7 +2305,7 @@ export const PREGUNTAS = [
   {
     id: 167,
     categoria: "Normas de Tránsito",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 3,
     pregunta: "Según la 'Ley No Chat', ¿qué acción está prohibida incluso con el vehículo detenido en un semáforo rojo?",
     opciones: [
@@ -2319,7 +2319,7 @@ export const PREGUNTAS = [
   {
     id: 168,
     categoria: "Convivencia Vial",
-    icono: "👪",
+    icono: "users-group",
     dificultad: 2,
     pregunta: "¿Cuál es la distancia lateral mínima que debe dejar al adelantar a un ciclista?",
     opciones: [
@@ -2333,7 +2333,7 @@ export const PREGUNTAS = [
   {
     id: 169,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Qué es el efecto 'túnel' y cómo se produce?",
     opciones: [
@@ -2347,7 +2347,7 @@ export const PREGUNTAS = [
   {
     id: 170,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "Si el pedal de freno se siente 'elástico' o 'esponjoso', ¿qué indica probablemente?",
     opciones: [
@@ -2361,7 +2361,7 @@ export const PREGUNTAS = [
   {
     id: 171,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 3,
     puntaje: 2,
     pregunta: "Bajo la Ley Emilia, ¿cuál es la sanción por causar la muerte conduciendo en estado de ebriedad y huir?",
@@ -2376,7 +2376,7 @@ export const PREGUNTAS = [
   {
     id: 172,
     categoria: "Normas de Tránsito",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "¿Hasta qué edad es obligatorio que los niños viajen en el asiento trasero?",
     opciones: [
@@ -2390,7 +2390,7 @@ export const PREGUNTAS = [
   {
     id: 173,
     categoria: "Señales de Tránsito",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "Si enfrenta un semáforo apagado o parpadeante en un cruce, ¿quién tiene prioridad?",
     opciones: [
@@ -2404,7 +2404,7 @@ export const PREGUNTAS = [
   {
     id: 174,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cómo debe actuar ante el 'reventón' de un neumático delantero?",
     opciones: [
@@ -2418,7 +2418,7 @@ export const PREGUNTAS = [
   {
     id: 175,
     categoria: "Velocidad",
-    icono: "🏎️",
+    icono: "car",
     dificultad: 1,
     puntaje: 2,
     pregunta: "¿Cuál es el límite máximo de velocidad en zona urbana para vehículos particulares?",
@@ -2433,7 +2433,7 @@ export const PREGUNTAS = [
   {
     id: 176,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué indica que los neumáticos tengan más desgaste en el centro que en los bordes?",
     opciones: [
@@ -2447,7 +2447,7 @@ export const PREGUNTAS = [
   {
     id: 177,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Qué distancia recorre un vehículo a 90 km/h durante un segundo de reacción?",
     opciones: [
@@ -2461,7 +2461,7 @@ export const PREGUNTAS = [
   {
     id: 178,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     puntaje: 2,
     pregunta: "¿Qué estado se considera si un conductor tiene 0.5 gramos de alcohol por mil en la sangre?",
@@ -2476,7 +2476,7 @@ export const PREGUNTAS = [
   {
     id: 179,
     categoria: "Convivencia Vial",
-    icono: "👪",
+    icono: "users-group",
     dificultad: 1,
     pregunta: "En una 'Zona 30', ¿cuál es el objetivo principal?",
     opciones: [
@@ -2490,7 +2490,7 @@ export const PREGUNTAS = [
   {
     id: 180,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Cuál es la profundidad mínima legal permitida de los surcos de un neumático?",
     opciones: [
@@ -2504,7 +2504,7 @@ export const PREGUNTAS = [
   {
     id: 181,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuándo es más peligroso conducir bajo la lluvia?",
     opciones: [
@@ -2518,7 +2518,7 @@ export const PREGUNTAS = [
   {
     id: 182,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué función cumple el líquido de frenos?",
     opciones: [
@@ -2532,7 +2532,7 @@ export const PREGUNTAS = [
   {
     id: 183,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "Si las ruedas traseras de su vehículo resbalan hacia la izquierda, ¿qué debe hacer?",
     opciones: [
@@ -2546,7 +2546,7 @@ export const PREGUNTAS = [
   {
     id: 184,
     categoria: "Normas de Tránsito",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 1,
     pregunta: "¿Qué significa la línea longitudinal continua pintada al centro de la calzada?",
     opciones: [
@@ -2560,7 +2560,7 @@ export const PREGUNTAS = [
   {
     id: 185,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cómo afecta el peso excesivo de carga a la conducción?",
     opciones: [
@@ -2575,7 +2575,7 @@ export const PREGUNTAS = [
   {
     id: 186,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Qué es la 'distancia de parada total' (o de detención)?",
     opciones: [
@@ -2589,7 +2589,7 @@ export const PREGUNTAS = [
   {
     id: 187,
     categoria: "Convivencia Vial",
-    icono: "👪",
+    icono: "users-group",
     dificultad: 2,
     pregunta: "En un cruce peatonal, ¿qué debe hacer si un peatón se baja de la acera?",
     opciones: [
@@ -2603,7 +2603,7 @@ export const PREGUNTAS = [
   {
     id: 188,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Para qué sirve el termómetro del panel de instrumentos?",
     opciones: [
@@ -2617,7 +2617,7 @@ export const PREGUNTAS = [
   {
     id: 189,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "Usted se acerca a una curva cerrada a la izquierda. ¿Qué debería hacer?",
     opciones: [
@@ -2632,7 +2632,7 @@ export const PREGUNTAS = [
   {
     id: 190,
     categoria: "Normas de Tránsito",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "¿Cuál es el objetivo principal de las señales de tránsito de color amarillo (Advertencia)?",
     opciones: [
@@ -2646,7 +2646,7 @@ export const PREGUNTAS = [
   {
     id: 191,
     categoria: "Alcohol y Drogas",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 3,
     puntaje: 2,
     pregunta: "¿Cuál es el efecto de la fatiga o el cansancio en la visión?",
@@ -2661,7 +2661,7 @@ export const PREGUNTAS = [
   {
     id: 192,
     categoria: "Convivencia Vial",
-    icono: "👪",
+    icono: "users-group",
     dificultad: 1,
     pregunta: "Si un vehículo de emergencia (ambulancia o bomberos) viene detrás con sirenas, ¿qué debe hacer?",
     opciones: [
@@ -2675,7 +2675,7 @@ export const PREGUNTAS = [
   {
     id: 193,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué significa el dibujo de un pequeño surtidor de combustible en el tablero?",
     opciones: [
@@ -2689,7 +2689,7 @@ export const PREGUNTAS = [
   {
     id: 194,
     categoria: "Conducción segura",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 3,
     pregunta: "¿Qué es el 'punto ciego' de un vehículo?",
     opciones: [
@@ -2704,7 +2704,7 @@ export const PREGUNTAS = [
   {
     id: 195,
     categoria: "Normas de Tránsito",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "Usted llega a un cruce ferroviario que tiene las barreras levantadas pero no hay luces. ¿Qué hace?",
     opciones: [
@@ -2721,7 +2721,7 @@ export const PREGUNTAS = [
   {
     id: 196,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/196_ceda_el_paso.png",
     pregunta: "¿Qué significa esta señal de tránsito?",
@@ -2737,7 +2737,7 @@ export const PREGUNTAS = [
   {
     id: 197,
     categoria: "Señales",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 1,
     imagen: "/imagenes/197_curva_derecha.png",
     pregunta: "¿Qué indica esta señal de advertencia?",
@@ -2753,7 +2753,7 @@ export const PREGUNTAS = [
   {
     id: 198,
     categoria: "Demarcación",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     imagen: "/imagenes/198_paso_peatonal.png",
     pregunta: "¿Qué indica la señal?",
@@ -2769,7 +2769,7 @@ export const PREGUNTAS = [
   {
     id: 199,
     categoria: "Mecánica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     imagen: "/imagenes/199_testigo_bateria.png",
     pregunta: "Si observa este testigo en su tablero, ¿qué sistema falla?",
@@ -2785,7 +2785,7 @@ export const PREGUNTAS = [
   {
     id: 200,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/200_prohibido_camiones.png",
     pregunta: "¿Qué significa esta señal de prohibición?",
@@ -2801,7 +2801,7 @@ export const PREGUNTAS = [
   {
     id: 201,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     imagen: "/imagenes/201_mantener_derecha.png",
     pregunta: "¿Qué deben hacer los conductores al ver esta señal?",
@@ -2817,7 +2817,7 @@ export const PREGUNTAS = [
   {
     id: 202,
     categoria: "Mecánica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     imagen: "/imagenes/202_testigo_temperatura.png",
     pregunta: "¿Qué indica este símbolo en el tablero?",
@@ -2833,7 +2833,7 @@ export const PREGUNTAS = [
   {
     id: 203,
     categoria: "Señales",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 3,
     imagen: "/imagenes/203_pendiente_fuerte.png",
     pregunta: "¿Qué significa esta señal de advertencia?",
@@ -2849,7 +2849,7 @@ export const PREGUNTAS = [
   {
     id: 204,
     categoria: "Demarcación",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     imagen: "/imagenes/204_flecha_direccion.png",
     pregunta: "¿Qué indica la flecha blanca pintada en la calzada?",
@@ -2865,7 +2865,7 @@ export const PREGUNTAS = [
   {
     id: 205,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/205_hospital.png",
     pregunta: "¿Qué significa esta señal informativa?",
@@ -2881,7 +2881,7 @@ export const PREGUNTAS = [
   {
     id: 206,
     categoria: "Semáforos",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 3,
     imagen: "/imagenes/206_roja_flecha_verde.png",
     pregunta: "¿Qué debe hacer ante un semáforo con luz roja y flecha verde?",
@@ -2897,7 +2897,7 @@ export const PREGUNTAS = [
   {
     id: 207,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/207_proximidad_semaforo.png",
     pregunta: "¿Qué indica esta señal de advertencia?",
@@ -2913,7 +2913,7 @@ export const PREGUNTAS = [
   {
     id: 208,
     categoria: "Demarcación",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     imagen: "/imagenes/208_linea_discontinua.png",
     pregunta: "¿Qué significa la línea discontinua al centro de la calzada?",
@@ -2929,7 +2929,7 @@ export const PREGUNTAS = [
   {
     id: 209,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/209_prohibido_bicicletas.png",
     pregunta: "¿Qué significa esta señal de prohibición?",
@@ -2945,7 +2945,7 @@ export const PREGUNTAS = [
   {
     id: 210,
     categoria: "Señales",
-    icono: "⚠️",
+    icono: "alert-triangle",
     dificultad: 2,
     imagen: "/imagenes/210_angostamiento.png",
     pregunta: "¿Qué significa esta señal?",
@@ -2961,7 +2961,7 @@ export const PREGUNTAS = [
   {
     id: 211,
     categoria: "Mecánica",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 1,
     imagen: "/imagenes/211_luces_altas.png",
     pregunta: "¿Qué indica este símbolo?",
@@ -2977,7 +2977,7 @@ export const PREGUNTAS = [
   {
     id: 212,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/212_pare.png",
     pregunta: "¿Qué significa esta señal reglamentaria?",
@@ -2993,7 +2993,7 @@ export const PREGUNTAS = [
   {
     id: 213,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     imagen: "/imagenes/213_aeropuerto.png",
     pregunta: "¿Qué significa esta señal?",
@@ -3009,7 +3009,7 @@ export const PREGUNTAS = [
   {
     id: 214,
     categoria: "Señales",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     imagen: "/imagenes/214_no_entrar.png",
     pregunta: "¿Qué significa esta señal de prohibición?",
@@ -3025,7 +3025,7 @@ export const PREGUNTAS = [
   {
     id: 215,
     categoria: "Mecánica",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     imagen: "/imagenes/215_combustible.png",
     pregunta: "¿Qué indica este símbolo en el tablero?",
@@ -3043,7 +3043,7 @@ export const PREGUNTAS = [
   {
     id: 216,
     categoria: "Conducta Vial",
-    icono: "💊",
+    icono: "pill",
     dificultad: 1,
     pregunta: "¿Qué deben hacer los conductores alérgicos respecto a la automedicación?",
     opciones: [
@@ -3057,7 +3057,7 @@ export const PREGUNTAS = [
   {
     id: 217,
     categoria: "Conducta Vial",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Qué puede esperarse de un conductor impulsivo? Marque la o las respuesta(s) correcta(s): I) Que reaccione adecuadamente ante cualquier imprevisto. II) Que actúe sin pensar en las consecuencias. III) Que conduzca con excesiva precaución. IV) Que efectúe maniobras sorpresivas que sorprendan a los demás.",
     opciones: [
@@ -3071,7 +3071,7 @@ export const PREGUNTAS = [
   {
     id: 218,
     categoria: "Conducta Vial",
-    icono: "🌧️",
+    icono: "cloud-rain",
     dificultad: 1,
     pregunta: "¿Por qué es importante adaptar tu conducción a las condiciones climáticas, ambientales y del pavimento?",
     opciones: [
@@ -3085,7 +3085,7 @@ export const PREGUNTAS = [
   {
     id: 219,
     categoria: "Conocimientos Legales",
-    icono: "🚆",
+    icono: "train",
     dificultad: 2,
     pregunta: "¿Qué debes hacer si tu vehículo se descompone en un cruce ferroviario?",
     opciones: [
@@ -3099,7 +3099,7 @@ export const PREGUNTAS = [
   {
     id: 220,
     categoria: "Conducta Vial",
-    icono: "🐢",
+    icono: "hourglass-low",
     dificultad: 1,
     pregunta: "Una velocidad razonable y prudente es:",
     opciones: [
@@ -3113,7 +3113,7 @@ export const PREGUNTAS = [
   {
     id: 221,
     categoria: "Conducta Vial",
-    icono: "👶",
+    icono: "baby-carriage",
     dificultad: 1,
     pregunta: "¿Puede un niño viajar en los brazos de un adulto?",
     opciones: [
@@ -3127,7 +3127,7 @@ export const PREGUNTAS = [
   {
     id: 222,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "Si un inspector fiscal del Ministerio de Transportes y Telecomunicaciones lo controla en la vía pública, usted...",
     opciones: [
@@ -3141,7 +3141,7 @@ export const PREGUNTAS = [
   {
     id: 223,
     categoria: "Conducta Vial",
-    icono: "↰",
+    icono: "corner-left-up",
     dificultad: 1,
     pregunta: "¿Cuál es una de las acciones importantes que debes realizar antes de girar a la derecha?",
     opciones: [
@@ -3155,7 +3155,7 @@ export const PREGUNTAS = [
   {
     id: 224,
     categoria: "Conocimientos Legales",
-    icono: "🪪",
+    icono: "id-badge-2",
     dificultad: 2,
     pregunta: "Si su licencia de conducir fue retenida, usted deberá exhibir en su reemplazo:",
     opciones: [
@@ -3171,7 +3171,7 @@ export const PREGUNTAS = [
   {
     id: 225,
     categoria: "Conocimientos Legales",
-    icono: "🚗",
+    icono: "car",
     dificultad: 1,
     pregunta: "¿Puede usted conducir un vehículo de distinto tipo a la licencia que posee por la vía pública en alguno de los siguientes casos?",
     opciones: [
@@ -3185,7 +3185,7 @@ export const PREGUNTAS = [
   {
     id: 226,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     pregunta: "Al transitar con su vehículo, ¿usted puede pasar con luz roja del semáforo?",
     opciones: [
@@ -3199,7 +3199,7 @@ export const PREGUNTAS = [
   {
     id: 227,
     categoria: "Conducta Vial",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 1,
     pregunta: "Si su vehículo dispone de airbag, ¿tiene que usar también el cinturón de seguridad?",
     opciones: [
@@ -3213,7 +3213,7 @@ export const PREGUNTAS = [
   {
     id: 228,
     categoria: "Conducta Vial",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 1,
     pregunta: "Según el libro para la conducción en Chile, ¿qué factor aumenta la probabilidad de sufrir un siniestro de tránsito?",
     opciones: [
@@ -3227,7 +3227,7 @@ export const PREGUNTAS = [
   {
     id: 229,
     categoria: "Conducta Vial",
-    icono: "🌫️",
+    icono: "cloud-fog",
     dificultad: 2,
     pregunta: "¿Qué medidas debe adoptar para mejorar la visibilidad y adherencia en conducción con niebla?",
     opciones: [
@@ -3243,7 +3243,7 @@ export const PREGUNTAS = [
   {
     id: 230,
     categoria: "Conducta Vial",
-    icono: "❄️",
+    icono: "snowflake",
     dificultad: 1,
     pregunta: "Las condiciones climáticas adversas como la lluvia, nieve o presencia de hielo en la calzada, aumentan el riesgo de deslizamiento por la menor adherencia al pavimento.",
     opciones: [
@@ -3256,7 +3256,7 @@ export const PREGUNTAS = [
   {
     id: 231,
     categoria: "Conducta Vial",
-    icono: "🏫",
+    icono: "school",
     dificultad: 1,
     pregunta: "¿Cuándo es obligatorio reducir la velocidad debido al mayor riesgo de siniestros?",
     opciones: [
@@ -3270,7 +3270,7 @@ export const PREGUNTAS = [
   {
     id: 232,
     categoria: "Conducta Vial",
-    icono: "🧒",
+    icono: "user",
     dificultad: 1,
     pregunta: "Usted se va acercando con su vehículo a un sector donde hay niños que juegan en la vereda. ¿Qué debería hacer?",
     opciones: [
@@ -3284,7 +3284,7 @@ export const PREGUNTAS = [
   {
     id: 233,
     categoria: "Conducta Vial",
-    icono: "💊",
+    icono: "pill",
     dificultad: 2,
     pregunta: "¿Qué otros elementos o sustancias pueden perjudicar su capacidad para conducir en forma similar al alcohol?",
     opciones: [
@@ -3298,7 +3298,7 @@ export const PREGUNTAS = [
   {
     id: 234,
     categoria: "Conocimientos Legales",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     pregunta: "¿Qué es un peatón?",
     opciones: [
@@ -3312,7 +3312,7 @@ export const PREGUNTAS = [
   {
     id: 235,
     categoria: "Conducta Vial",
-    icono: "💊",
+    icono: "pill",
     dificultad: 1,
     pregunta: "Bajo las drogas...",
     opciones: [
@@ -3326,7 +3326,7 @@ export const PREGUNTAS = [
   {
     id: 236,
     categoria: "Conducta Vial",
-    icono: "🚨",
+    icono: "alert-triangle",
     dificultad: 2,
     pregunta: "Cuando un conductor es la primera persona en llegar al sitio de un siniestro, ¿qué debería hacer?",
     opciones: [
@@ -3342,7 +3342,7 @@ export const PREGUNTAS = [
   {
     id: 237,
     categoria: "Conducta Vial",
-    icono: "👶",
+    icono: "baby-carriage",
     dificultad: 1,
     pregunta: "¿Cuál es una medida importante a tomar cuando llevas niñas y/o niños en tu vehículo para garantizar su seguridad?",
     opciones: [
@@ -3356,7 +3356,7 @@ export const PREGUNTAS = [
   {
     id: 238,
     categoria: "Conducta Vial",
-    icono: "🌍",
+    icono: "world",
     dificultad: 1,
     pregunta: "Los gases de escape destruyen nuestro medio ambiente y son nocivos para la salud.",
     opciones: [
@@ -3369,7 +3369,7 @@ export const PREGUNTAS = [
   {
     id: 239,
     categoria: "Conducta Vial",
-    icono: "📢",
+    icono: "speakerphone",
     dificultad: 1,
     pregunta: "Usted, al conducir su vehículo, podrá usar la bocina para:",
     opciones: [
@@ -3383,7 +3383,7 @@ export const PREGUNTAS = [
   {
     id: 240,
     categoria: "Conducta Vial",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 1,
     pregunta: "¿Qué debes hacer si vas a abrir la puerta de tu vehículo cerca de una ciclovía?",
     opciones: [
@@ -3397,7 +3397,7 @@ export const PREGUNTAS = [
   {
     id: 241,
     categoria: "Conducta Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     pregunta: "¿Qué debemos hacer cuando nos aproximamos a un cruce peatonal marcado en la vía?",
     opciones: [
@@ -3411,7 +3411,7 @@ export const PREGUNTAS = [
   {
     id: 242,
     categoria: "Conducta Vial",
-    icono: "🍷",
+    icono: "glass-full",
     dificultad: 1,
     pregunta: "¿Qué consejo daría usted a un conductor que ha ingerido bebidas alcohólicas en una fiesta?",
     opciones: [
@@ -3425,7 +3425,7 @@ export const PREGUNTAS = [
   {
     id: 243,
     categoria: "Conducta Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 2,
     pregunta: "¿Qué debes hacer al conducir si sospechas que un peatón pueda tener problemas de movilidad o audición?",
     opciones: [
@@ -3439,7 +3439,7 @@ export const PREGUNTAS = [
   {
     id: 244,
     categoria: "Conducta Vial",
-    icono: "🚑",
+    icono: "ambulance",
     dificultad: 1,
     pregunta: "Cuando se aproxima un vehículo de emergencia haciendo uso de sus señales audibles y visibles en el mismo sentido, el conductor deberá:",
     opciones: [
@@ -3453,7 +3453,7 @@ export const PREGUNTAS = [
   {
     id: 245,
     categoria: "Conducta Vial",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 1,
     pregunta: "¿Qué deberías hacer si te encuentras con una persona ciclista antes o en un cruce y planeas virar a la derecha?",
     opciones: [
@@ -3467,7 +3467,7 @@ export const PREGUNTAS = [
   {
     id: 246,
     categoria: "Conducta Vial",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "¿Qué es lo que usted nunca debería hacer en una bomba de bencina?",
     opciones: [
@@ -3647,7 +3647,7 @@ export const PREGUNTAS = [
   {
     id: 247,
     categoria: "Señalización",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 1,
     pregunta: "La luz amarilla intermitente del semáforo indica:",
     opciones: [
@@ -3661,7 +3661,7 @@ export const PREGUNTAS = [
   {
     id: 248,
     categoria: "Conducta Vial",
-    icono: "🌧️",
+    icono: "cloud-rain",
     dificultad: 1,
     pregunta: "¿Por qué es importante adaptar tu conducción a las condiciones climáticas, ambientales y del pavimento?",
     opciones: [
@@ -3675,7 +3675,7 @@ export const PREGUNTAS = [
   {
     id: 249,
     categoria: "Mecánica Básica",
-    icono: "🛞",
+    icono: "steering-wheel",
     dificultad: 1,
     pregunta: "¿Qué elemento del vehículo requiere mayor revisión por parte de la persona conductora?",
     opciones: [
@@ -3689,7 +3689,7 @@ export const PREGUNTAS = [
   {
     id: 250,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "En relación a los frenos en un vehículo, ¿cuál afirmación es INCORRECTA?",
     opciones: [
@@ -3703,7 +3703,7 @@ export const PREGUNTAS = [
   {
     id: 251,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Por qué los riesgos de siniestro aumentan al encontrarse o cruzarse con otro vehículo en una carretera o calle angosta?",
     opciones: [
@@ -3717,7 +3717,7 @@ export const PREGUNTAS = [
   {
     id: 252,
     categoria: "Conocimientos Legales",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "Aquellos delitos que agravan las penas en caso de que el conductor cause un siniestro de tránsito, son:",
     opciones: [
@@ -3731,7 +3731,7 @@ export const PREGUNTAS = [
   {
     id: 253,
     categoria: "Conducta Vial",
-    icono: "🧒",
+    icono: "user",
     dificultad: 1,
     pregunta: "Usted se aproxima a un colegio y los niños están saliendo de clases. ¿Con qué debería contar?",
     opciones: [
@@ -3745,7 +3745,7 @@ export const PREGUNTAS = [
   {
     id: 254,
     categoria: "Conocimientos Legales",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "La berma es una franja de seguridad lateral a la calzada:",
     opciones: [
@@ -3759,7 +3759,7 @@ export const PREGUNTAS = [
   {
     id: 255,
     categoria: "Conducta Vial",
-    icono: "💧",
+    icono: "droplet",
     dificultad: 2,
     pregunta: "Un conductor va circulando con su vehículo y se encuentra que un tramo de calzada está anegado de agua. ¿Qué medidas debe tomar?",
     opciones: [
@@ -3773,7 +3773,7 @@ export const PREGUNTAS = [
   {
     id: 256,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "Un correcto mantenimiento del vehículo, ¿puede llegar a reducir el consumo de combustible?",
     opciones: [
@@ -3787,7 +3787,7 @@ export const PREGUNTAS = [
   {
     id: 257,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 3,
     pregunta: "¿Cuáles de las siguientes afirmaciones es o son verdaderas en cuanto al desarrollo de la moral de un individuo? I) Durante la infancia todas las personas muestran egocentrismo. II) Como la moral de las personas no es innata, esta sí se puede cambiar. III) El comportamiento que tiene una persona como conductor muestra cuánto ha avanzado en el desarrollo de la moral.",
     opciones: [
@@ -3801,7 +3801,7 @@ export const PREGUNTAS = [
   {
     id: 258,
     categoria: "El Individuo en el Tránsito",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 1,
     pregunta: "Los trastornos de sueño, como el insomnio, pueden provocar una fuerte somnolencia en el día, la cual influye muy negativamente en la seguridad vial.",
     opciones: [
@@ -3814,7 +3814,7 @@ export const PREGUNTAS = [
   {
     id: 259,
     categoria: "Mecánica Básica",
-    icono: "🛞",
+    icono: "steering-wheel",
     dificultad: 1,
     pregunta: "¿Cuándo es el mejor momento para controlar la presión de los neumáticos para asegurar una lectura precisa?",
     opciones: [
@@ -3828,7 +3828,7 @@ export const PREGUNTAS = [
   {
     id: 260,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 1,
     pregunta: "Según el libro para la conducción en Chile, ¿por qué es un error llamar a los accidentes de tránsito \"accidentes\"?",
     opciones: [
@@ -3842,7 +3842,7 @@ export const PREGUNTAS = [
   {
     id: 261,
     categoria: "El Individuo en el Tránsito",
-    icono: "💊",
+    icono: "pill",
     dificultad: 1,
     pregunta: "Si se toman medicinas relajantes, ¿cómo será el tiempo de reacción?",
     opciones: [
@@ -3856,7 +3856,7 @@ export const PREGUNTAS = [
   {
     id: 262,
     categoria: "Conducta Vial",
-    icono: "👶",
+    icono: "baby-carriage",
     dificultad: 2,
     pregunta: "Para trasladar seguros a los niños en un vehículo, el Sistema de Retención Infantil (SRI) debe ser escogido considerando: I) La certificación y la acreditación que posea II) Tipo de vehículo donde se instalará el SRI III) Anclajes que posea el SRI y el vehículo",
     opciones: [
@@ -3870,7 +3870,7 @@ export const PREGUNTAS = [
   {
     id: 263,
     categoria: "Conducta Vial",
-    icono: "🅿️",
+    icono: "square-letter-p",
     dificultad: 2,
     pregunta: "Cuando un conductor desea estacionar su vehículo en una pendiente fuerte en bajada, ¿en qué marcha NO debería dejar la palanca de cambios?",
     opciones: [
@@ -3884,7 +3884,7 @@ export const PREGUNTAS = [
   {
     id: 264,
     categoria: "El Individuo en el Tránsito",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 1,
     pregunta: "¿Cuál es el tipo de siniestro de tránsito que ocasiona más muertos?",
     opciones: [
@@ -3898,7 +3898,7 @@ export const PREGUNTAS = [
   {
     id: 265,
     categoria: "Conducta Vial",
-    icono: "🏫",
+    icono: "school",
     dificultad: 1,
     pregunta: "¿Cuándo es obligatorio reducir la velocidad debido al mayor riesgo de siniestros?",
     opciones: [
@@ -3912,7 +3912,7 @@ export const PREGUNTAS = [
   {
     id: 266,
     categoria: "Normas de Tránsito",
-    icono: "🚗",
+    icono: "car",
     dificultad: 1,
     pregunta: "En un cruce no regulado, ¿qué vehículo deberá ceder el derecho preferente de paso?",
     opciones: [
@@ -3926,7 +3926,7 @@ export const PREGUNTAS = [
   {
     id: 267,
     categoria: "El Individuo en el Tránsito",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 2,
     pregunta: "Cuando se conduce con cansancio y/o en situaciones adversas, las percepciones de profundidad y distancia en el automóvil, hay que:",
     opciones: [
@@ -3940,7 +3940,7 @@ export const PREGUNTAS = [
   {
     id: 268,
     categoria: "Conducta Vial",
-    icono: "🚗",
+    icono: "car",
     dificultad: 2,
     pregunta: "¿Cuál o cuáles de las siguientes situaciones podrían ser la causa de que un conductor choque por detrás a otro vehículo? I) Falta de atención al tránsito II) Conducir muy cerca del vehículo que va adelante III) Una frenada violenta y sorpresiva del vehículo que va adelante",
     opciones: [
@@ -3954,7 +3954,7 @@ export const PREGUNTAS = [
   {
     id: 269,
     categoria: "Conducta Vial",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿Cuál es la combinación correcta de factores que maximiza la eficacia del airbag frontal?",
     opciones: [
@@ -3968,7 +3968,7 @@ export const PREGUNTAS = [
   {
     id: 270,
     categoria: "Conducta Vial",
-    icono: "↔️",
+    icono: "arrows-left-right",
     dificultad: 2,
     pregunta: "Usted ha comenzado a adelantar. El auto de la derecha va a aproximadamente 80 km/h. Por su espejo retrovisor ve otro auto que tiene intención de adelantar. ¿Qué hace usted?",
     opciones: [
@@ -3982,7 +3982,7 @@ export const PREGUNTAS = [
   {
     id: 271,
     categoria: "Seguridad y Primeros Auxilios",
-    icono: "🚑",
+    icono: "ambulance",
     dificultad: 2,
     pregunta: "Si un conductor sufre un siniestro con un motociclista y este último queda consciente pero en shock, ¿qué debería hacer el conductor del vehículo para ayudar?",
     opciones: [
@@ -3996,7 +3996,7 @@ export const PREGUNTAS = [
   {
     id: 272,
     categoria: "El Individuo en el Tránsito",
-    icono: "🤒",
+    icono: "thermometer",
     dificultad: 1,
     pregunta: "Usted está a punto de conducir, pero se siente enfermo. Usted debería...",
     opciones: [
@@ -4010,7 +4010,7 @@ export const PREGUNTAS = [
   {
     id: 273,
     categoria: "Conocimientos Legales",
-    icono: "🚲",
+    icono: "bike",
     dificultad: 1,
     pregunta: "¿Cuál es la definición de Ciclovía o Ciclopista?",
     opciones: [
@@ -4024,7 +4024,7 @@ export const PREGUNTAS = [
   {
     id: 274,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Cuál de los siguientes factores de riesgo puede generar la pérdida de control del vehículo?",
     opciones: [
@@ -4038,7 +4038,7 @@ export const PREGUNTAS = [
   {
     id: 275,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 1,
     pregunta: "De los siguientes factores, ¿cuál es el que con mayor frecuencia se presenta en los siniestros de tránsito?",
     opciones: [
@@ -4052,7 +4052,7 @@ export const PREGUNTAS = [
   {
     id: 276,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "Frenar y acelerar a cada rato, ¿disminuye el gasto de combustible?",
     opciones: [
@@ -4065,7 +4065,7 @@ export const PREGUNTAS = [
   {
     id: 277,
     categoria: "El Individuo en el Tránsito",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 1,
     pregunta: "¿Qué se entiende por conducir a la defensiva?",
     opciones: [

@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { guardarResultado } from "../db.js";
+import { IconArrowLeft } from "@tabler/icons-react";
 import { guardarSesionAdaptativa } from "../adaptativo.js";
 import { useStore } from "../store/quizStore.js";
 import { useGameStore } from "../useGameStore.js";
 import { AuthModal } from "../AuthModal.jsx";
 import { RevisionContent } from "../components/Revision.jsx";
 import { ScorePanel } from "../components/ScorePanel.jsx";
+import { COMPOSICION_PROFESIONAL, evaluarExamenProfesional } from "../preguntas_profesional.js";
+
+const CLASES_PROFESIONALES = ["A1", "A2", "D", "E"];
 
 export default function Resultado({ user, onAuthSuccess }) {
   const { respuestas, tiemposRespuesta, reiniciar, modo, clase, iniciar, preguntas } = useStore();
@@ -24,7 +28,11 @@ export default function Resultado({ user, onAuthSuccess }) {
     return acc + (p.correcta === r ? (p.puntaje ?? 1) : 0);
   }, 0);
   const puntajeMaximo = preguntas.reduce((acc, p) => acc + (p.puntaje ?? 1), 0);
-  const aprobado = puntajeObtenido >= 33;
+
+  const esProfesional = CLASES_PROFESIONALES.includes(clase);
+  const evalProfesional = esProfesional ? evaluarExamenProfesional(clase, preguntas, respuestas) : null;
+  const aprobado = esProfesional ? evalProfesional.aprobado : puntajeObtenido >= 33;
+  const minimo = esProfesional ? COMPOSICION_PROFESIONAL[clase].minCorrectas : 33;
 
   // NOTA sobre las deps: este efecto debe dispararse una sola vez, cuando
   // `user` pasa a estar disponible (login), y usa `guardadoRef` para
@@ -96,10 +104,16 @@ export default function Resultado({ user, onAuthSuccess }) {
                     pct={pct}
                     correctas={correctas}
                     total={total}
+                    minimo={minimo}
                     onRevisar={() => setVistaMovil("revision")}
-                    onReintentar={() => iniciar(modo)}
+                    onReintentar={() => iniciar(modo, clase)}
                     onReiniciar={reiniciar}
                   />
+                  {esProfesional && (
+                    <p className="text-xs text-slate-500 text-center mt-3 px-4">
+                      Además, no se puede reprobar con más de {evalProfesional.maxErroresLegal} errores en "Conocimientos Legales" ({evalProfesional.erroresLegal} {evalProfesional.erroresLegal === 1 ? "error" : "errores"} en tu examen).
+                    </p>
+                  )}
                 </m.div>
               ) : (
                 <m.div key="revision-mobile"
@@ -111,10 +125,10 @@ export default function Resultado({ user, onAuthSuccess }) {
                   style={{ background: "#0a0f1a" }}>
                   {/* Header fijo */}
                   <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 flex-shrink-0"
-                    style={{ background: "rgba(10,15,26,0.97)", backdropFilter: "blur(10px)" }}>
+                    style={{ background: "rgba(10,15,26,0.99)" }}>
                     <m.button whileTap={{ scale: 0.9 }} onClick={() => setVistaMovil("score")}
                       className="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-white bg-slate-800 border-0 outline-none flex-shrink-0">
-                      ←
+                      <IconArrowLeft size={16} />
                     </m.button>
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-black text-sm leading-none">Revisión de respuestas</p>
@@ -145,10 +159,16 @@ export default function Resultado({ user, onAuthSuccess }) {
             pct={pct}
             correctas={correctas}
             total={total}
+            minimo={minimo}
             onRevisar={() => setVistaMovil("revision")}
-            onReintentar={() => iniciar(modo)}
+            onReintentar={() => iniciar(modo, clase)}
             onReiniciar={reiniciar}
           />
+          {esProfesional && (
+            <p className="text-xs text-slate-500 text-center mt-4 px-6 relative z-10">
+              Además, no se puede reprobar con más de {evalProfesional.maxErroresLegal} errores en "Conocimientos Legales" ({evalProfesional.erroresLegal} {evalProfesional.erroresLegal === 1 ? "error" : "errores"} en tu examen).
+            </p>
+          )}
         </div>
 
         {/* Revisión — SOLO DESKTOP */}

@@ -102,3 +102,16 @@ export async function limpiarStats() {
     .not("id", "is", null);
   if (error) throw error;
 }
+
+// Consulta liviana (solo count, sin traer filas) para decidir si mostrar el
+// onboarding de diagnóstico inicial. Deliberadamente separada de
+// obtenerDashboard(), que trae 20 registros + join de respuestas — acá solo
+// necesitamos saber "¿tiene 0 o más de 0?", así que pedimos head:true para
+// que Supabase devuelva el count sin transferir filas.
+export async function tieneExamenesPrevios() {
+  const { count, error } = await supabase
+    .from("examenes")
+    .select("id", { count: "exact", head: true });
+  if (error) throw error;
+  return (count ?? 0) > 0;
+}

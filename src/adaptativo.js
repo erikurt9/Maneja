@@ -1,6 +1,15 @@
 import { supabase, getAuthenticatedUserId } from "./supabase";
 import { PREGUNTAS } from "./preguntas";
 import { PREGUNTAS_MOTO } from "./preguntas_moto";
+import { PREGUNTAS_PROFESIONAL, COMPOSICION_PROFESIONAL, generarExamenProfesional } from "./preguntas_profesional";
+
+const CLASES_PROFESIONALES = ["A1", "A2", "D", "E"];
+const esProfesional = (clase) => CLASES_PROFESIONALES.includes(clase);
+const bancoPorClase = (clase) =>
+  esProfesional(clase) ? PREGUNTAS_PROFESIONAL.filter((p) => p.clases.includes(clase))
+  : clase === "C" ? PREGUNTAS_MOTO
+  : PREGUNTAS;
+const minimoPorClase = (clase) => esProfesional(clase) ? COMPOSICION_PROFESIONAL[clase].minCorrectas : 33;
 
 // ─── CONSTANTES DEL ALGORITMO ────────────────────────────────────────────────
 const EASE_MIN = 1.3;
@@ -122,7 +131,7 @@ export async function guardarSesionAdaptativa(preguntas, respuestas, clase, tiem
 
 // ─── GENERAR EXAMEN ADAPTATIVO ───────────────────────────────────────────────
 export async function generarExamenAdaptativo(clase = "B") {
-  const banco = clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
+  const banco = bancoPorClase(clase);
 
   const { data: stats } = await supabase
     .from("pregunta_stats")
@@ -162,6 +171,24 @@ export async function generarExamenAdaptativo(clase = "B") {
   });
 
   conScore.sort((a, b) => b.score - a.score);
+  const shuffle = arr => arr.toSorted(() => Math.random() - 0.5);
+
+  // Clases profesionales: la ley exige una cuota fija de preguntas por
+  // contenido (Conducta Vial, Mecánica Diésel, Mecánica Básica, Legales),
+  // así que se prioriza por debilidad DENTRO de cada categoría en vez del
+  // esquema de puntaje doble usado en B/C.
+  if (esProfesional(clase)) {
+    const comp = COMPOSICION_PROFESIONAL[clase];
+    const categorias = ["Conducta Vial", "Mecánica Diésel", "Mecánica Básica", "Conocimientos Legales"];
+    let seleccion = [];
+    categorias.forEach((cat) => {
+      const cantidad = comp[cat] || 0;
+      if (cantidad === 0) return;
+      const delCat = conScore.filter(x => x.pregunta.categoria === cat);
+      seleccion = seleccion.concat(delCat.slice(0, cantidad).map(x => x.pregunta));
+    });
+    return shuffle(seleccion.length ? seleccion : generarExamenProfesional(clase));
+  }
 
   const dobles = conScore.filter(x => x.pregunta.puntaje === 2);
   const simples = conScore.filter(x => x.pregunta.puntaje !== 2);
@@ -169,7 +196,6 @@ export async function generarExamenAdaptativo(clase = "B") {
   const selDobles = dobles.slice(0, Math.min(3, dobles.length)).map(x => x.pregunta);
   const selSimples = simples.slice(0, PREGUNTAS_POR_SESION - selDobles.length).map(x => x.pregunta);
 
-  const shuffle = arr => arr.toSorted(() => Math.random() - 0.5);
   return shuffle([...selDobles, ...selSimples]);
 }
 
@@ -186,10 +212,12 @@ export async function calcularProbabilidadAprobar(clase = "B") {
   
   if (!examenes || examenes.length === 0) return null;
 
+  const minimo = minimoPorClase(clase);
+
   // Contar racha actual de aprobados (desde el más reciente)
   let rachaAprobados = 0;
   for (const ex of examenes) {
-    if (ex.puntaje_obtenido >= 33) rachaAprobados++;
+    if (ex.puntaje_obtenido >= minimo) rachaAprobados++;
     else break;
   }
 
@@ -207,7 +235,7 @@ export async function calcularProbabilidadAprobar(clase = "B") {
   let sumaPonderada = 0;
   examenes.forEach((ex, i) => {
     const peso = 1 / Math.pow(i + 1, 0.6);
-    const rendimiento = Math.min(ex.puntaje_obtenido / 33, 1);
+    const rendimiento = Math.min(ex.puntaje_obtenido / minimo, 1);
     sumaPonderada += rendimiento * peso;
     sumaPesos += peso;
   });
@@ -234,7 +262,7 @@ export async function obtenerResumenAdaptativo(clase = "B") {
   if (!stats || stats.length === 0) return null;
 
   const ahora = new Date();
-  const banco = clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
+  const banco = bancoPorClase(clase);
 
   const vencidas = stats.filter(s => new Date(s.proxima_vez) <= ahora).length;
   const dominadas = stats.filter(s =>
@@ -267,7 +295,7 @@ export async function obtenerResumenAdaptativo(clase = "B") {
 }
 
 export async function obtenerPreguntasDebiles(clase = "B") {
-  const banco = clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
+  const banco = bancoPorClase(clase);
 
   const { data: stats } = await supabase
     .from("pregunta_stats")

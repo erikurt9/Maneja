@@ -1,6 +1,7 @@
 import { m } from "framer-motion";
 import { useStore, fmt } from "../store/quizStore.js";
 import { LivesDisplay } from "../FreemiumUI.jsx";
+import { IconBrain } from "@tabler/icons-react";
 
 const PROGRESS_BAR_COLOR_MAP = {
   examen:     { bar: "#3b82f6", glow: "rgba(59,130,246,0.7)",  shimmer: "rgba(147,197,253,0.9)" },
@@ -63,9 +64,7 @@ export function TopBar({ onMenuToggle, showMenu }) {
         paddingTop: "calc(env(safe-area-inset-top, 0px) + 8px)",
         paddingLeft: "calc(env(safe-area-inset-left, 0px) + 16px)",
         paddingRight: "calc(env(safe-area-inset-right, 0px) + 16px)",
-        background: "rgba(10,15,26,0.85)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
+        background: "rgba(10,15,26,0.97)",
       }}
     >
       {/* LOGO — siempre clickeable para volver al menú */}
@@ -99,8 +98,8 @@ export function TopBar({ onMenuToggle, showMenu }) {
         {/* Modo inteligente: mostrar badge modo + clase */}
         {modo === "inteligente" && (
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/20">
-              🧠 Inteligente
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/20 inline-flex items-center gap-1">
+              <IconBrain size={12} /> Inteligente
             </span>
             <ClaseBadgeMobile />
           </div>
@@ -115,4 +114,3 @@ export function TopBar({ onMenuToggle, showMenu }) {
     </div>
   );
 }
-

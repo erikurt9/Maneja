@@ -1,4 +1,6 @@
 import { m, AnimatePresence } from "framer-motion";
+import QuestionIcon from "./QuestionIcon";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 export function InfoPanel({ pregunta, respuestaGuardada, yaRespondida, correctasHasta, preguntas, respuestas }) {
   return (
@@ -9,7 +11,9 @@ export function InfoPanel({ pregunta, respuestaGuardada, yaRespondida, correctas
           className="rounded-2xl border border-slate-700/60 bg-slate-800/40 p-4">
           <p className="text-xs text-slate-500 uppercase tracking-widest mb-3">Categoría</p>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-lg flex-shrink-0">{pregunta.icono}</div>
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+              <QuestionIcon name={pregunta.icono} className="w-5 h-5 text-amber-400" />
+            </div>
             <div>
               <p className="text-white font-bold text-sm">{pregunta.categoria}</p>
               <div className="flex gap-1 mt-1.5">
@@ -25,7 +29,7 @@ export function InfoPanel({ pregunta, respuestaGuardada, yaRespondida, correctas
           <m.div key="feedback" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className={`rounded-2xl border p-4 ${respuestaGuardada === pregunta.correcta ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5"}`}>
             <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${respuestaGuardada === pregunta.correcta ? "text-emerald-400" : "text-red-400"}`}>
-              {respuestaGuardada === pregunta.correcta ? "✓ Correcto" : "✗ Incorrecto"}
+              {respuestaGuardada === pregunta.correcta ? <><IconCheck size={13} className="inline -mt-0.5" /> Correcto</> : <><IconX size={13} className="inline -mt-0.5" /> Incorrecto</>}
             </p>
             <p className="text-slate-300 text-sm leading-relaxed">{pregunta.explicacion}</p>
           </m.div>

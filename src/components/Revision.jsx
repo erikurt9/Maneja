@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
+import { IconArrowRight, IconCheck, IconX, IconStar, IconBulb } from "@tabler/icons-react";
 
 function QuestionNavBar({ preguntas, respuestas, activoIdx, onSelect }) {
   return (
@@ -51,7 +52,7 @@ export function RevisionContent({ preguntas, respuestas, user, guardado, guardan
               </div>
               <button type="button" onClick={onShowAuth}
                 className="flex-shrink-0 bg-blue-500 hover:bg-blue-400 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm outline-none border-0">
-                Registrarse gratis →
+                Registrarse gratis <IconArrowRight size={14} className="inline -mt-0.5" />
               </button>
             </m.div>
           )}
@@ -92,10 +93,10 @@ export function RevisionContent({ preguntas, respuestas, user, guardado, guardan
                 <div className="px-4 md:px-8 pt-5 md:pt-8 pb-4 md:pb-6">
                   <div className="flex items-center gap-3 mb-3">
                     <span className={`text-sm font-bold uppercase tracking-widest ${ok ? "text-emerald-400" : "text-red-400"}`}>
-                      {ok ? "✓ Correcta" : "✗ Incorrecta"} · Pregunta {i + 1}
+                      {ok ? <><IconCheck size={13} className="inline -mt-0.5" /> Correcta</> : <><IconX size={13} className="inline -mt-0.5" /> Incorrecta</>} · Pregunta {i + 1}
                     </span>
                     {p.puntaje === 2 && (
-                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">⭐ 2 pts</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 inline-flex items-center gap-1"><IconStar size={11} /> 2 pts</span>
                     )}
                   </div>
                   <p className="text-white font-black text-lg md:text-2xl leading-snug mb-4">{p.pregunta}</p>
@@ -119,7 +120,7 @@ export function RevisionContent({ preguntas, respuestas, user, guardado, guardan
                         <span className={`w-7 h-7 md:w-8 md:h-8 rounded-xl border-2 border-current flex items-center justify-center flex-shrink-0 font-black text-xs ${
                           esCorrecta ? "bg-emerald-500/20" : esIncorrecta ? "bg-red-500/20" : ""
                         }`}>
-                          {esCorrecta ? "✓" : esIncorrecta ? "✗" : String.fromCharCode(65 + j)}
+                          {esCorrecta ? <IconCheck size={14} /> : esIncorrecta ? <IconX size={14} /> : String.fromCharCode(65 + j)}
                         </span>
                         <span className="flex-1">{op}</span>
                       </div>
@@ -127,7 +128,7 @@ export function RevisionContent({ preguntas, respuestas, user, guardado, guardan
                   })}
                 </div>
                 <div className="mx-4 md:mx-8 mb-5 md:mb-8 px-4 md:px-6 py-3 md:py-4 rounded-2xl bg-slate-800/60 border border-slate-700/40">
-                  <p className="text-xs text-slate-500 uppercase tracking-widest mb-2">💡 Explicación</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1"><IconBulb size={12} /> Explicación</p>
                   <p className="text-slate-300 text-sm md:text-base leading-relaxed">{p.explicacion}</p>
                 </div>
               </m.div>

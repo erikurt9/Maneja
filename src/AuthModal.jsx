@@ -29,7 +29,7 @@ export function AuthModal({ onSuccess, onClose, modoInicial = "registro" }) {
     <m.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)" }}
+      style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(4px)" }}
     >
       <m.div
         initial={{ scale: 0.94, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.94, opacity: 0 }}

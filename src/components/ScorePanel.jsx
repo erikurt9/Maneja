@@ -1,4 +1,5 @@
 import { m } from "framer-motion";
+import { IconConfetti, IconBooks, IconClipboardList } from "@tabler/icons-react";
 
 /**
  * Panel de resultado del examen: fondo glow, emoji, título, círculo de
@@ -26,14 +27,17 @@ export function ScorePanel({
   onReintentar,
   onReiniciar,
   compact = false,
+  minimo = 33,
+  maxErrores = null,
 }) {
+  const maxErroresCalc = maxErrores ?? (puntajeMaximo - minimo);
   const stats = [
     { val: `${puntajeObtenido}/${puntajeMaximo}`, label: "Puntaje", color: "text-emerald-400", delay: 0.55 },
-    { val: 33, label: "Mínimo", color: "text-blue-400", delay: 0.65 },
+    { val: minimo, label: "Mínimo", color: "text-blue-400", delay: 0.65 },
     {
       val: total - correctas,
-      label: `Errores (máx. ${puntajeMaximo - 33})`,
-      color: (total - correctas) <= (puntajeMaximo - 33) ? "text-emerald-400" : "text-red-400",
+      label: `Errores (máx. ${maxErroresCalc})`,
+      color: (total - correctas) <= maxErroresCalc ? "text-emerald-400" : "text-red-400",
       delay: 0.75,
     },
   ];
@@ -48,8 +52,9 @@ export function ScorePanel({
 
       <m.div initial={{ scale: 0.95, rotate: -20, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 15, delay: 0.1 }}
-        className={compact ? "text-6xl mb-4 relative z-10" : "text-6xl md:text-8xl mb-4 md:mb-5 relative z-10"}>
-        {aprobado ? "🎉" : "📚"}
+        className={(compact ? "mb-4" : "mb-4 md:mb-5") + " relative z-10 flex justify-center " + (aprobado ? "text-emerald-400" : "text-red-400")}
+        style={{ transform: compact ? "scale(2.5)" : "scale(3.5)" }}>
+        {aprobado ? <IconConfetti /> : <IconBooks />}
       </m.div>
 
       <m.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -109,7 +114,7 @@ export function ScorePanel({
           className={compact
             ? "w-full border-2 border-blue-500/50 text-blue-400 font-bold py-3.5 rounded-2xl bg-transparent outline-none"
             : "md:hidden w-full border-2 border-blue-500/50 text-blue-400 font-bold py-3.5 rounded-2xl transition-all bg-transparent outline-none"}>
-          📋 Revisar respuestas
+          <IconClipboardList size={16} className="inline -mt-0.5 mr-1" /> Revisar respuestas
         </m.button>
         <m.button whileTap={{ scale: 0.96 }} whileHover={{ scale: 1.02 }}
           onClick={onReintentar}

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { m } from "framer-motion";
+import QuestionIcon from "../components/QuestionIcon";
+import { IconArrowRight } from "@tabler/icons-react";
 
 const SELECTOR_CLASE_COLORS = {
   blue:    { badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",    btn: "bg-blue-500/10 border-blue-500/30 text-blue-300 hover:bg-blue-500/20",    btnActive: "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/30" },
@@ -7,6 +9,33 @@ const SELECTOR_CLASE_COLORS = {
   emerald: { badge: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30", btn: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20", btnActive: "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-500/30" },
 };
 const OPCIONES_PREGUNTAS = [10, 15, 25, 35];
+
+const CLASES_PROFESIONALES = [
+  {
+    id: "A1", icono: "truck", nombre: "Profesional",
+    descripcion: "Licencia A1 otorgada antes de marzo de 1997 · 20 preguntas, mínimo 17 correctas.",
+    border: "border-violet-500/30 hover:border-violet-500", bg: "rgba(139,92,246,0.06)",
+    iconBg: "bg-violet-500/15 border-violet-500/30", pill: "bg-violet-500/20 text-violet-400",
+  },
+  {
+    id: "A2", icono: "truck", nombre: "Profesional",
+    descripcion: "Licencia A2 otorgada antes de marzo de 1997 · 20 preguntas, mínimo 16 correctas.",
+    border: "border-fuchsia-500/30 hover:border-fuchsia-500", bg: "rgba(217,70,239,0.06)",
+    iconBg: "bg-fuchsia-500/15 border-fuchsia-500/30", pill: "bg-fuchsia-500/20 text-fuchsia-400",
+  },
+  {
+    id: "D", icono: "car", nombre: "Especial D",
+    descripcion: "Taxis, transporte escolar y de pasajeros · 12 preguntas, mínimo 9 correctas.",
+    border: "border-cyan-500/30 hover:border-cyan-500", bg: "rgba(6,182,212,0.06)",
+    iconBg: "bg-cyan-500/15 border-cyan-500/30", pill: "bg-cyan-500/20 text-cyan-400",
+  },
+  {
+    id: "E", icono: "tractor", nombre: "Especial E",
+    descripcion: "Tractores, maquinaria y vehículos especiales · 10 preguntas, mínimo 7 correctas.",
+    border: "border-lime-500/30 hover:border-lime-500", bg: "rgba(132,204,22,0.06)",
+    iconBg: "bg-lime-500/15 border-lime-500/30", pill: "bg-lime-500/20 text-lime-400",
+  },
+];
 
 // Contenido interno reutilizable para mobile/desktop. Se declara fuera de
 // SelectorClase (a nivel de módulo) para que no se vuelva a crear en cada
@@ -34,7 +63,7 @@ function SelectorClaseContenido({ small, soloEstudio, numPreguntas, setNumPregun
       {clasePreseleccionada ? (
         <button type="button" onClick={() => onSeleccionar(modo, clasePreseleccionada, soloEstudio ? numPreguntas : 35)}
           className={`w-full ${small ? "py-3 text-base" : "py-3.5 text-lg"} rounded-2xl font-black text-white transition-all outline-none ${c.btnActive}`}>
-          Comenzar →
+          Comenzar <IconArrowRight size={16} className="inline -mt-0.5" />
         </button>
       ) : (
         /* Sin clase: mostrar selector de clase */
@@ -43,7 +72,7 @@ function SelectorClaseContenido({ small, soloEstudio, numPreguntas, setNumPregun
             className="text-left p-4 rounded-2xl border-2 transition-all active:scale-98 outline-none border-blue-500/30 hover:border-blue-500"
             style={{ background: "rgba(59,130,246,0.06)" }}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-2xl flex-shrink-0">🚗</div>
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-400"><QuestionIcon name="car" className="w-6 h-6" /></div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="text-white font-black">Clase B</span>
@@ -57,7 +86,7 @@ function SelectorClaseContenido({ small, soloEstudio, numPreguntas, setNumPregun
             className="text-left p-4 rounded-2xl border-2 transition-all active:scale-98 outline-none border-orange-500/30 hover:border-orange-500"
             style={{ background: "rgba(249,115,22,0.06)" }}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-2xl flex-shrink-0">🏍️</div>
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center flex-shrink-0 text-orange-400"><QuestionIcon name="motorbike" className="w-6 h-6" /></div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="text-white font-black">Clase C</span>
@@ -67,6 +96,25 @@ function SelectorClaseContenido({ small, soloEstudio, numPreguntas, setNumPregun
               </div>
             </div>
           </button>
+
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1 mb-0.5">Clases profesionales</p>
+          {CLASES_PROFESIONALES.map((cp) => (
+            <button type="button" key={cp.id} onClick={() => onSeleccionar(modo, cp.id, soloEstudio ? numPreguntas : 35)}
+              className={`text-left p-4 rounded-2xl border-2 transition-all active:scale-98 outline-none ${cp.border}`}
+              style={{ background: cp.bg }}>
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 ${cp.iconBg}`}><QuestionIcon name={cp.icono} className="w-6 h-6" /></div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-white font-black">Clase {cp.id}</span>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cp.pill}`}>{cp.nombre}</span>
+                  </div>
+                  <p className="text-slate-400 text-xs leading-snug">{cp.descripcion}</p>
+                </div>
+              </div>
+            </button>
+          ))}
+
           <p className="text-xs text-slate-600 text-center mt-1">Preguntas basadas en el Manual del Conductor · Chile</p>
         </div>
       )}
@@ -88,7 +136,7 @@ export default function SelectorClase({ modo, clasePreseleccionada, onSelecciona
   return (
     <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-end md:items-center justify-center md:px-4"
-      style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}
+      style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)" }}
       onClick={onCancelar}>
 
       {/* Mobile bottom sheet */}
@@ -136,4 +184,3 @@ export default function SelectorClase({ modo, clasePreseleccionada, onSelecciona
     </m.div>
   );
 }
-

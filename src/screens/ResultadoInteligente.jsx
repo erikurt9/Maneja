@@ -3,6 +3,7 @@ import { m } from "framer-motion";
 import { guardarSesionAdaptativa } from "../adaptativo.js";
 import { useStore } from "../store/quizStore.js";
 import { useGameStore } from "../useGameStore.js";
+import { IconRocket, IconTarget, IconArrowRight, IconRefresh } from "@tabler/icons-react";
 
 export default function ResultadoInteligente({ user, onReintentar, onVolver, onIniciarExamen }) {
   const { preguntas, clase, tiemposRespuesta } = useStore();
@@ -54,8 +55,8 @@ export default function ResultadoInteligente({ user, onReintentar, onVolver, onI
       <m.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="text-6xl mb-6 relative z-10">
-        🚀
+        className="mb-6 relative z-10 flex justify-center text-emerald-400" style={{ transform: "scale(3)" }}>
+        <IconRocket />
       </m.div>
 
       {/* Puntaje */}
@@ -84,11 +85,11 @@ export default function ResultadoInteligente({ user, onReintentar, onVolver, onI
         <button type="button" onClick={onIniciarExamen}
           className="w-full py-3.5 rounded-2xl font-black text-white border-0 outline-none"
           style={{ background: "linear-gradient(135deg, #059669, #047857)", boxShadow: "0 4px 20px rgba(5,150,105,0.4)" }}>
-          🎯 Ir al Examen Real →
+          <IconTarget size={16} className="inline -mt-0.5 mr-1" /> Ir al Examen Real <IconArrowRight size={16} className="inline -mt-0.5" />
         </button>
         <button type="button" onClick={onReintentar}
           className="w-full py-3 rounded-2xl font-semibold text-purple-400 border border-purple-500/30 bg-transparent outline-none">
-          🔄 Seguir repasando
+          <IconRefresh size={15} className="inline -mt-0.5 mr-1" /> Seguir repasando
         </button>
         <button type="button" onClick={onVolver}
           className="w-full py-3 rounded-2xl font-semibold text-slate-400 border border-slate-700 bg-transparent outline-none">

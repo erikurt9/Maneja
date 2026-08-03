@@ -4,6 +4,11 @@ import { useStore } from "../store/quizStore.js";
 import { ProgressTopBar, TopBar } from "../components/ExamHeader.jsx";
 import { ImagenPregunta } from "../components/QuizQuestionUI.jsx";
 import { XPBar } from "../FreemiumUI.jsx";
+import QuestionIcon from "../components/QuestionIcon";
+import {
+  IconBrain, IconArrowRight, IconArrowLeft, IconRefresh, IconFlame, IconBulb,
+  IconCheck, IconX, IconCircleCheckFilled, IconCircleX, IconBook2, IconConfetti,
+} from "@tabler/icons-react";
 
 const OPCION_ESTILOS = {
   neutro: "border-purple-700/40 bg-slate-800/40 text-slate-200 hover:border-purple-400/60 hover:bg-slate-700/50 cursor-pointer",
@@ -54,7 +59,7 @@ function SidebarProgresoCola({ clase, dominadas, totalOriginal, pctDominadas, co
           <button type="button" onClick={() => useStore.getState().reiniciar()} className="flex items-center gap-2 bg-transparent border-0 p-0 hover:opacity-80 transition-opacity">
             <img src="/logo_new.png" alt="Maneja" className="w-7 h-7 object-contain" style={{ filter: "drop-shadow(0 2px 6px rgba(60,120,255,0.4))" }} />
           </button>
-          <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400">🧠</span>
+          <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 inline-flex"><IconBrain size={13} /></span>
           <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${clase === "C" ? "bg-orange-500/20 text-orange-400" : "bg-slate-700/60 text-slate-400"}`}>{clase}</span>
         </div>
 
@@ -87,7 +92,7 @@ function SidebarProgresoCola({ clase, dominadas, totalOriginal, pctDominadas, co
             {cola.map((p, i) => (
               <div key={`${p.id}-${i}`}
                 className={`w-6 h-6 rounded-md flex items-center justify-center text-[9px] font-bold ${i === 0 ? "bg-pink-500 text-white" : p._intentos > 0 ? "bg-red-500/20 text-red-400 border border-red-500/30" : "bg-slate-800 text-slate-500 border border-slate-700"}`}>
-                {i === 0 ? "→" : p._intentos > 0 ? "!" : "·"}
+                {i === 0 ? <IconArrowRight size={11} className="mx-auto" /> : p._intentos > 0 ? "!" : "·"}
               </div>
             ))}
           </div>
@@ -98,7 +103,7 @@ function SidebarProgresoCola({ clase, dominadas, totalOriginal, pctDominadas, co
 
         <button type="button" onClick={() => useStore.getState().reiniciar()}
           className="mt-auto border border-slate-700 hover:border-slate-500 text-slate-500 hover:text-slate-300 text-sm font-semibold py-2.5 rounded-xl transition-all bg-transparent outline-none">
-          ← Salir al inicio
+          <IconArrowLeft size={14} className="inline -mt-0.5 mr-1" /> Salir al inicio
         </button>
         <XPBar compact />
       </div>
@@ -131,15 +136,15 @@ function TarjetaPregunta({
                 {/* Header de la tarjeta */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30">
-                      🧠 {dominadas.length + 1} / {totalOriginal}
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 inline-flex items-center gap-1">
+                      <IconBrain size={13} /> {dominadas.length + 1} / {totalOriginal}
                     </span>
                     <span className={`text-xs px-2 py-1 rounded-full border ${pregunta.dificultad <= 2 ? "border-emerald-500/30 text-emerald-400" : pregunta.dificultad <= 3 ? "border-amber-500/30 text-amber-400" : "border-red-500/30 text-red-400"}`}>
                       {pregunta.dificultad <= 2 ? "Fácil" : pregunta.dificultad <= 3 ? "Media" : "Difícil"}
                     </span>
                     {(pregunta._intentos ?? 0) > 0 && (
                       <span className="text-xs px-2 py-1 rounded-full border border-red-500/30 text-red-400 bg-red-500/5">
-                        🔄 Reintento {pregunta._intentos}
+                        <IconRefresh size={12} className="inline -mt-0.5 mr-1" /> Reintento {pregunta._intentos}
                       </span>
                     )}
                   </div>
@@ -148,7 +153,7 @@ function TarjetaPregunta({
                       <m.div
                         initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: flashRacha ? [1, 1.3, 1] : 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
                         className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500/15 border border-orange-500/30">
-                        <span className="text-sm">🔥</span>
+                        <span className="text-sm"><IconFlame size={15} /></span>
                         <span className="text-xs font-black text-orange-300">{racha} racha</span>
                       </m.div>
                     )}
@@ -159,7 +164,7 @@ function TarjetaPregunta({
                 <m.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
                   className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl border border-purple-500/20"
                   style={{ background: "rgba(168,85,247,0.06)" }}>
-                  <span className="text-lg flex-shrink-0">{pregunta.icono}</span>
+                  <QuestionIcon name={pregunta.icono} className="w-4.5 h-4.5 text-purple-300 flex-shrink-0" />
                   <span className="text-purple-300 text-xs font-semibold">{pregunta.categoria}</span>
                 </m.div>
 
@@ -173,13 +178,13 @@ function TarjetaPregunta({
                       {!hintVisible ? (
                         <button type="button" onClick={() => { dispatchQuestionUI({ type: "MOSTRAR_HINT" }); hintUsadoRef.current = true; }}
                           className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-purple-400 transition-colors bg-transparent border-0 outline-none cursor-pointer">
-                          💡 Ver pista
+                          <IconBulb size={13} /> Ver pista
                         </button>
                       ) : (
                         <m.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
                           className="flex items-start gap-2 px-3 py-2.5 rounded-xl border border-purple-500/20 mb-1"
                           style={{ background: "rgba(168,85,247,0.06)" }}>
-                          <span className="text-purple-400 flex-shrink-0 mt-0.5">💡</span>
+                          <span className="text-purple-400 flex-shrink-0 mt-0.5"><IconBulb size={14} /></span>
                           <p className="text-purple-200 text-xs leading-relaxed">{generarHint()}</p>
                         </m.div>
                       )}
@@ -200,7 +205,7 @@ function TarjetaPregunta({
                         transition={{ duration: 0.3 }}>
                         <span className="flex items-center gap-4">
                           <span className={`w-8 h-8 rounded-xl border-2 border-current flex items-center justify-center flex-shrink-0 font-black text-sm ${estado === "correcta" ? "bg-emerald-500/20" : estado === "incorrecta" ? "bg-red-500/20" : ""}`}>
-                            {estado === "correcta" ? "✓" : estado === "incorrecta" ? "✗" : String.fromCharCode(65 + i)}
+                            {estado === "correcta" ? <IconCheck size={16} /> : estado === "incorrecta" ? <IconX size={16} /> : String.fromCharCode(65 + i)}
                           </span>
                           <span className="flex-1">{op}</span>
                         </span>
@@ -215,12 +220,12 @@ function TarjetaPregunta({
                     <m.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="mt-5 flex flex-col gap-3">
                       <div className={`flex items-center gap-3 px-4 py-3 rounded-2xl border ${esCorrecta ? "border-emerald-500/40 bg-emerald-500/5" : "border-red-500/40 bg-red-500/5"}`}>
                         <m.span initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, delay: 0.1 }} className="text-2xl flex-shrink-0">
-                          {esCorrecta ? "✅" : "❌"}
+                          {esCorrecta ? <IconCircleCheckFilled className="text-emerald-400" /> : <IconCircleX className="text-red-400" />}
                         </m.span>
                         <div>
                           <p className={`text-sm font-black ${esCorrecta ? "text-emerald-400" : "text-red-400"}`}>
                             {esCorrecta
-                              ? racha >= 3 ? `¡${racha} seguidas! 🔥` : "¡Correcto! Pregunta dominada"
+                              ? racha >= 3 ? <>¡{racha} seguidas! <IconFlame size={14} className="inline -mt-1" /></> : "¡Correcto! Pregunta dominada"
                               : "Incorrecto — volverá al final"}
                           </p>
                           {!esCorrecta && (
@@ -231,14 +236,14 @@ function TarjetaPregunta({
                         </div>
                       </div>
                       <div className="px-4 py-3.5 rounded-2xl border border-slate-700/50" style={{ background: "rgba(255,255,255,0.02)" }}>
-                        <p className="text-xs text-slate-500 uppercase tracking-widest mb-2">📖 Explicación</p>
+                        <p className="text-xs text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1"><IconBook2 size={12} /> Explicación</p>
                         <p className="text-slate-300 text-sm leading-relaxed">{pregunta.explicacion}</p>
                       </div>
                       {!esCorrecta && (
                         <m.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
                           className="px-4 py-3.5 rounded-2xl border border-purple-500/25"
                           style={{ background: "rgba(168,85,247,0.06)" }}>
-                          <p className="text-xs text-purple-400 uppercase tracking-widest mb-2">🧠 Consejo para recordar</p>
+                          <p className="text-xs text-purple-400 uppercase tracking-widest mb-2 flex items-center gap-1"><IconBrain size={12} /> Consejo para recordar</p>
                           <p className="text-purple-200 text-sm leading-relaxed">{consejo}</p>
                         </m.div>
                       )}
@@ -259,8 +264,8 @@ function TarjetaPregunta({
                 className="px-8 py-2.5 font-bold rounded-xl transition-all text-sm text-white border-0 outline-none"
                 style={{ background: esCorrecta ? "linear-gradient(135deg, #059669, #047857)" : "linear-gradient(135deg, #a855f7, #ec4899)", boxShadow: esCorrecta ? "0 4px 20px rgba(5,150,105,0.3)" : "0 4px 20px rgba(168,85,247,0.3)" }}>
                 {esCorrecta
-                  ? cola.length === 1 ? "🎉 ¡Terminé!" : "Siguiente →"
-                  : "Entendido, siguiente →"}
+                  ? cola.length === 1 ? <><IconConfetti size={15} className="inline -mt-0.5 mr-1" /> ¡Terminé!</> : <>Siguiente <IconArrowRight size={15} className="inline -mt-0.5" /></>
+                  : <>Entendido, siguiente <IconArrowRight size={15} className="inline -mt-0.5" /></>}
               </m.button>
             )}
           </AnimatePresence>
@@ -444,7 +449,7 @@ function PanelInteligente({ pregunta, correctasHasta, preguntas, respuestas }) {
       <div className="rounded-2xl border border-slate-700/50 p-4" style={{ background: "rgba(168,85,247,0.04)" }}>
         <p className="text-xs text-slate-500 uppercase tracking-widest mb-3">Esta pregunta</p>
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0 border border-purple-500/20" style={{ background: "rgba(168,85,247,0.1)" }}>{pregunta.icono}</div>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border border-purple-500/20" style={{ background: "rgba(168,85,247,0.1)" }}><QuestionIcon name={pregunta.icono} className="w-5 h-5 text-purple-300" /></div>
           <div>
             <p className="text-white font-bold text-sm">{pregunta.categoria}</p>
             <div className="flex gap-1 mt-1">{[1,2,3,4,5].map(n => <div key={n} className={`h-1.5 w-4 rounded-full ${n <= pregunta.dificultad ? "bg-purple-400" : "bg-slate-700"}`} />)}</div>

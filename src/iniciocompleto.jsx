@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { m, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 import "./iniciocompleto.css";
+import { IconArrowRight } from "@tabler/icons-react";
 
 // Objeto estable para el valor por defecto de `options`: si se recreara un
 // literal `{}` en cada render, agregarlo a las deps del efecto causaría que
@@ -262,12 +263,12 @@ function DashCard({ icon, title, subtitle, accent, badge, badgeColor, onClick, l
                 style={{ boxShadow: hovered ? `0 4px 20px rgba(${accentRgb},0.45)` : `0 2px 12px rgba(${accentRgb},0.25)` }}
               >
                 {cta}
-                <m.span animate={{ x: hovered ? 3 : 0 }} transition={{ type: "spring", stiffness: 400 }}>→</m.span>
+                <m.span animate={{ x: hovered ? 3 : 0 }} transition={{ type: "spring", stiffness: 400 }}><IconArrowRight size={18} /></m.span>
               </m.div>
             ) : (
               <m.span style={{ display: "inline-flex", alignItems: "center", gap: "5px", fontSize: "12.5px", fontWeight: 700, color: `rgba(${accentRgb},${accentRgb === "148,163,184" ? 1.0 : 0.92})`, letterSpacing: "0.04em" }}>
                 {cta}
-                <m.span animate={{ x: hovered ? 4 : 0 }} transition={{ type: "spring", stiffness: 400 }}>→</m.span>
+                <m.span animate={{ x: hovered ? 4 : 0 }} transition={{ type: "spring", stiffness: 400 }}><IconArrowRight size={18} /></m.span>
               </m.span>
             )}
           </div>

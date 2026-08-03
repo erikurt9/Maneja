@@ -2,6 +2,12 @@ import { m, AnimatePresence } from "framer-motion";
 import { useGameStore, getDivision, getXPProgress, DIVISIONES, LIFE_REGEN_HOURS, MAX_LIVES } from "./useGameStore";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { supabase, getAuthenticatedUserId } from "./supabase";
+import {
+  IconHeart, IconHeartFilled, IconTrophy, IconFlame, IconBrain, IconBolt, IconBarbell, IconRocket,
+  IconLock, IconStar, IconConfetti, IconInfinity, IconWalk, IconBike, IconCar, IconTool, IconRefreshDot,
+  IconCheck, IconX, IconArrowsShuffle, IconPencil, IconHourglass, IconDice, IconTrash, IconEraser,
+  IconMedal,
+} from "@tabler/icons-react";
 
 // ─── HOOK: countdown hasta la próxima vida ────────────────────────────────────
 // Se re-sincroniza solo con el store (no recibe props), así que cualquier
@@ -52,14 +58,14 @@ function LifeRegenCountdown({ compact = false }) {
   if (compact) {
     return (
       <span className="text-[11px] text-slate-500 font-medium tabular-nums">
-        ❤️ +1 en {label}
+        <IconHeart size={12} className="inline -mt-0.5 mr-1" /> +1 en {label}
       </span>
     );
   }
 
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-xs text-slate-500">Próximo ❤️ en</span>
+      <span className="text-xs text-slate-500 flex items-center gap-1">Próximo <IconHeart size={13} /> en</span>
       <span className="text-sm font-black text-white tabular-nums" style={{ textShadow: "0 0 8px rgba(244,114,182,0.4)" }}>
         {label}
       </span>
@@ -77,7 +83,7 @@ export function XPBar({ compact = false }) {
       <div className="w-full">
         <div className="flex items-center justify-between mb-1.5">
           <span className="text-xs font-bold flex items-center gap-1.5" style={{ color: division.color }}>
-            <span>{division.emoji}</span>
+            <IconMedal size={14} style={{ color: division.color }} />
             <span>{division.label}</span>
           </span>
           {next && (
@@ -110,7 +116,7 @@ export function XPBar({ compact = false }) {
     <div className="w-full px-4 py-3 rounded-2xl border border-white/5" style={{ background: "rgba(255,255,255,0.03)" }}>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xl">{division.emoji}</span>
+          <IconMedal size={20} style={{ color: division.color }} />
           <div>
             <p className="text-xs font-black" style={{ color: division.color }}>{division.label}</p>
             <p className="text-xs text-slate-500">{xp} XP totales</p>
@@ -119,7 +125,7 @@ export function XPBar({ compact = false }) {
         {next && (
           <div className="text-right">
             <p className="text-xs text-slate-500">Siguiente</p>
-            <p className="text-xs font-bold text-slate-400">{next.emoji} {next.label}</p>
+            <p className="text-xs font-bold text-slate-400 flex items-center gap-1"><IconMedal size={12} /> {next.label}</p>
           </div>
         )}
       </div>
@@ -139,7 +145,7 @@ export function XPBar({ compact = false }) {
         </m.div>
       </div>
       {!next ? (
-        <p className="text-xs text-center mt-2 font-bold" style={{ color: division.color }}>🏆 Rango máximo alcanzado</p>
+        <p className="text-xs text-center mt-2 font-bold flex items-center justify-center gap-1.5" style={{ color: division.color }}><IconTrophy size={14} /> Rango máximo alcanzado</p>
       ) : (
         <p className="text-xs text-center mt-1.5 text-slate-600">{xpInLevel} / {xpNeeded} XP para {next.label}</p>
       )}
@@ -178,7 +184,7 @@ function HeartBurst({ burstKey }) {
             pointerEvents: "none",
           }}
         >
-          💔
+          <IconHeart size={8} style={{ opacity: 0.6 }} />
         </m.span>
       ))}
     </AnimatePresence>
@@ -232,7 +238,7 @@ export function LivesDisplay({ size = "md" }) {
               display: "inline-block",
             }}
           >
-            {sinVidas ? "🖤" : "❤️"}
+            {sinVidas ? <IconHeart /> : <IconHeartFilled />}
           </m.span>
           {burstKey > 0 && <HeartBurst burstKey={burstKey} />}
         </span>
@@ -264,7 +270,7 @@ export function StreakDisplay() {
         style={{ filter: "drop-shadow(0 0 6px #f97316)" }}
         className="text-base"
       >
-        🔥
+        <IconFlame size={16} />
       </m.span>
       <span className="text-sm font-black" style={{ color: "#fb923c", textShadow: "0 0 8px rgba(249,115,22,0.6)" }}>
         {streak}
@@ -274,10 +280,10 @@ export function StreakDisplay() {
 }
 
 const NO_LIVES_MSGS = [
-  "¡Tu cerebro necesita un descanso! 🧠",
-  "Los mejores conductores también paran a cargar energía. ⚡",
-  "Pausa breve, regreso épico. ¡Tú puedes! 💪",
-  "Cada error es una lección. Vuelve con más fuerza. 🚀",
+  "¡Tu cerebro necesita un descanso!",
+  "Los mejores conductores también paran a cargar energía.",
+  "Pausa breve, regreso épico. ¡Tú puedes!",
+  "Cada error es una lección. Vuelve con más fuerza.",
 ];
 
 // ─── MODAL: SIN VIDAS ─────────────────────────────────────────────────────────
@@ -292,7 +298,7 @@ export function NoLivesModal({ onClose, onPremium, onContinue }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)" }}
     >
       <m.div
         initial={{ scale: 0.85, opacity: 0, y: 30 }}
@@ -316,7 +322,7 @@ export function NoLivesModal({ onClose, onPremium, onContinue }) {
           transition={{ duration: yaPuedeContinuar ? 0.6 : 2, repeat: Infinity }}
           className="text-6xl mb-4"
         >
-          {yaPuedeContinuar ? "❤️" : "💔"}
+          {yaPuedeContinuar ? <IconHeartFilled /> : <IconHeart style={{ opacity: 0.5 }} />}
         </m.div>
 
         <h2 className="text-2xl font-black text-white mb-2">
@@ -338,12 +344,12 @@ export function NoLivesModal({ onClose, onPremium, onContinue }) {
                 transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
                 className={`text-lg ${i < lives ? "opacity-100" : "opacity-20 grayscale"}`}
               >
-                ❤️
+                <IconHeartFilled size={16} />
               </m.span>
             ))}
           </div>
           {isFull ? (
-            <p className="text-white font-bold text-sm">Vidas al máximo 🎉</p>
+            <p className="text-white font-bold text-sm flex items-center justify-center gap-1.5">Vidas al máximo <IconConfetti size={15} /></p>
           ) : (
             <>
               <p className="text-xs text-slate-500 mb-1">Próxima vida en</p>
@@ -367,7 +373,7 @@ export function NoLivesModal({ onClose, onPremium, onContinue }) {
               boxShadow: "0 0 30px rgba(244,114,182,0.4)",
             }}
           >
-            ❤️ Continuar estudiando
+            <IconHeartFilled size={15} className="inline -mt-0.5 mr-1" /> Continuar estudiando
           </m.button>
         ) : (
           <m.button
@@ -386,7 +392,7 @@ export function NoLivesModal({ onClose, onPremium, onContinue }) {
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
               style={{ width: "60%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)" }}
             />
-            ⭐ Ir a Pro — Vidas ilimitadas
+            <IconStar size={15} className="inline -mt-0.5 mr-1" /> Ir a Pro — Vidas ilimitadas
           </m.button>
         )}
 
@@ -409,7 +415,7 @@ export function InteligenteLockedModal({ onClose, onPremium }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)" }}
     >
       <m.div
         initial={{ scale: 0.85, opacity: 0, y: 30 }}
@@ -426,7 +432,7 @@ export function InteligenteLockedModal({ onClose, onPremium }) {
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.15) 0%, transparent 60%)",
         }} />
-        <div className="text-6xl mb-4">🔒</div>
+        <div className="mb-4 flex justify-center" style={{ transform: "scale(3)" }}><IconLock /></div>
         <h2 className="text-2xl font-black text-white mb-2">Sesión diaria usada</h2>
         <p className="text-slate-400 text-sm leading-relaxed mb-6">
           El plan gratuito incluye <strong className="text-white">1 sesión de Modo Inteligente por día</strong>.<br />
@@ -434,10 +440,10 @@ export function InteligenteLockedModal({ onClose, onPremium }) {
         </p>
 
         <div className="rounded-2xl p-4 mb-6" style={{ background: "rgba(168,85,247,0.07)", border: "1px solid rgba(168,85,247,0.2)" }}>
-          <p className="text-xs text-purple-400 font-semibold mb-1">🧠 Plan Gratuito</p>
+          <p className="text-xs text-purple-400 font-semibold mb-1 flex items-center gap-1.5"><IconBrain size={13} /> Plan Gratuito</p>
           <p className="text-slate-300 text-sm">1 sesión inteligente / día</p>
           <div className="h-px my-3" style={{ background: "rgba(168,85,247,0.15)" }} />
-          <p className="text-xs text-purple-300 font-semibold mb-1">⭐ Plan Pro</p>
+          <p className="text-xs text-purple-300 font-semibold mb-1 flex items-center gap-1.5"><IconStar size={13} /> Plan Pro</p>
           <p className="text-slate-300 text-sm">Sesiones ilimitadas + Vidas ilimitadas</p>
         </div>
 
@@ -457,7 +463,7 @@ export function InteligenteLockedModal({ onClose, onPremium }) {
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
             style={{ width: "60%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)" }}
           />
-          ⭐ Desbloquear Pro
+          <IconStar size={15} className="inline -mt-0.5 mr-1" /> Desbloquear Pro
         </m.button>
 
         <button type="button" onClick={onClose} className="w-full py-2.5 rounded-xl text-slate-500 text-sm hover:text-slate-300 transition-colors bg-transparent border-0">
@@ -576,7 +582,7 @@ function DevPanelHeader({ tab, setTab, minimized, setMinimized, onClose }) {
           <circle cx="2" cy="6" r="1.2"/><circle cx="6" cy="6" r="1.2"/>
           <circle cx="2" cy="10" r="1.2"/><circle cx="6" cy="10" r="1.2"/>
         </svg>
-        🛠 Dev
+        <IconTool size={12} /> Dev
       </span>
       {!minimized && ["game", "exams"].map(t => (
         <button type="button" key={t} onClick={() => setTab(t)}
@@ -617,7 +623,7 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
             color: isPremium ? "#c084fc" : "#64748b",
             border: `1px solid ${isPremium ? "rgba(168,85,247,0.5)" : "rgba(255,255,255,0.08)"}`,
           }}>
-          {isPremium ? "⭐ ON" : "OFF"}
+          {isPremium ? <><IconStar size={11} className="inline -mt-0.5" /> ON</> : "OFF"}
         </button>
       </div>
 
@@ -626,7 +632,7 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
         <span className="text-xs text-slate-400">Vidas ({lives})</span>
         <div className="flex gap-1">
           <button type="button" onClick={() => setLives(lives - 1)} className="w-6 h-6 rounded-lg text-xs font-bold bg-red-500/20 text-red-400 border-0 outline-none hover:bg-red-500/30">−</button>
-          <button type="button" onClick={() => setLives(5)} className="w-6 h-6 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border-0 outline-none hover:bg-emerald-500/30">↺</button>
+          <button type="button" onClick={() => setLives(5)} className="w-6 h-6 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border-0 outline-none hover:bg-emerald-500/30"><IconRefreshDot size={12} className="inline" /></button>
           <button type="button" onClick={() => setLives(lives + 1)} className="w-6 h-6 rounded-lg text-xs font-bold bg-blue-500/20 text-blue-400 border-0 outline-none hover:bg-blue-500/30">+</button>
         </div>
       </div>
@@ -654,17 +660,20 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
         <p className="text-xs text-slate-600 mb-1.5">División rápida:</p>
         <div className="grid grid-cols-3 gap-1">
           {[
-            { label: "🚶 0", v: 0 },
-            { label: "🚲 150", v: 150 },
-            { label: "🚗 400", v: 400 },
-            { label: "🏆 900", v: 900 },
-            { label: "⭐ 1600", v: 1600 },
-          ].map(({ label, v }) => (
-            <button type="button" key={v} onClick={() => setXP(v)}
-              className="px-1 py-1 rounded-lg text-xs font-semibold bg-slate-800/80 text-slate-400 border border-slate-700/50 outline-none hover:border-slate-500 transition-colors">
-              {label}
-            </button>
-          ))}
+            { label: "0", icon: "walk", v: 0 },
+            { label: "150", icon: "bike", v: 150 },
+            { label: "400", icon: "car", v: 400 },
+            { label: "900", icon: "trophy", v: 900 },
+            { label: "1600", icon: "star", v: 1600 },
+          ].map(({ label, icon, v }) => {
+            const PresetIcon = { walk: IconWalk, bike: IconBike, car: IconCar, trophy: IconTrophy, star: IconStar }[icon];
+            return (
+              <button type="button" key={v} onClick={() => setXP(v)}
+                className="px-1 py-1 rounded-lg text-xs font-semibold bg-slate-800/80 text-slate-400 border border-slate-700/50 outline-none hover:border-slate-500 transition-colors flex items-center justify-center gap-1">
+                <PresetIcon size={12} /> {label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -674,7 +683,7 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
         <button type="button"
           onClick={() => useGameStore.setState({ lastInteligenteDate: null, intelligenteUsedToday: false })}
           className="text-xs text-purple-400 hover:text-purple-300 border-0 bg-transparent outline-none">
-          {intelligenteUsedToday ? "🔒 Reset" : "✅ Libre"}
+          {intelligenteUsedToday ? <><IconLock size={11} className="inline -mt-0.5" /> Reset</> : <><IconCheck size={11} className="inline -mt-0.5" /> Libre</>}
         </button>
       </div>
 
@@ -687,7 +696,7 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
           color: "#fbbf24",
           border: "1px solid rgba(251,191,36,0.2)",
         }}>
-        🧹 Borrar memoria de perfil
+        <IconEraser size={13} className="inline -mt-0.5 mr-1" /> Borrar memoria de perfil
       </button>
     </div>
   );
@@ -796,7 +805,7 @@ function DevPanelExamsTab({ genConfig, setGenConfig, PRESETS, generating, genRes
           boxShadow: generating ? "none" : "0 4px 14px rgba(8,145,178,0.4)",
           opacity: generating ? 0.7 : 1,
         }}>
-        {generating ? "⏳ Generando..." : `🎲 Generar ${genConfig.cantidad} examen${genConfig.cantidad > 1 ? "es" : ""}`}
+        {generating ? <><IconHourglass size={13} className="inline -mt-0.5 mr-1" /> Generando...</> : <><IconDice size={13} className="inline -mt-0.5 mr-1" /> Generar {genConfig.cantidad} examen{genConfig.cantidad > 1 ? "es" : ""}</>}
       </button>
 
       {/* Botón limpiar todo */}
@@ -809,7 +818,7 @@ function DevPanelExamsTab({ genConfig, setGenConfig, PRESETS, generating, genRes
           color: "#f87171",
           border: "1px solid rgba(239,68,68,0.2)",
         }}>
-        🗑 Borrar todos los exámenes
+        <IconTrash size={13} className="inline -mt-0.5 mr-1" /> Borrar todos los exámenes
       </button>
 
       {/* Resultado */}
@@ -822,13 +831,20 @@ function DevPanelExamsTab({ genConfig, setGenConfig, PRESETS, generating, genRes
             color: genResult.ok ? "#6ee7b7" : "#fca5a5",
             border: `1px solid ${genResult.ok ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"}`,
           }}>
-          {genResult.ok
-            ? genResult.memMsg
-              ? `✅ ${genResult.memMsg}`
-              : genResult.deleted
-                ? "✅ Todo borrado — recargando…"
-                : `✅ ${genResult.count} examen${genResult.count > 1 ? "es" : ""} creado${genResult.count > 1 ? "s" : ""} — recargando…`
-            : `❌ ${genResult.error}`}
+          {genResult.ok ? (
+            <span className="flex items-center gap-1.5">
+              <IconCheck size={13} />
+              {genResult.memMsg
+                ? genResult.memMsg
+                : genResult.deleted
+                  ? "Todo borrado — recargando…"
+                  : `${genResult.count} examen${genResult.count > 1 ? "es" : ""} creado${genResult.count > 1 ? "s" : ""} — recargando…`}
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5">
+              <IconX size={13} /> Error: {genResult.error}
+            </span>
+          )}
         </m.div>
       )}
     </div>
@@ -893,10 +909,10 @@ export function DevPanel() {
   };
 
   const PRESETS = {
-    aprobados: { label: "✅ Solo aprobados", min: 33, max: 44 },
-    reprobados: { label: "❌ Solo reprobados", min: 10, max: 32 },
-    mix:        { label: "🔀 Mix realista",    min: 22, max: 44 },
-    custom:     { label: "✏️ Personalizado",   min: genConfig.puntajeMin, max: genConfig.puntajeMax },
+    aprobados: { label: "Solo aprobados", min: 33, max: 44 },
+    reprobados: { label: "Solo reprobados", min: 10, max: 32 },
+    mix:        { label: "Mix realista",    min: 22, max: 44 },
+    custom:     { label: "Personalizado",   min: genConfig.puntajeMin, max: genConfig.puntajeMax },
   };
 
   const handleGenerar = async () => {

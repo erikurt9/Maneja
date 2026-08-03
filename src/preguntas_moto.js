@@ -11,7 +11,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1001,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 1,
     pregunta: "¿Por qué parte de la calzada deben circular las motocicletas por norma general?",
     opciones: [
@@ -25,7 +25,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1002,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Pueden las motocicletas circular entre dos filas de vehículos (filtrar) en un atochamiento?",
     opciones: [
@@ -39,7 +39,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1003,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "Al circular en una carretera de doble pista por sentido, ¿por qué pista debe circular normalmente una motocicleta?",
     opciones: [
@@ -53,7 +53,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1004,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Pueden las motocicletas circular por las ciclovías?",
     opciones: [
@@ -67,7 +67,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1005,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Pueden las motocicletas circular por la berma de una carretera?",
     opciones: [
@@ -81,7 +81,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1006,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 3,
     pregunta: "Al aproximarse a una curva hacia la izquierda en moto, ¿qué posición debe adoptar el motociclista?",
     opciones: [
@@ -95,7 +95,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1007,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Cómo debe señalizar un motociclista un viraje a la derecha, usando señas con el brazo?",
     opciones: [
@@ -109,7 +109,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1008,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Cómo debe señalizar un motociclista un viraje a la izquierda, usando señas con el brazo?",
     opciones: [
@@ -123,7 +123,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1009,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Cómo debe señalizar un motociclista una reducción de velocidad, usando señas con el brazo?",
     opciones: [
@@ -137,7 +137,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1010,
     categoria: "Conducta Vial",
-    icono: "🛣️",
+    icono: "road",
     dificultad: 2,
     pregunta: "¿Pueden las motocicletas circular por las autopistas urbanas?",
     opciones: [
@@ -154,7 +154,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1011,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 1,
     pregunta: "¿Es obligatorio el uso de casco para el conductor de una motocicleta en Chile?",
     opciones: [
@@ -168,7 +168,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1012,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 1,
     puntaje: 2,
     pregunta: "¿Es obligatorio que el pasajero de una motocicleta use casco?",
@@ -183,7 +183,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1013,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿Por qué se recomienda a los motociclistas usar ropa de colores claros o reflectantes?",
     opciones: [
@@ -197,7 +197,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1014,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿Por qué los motociclistas son considerados 'usuarios vulnerables' de la vía?",
     opciones: [
@@ -211,7 +211,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1015,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 3,
     pregunta: "Al circular en moto junto a vehículos estacionados, ¿cuál es el principal riesgo que debe considerar el motociclista?",
     opciones: [
@@ -225,7 +225,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1016,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿A qué distancia lateral mínima debe adelantar una motocicleta a un ciclista?",
     opciones: [
@@ -239,7 +239,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1017,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿Cuál es uno de los factores más importantes que afecta la estabilidad de una motocicleta en curvas?",
     opciones: [
@@ -253,7 +253,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1018,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 3,
     puntaje: 2,
     pregunta: "¿Cómo afecta el alcohol a la conducción de una motocicleta?",
@@ -268,7 +268,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1019,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿Qué debe hacer un motociclista cuando va a circular de noche?",
     opciones: [
@@ -282,7 +282,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1020,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 2,
     pregunta: "¿Qué sucede con la distancia de frenado de una motocicleta en pavimento mojado?",
     opciones: [
@@ -299,7 +299,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1021,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Con qué frecuencia se recomienda revisar la presión de los neumáticos de una motocicleta?",
     opciones: [
@@ -313,7 +313,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1022,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué indica un neumático de motocicleta desgastado en el centro de la banda de rodadura?",
     opciones: [
@@ -327,7 +327,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1023,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué indica un neumático de motocicleta desgastado en los bordes de la banda de rodadura?",
     opciones: [
@@ -341,7 +341,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1024,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué función cumplen los amortiguadores de una motocicleta?",
     opciones: [
@@ -355,7 +355,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1025,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué debe revisar el motociclista antes de iniciar la marcha?",
     opciones: [
@@ -369,7 +369,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1026,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 3,
     pregunta: "Si la motocicleta comienza a vibrar anormalmente en el manubrio durante la marcha, ¿qué podría indicar?",
     opciones: [
@@ -383,7 +383,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1027,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Por qué es importante que la cadena de transmisión de la moto esté correctamente tensada y lubricada?",
     opciones: [
@@ -397,7 +397,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1028,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "¿Qué debe hacer el motociclista si nota que los frenos responden con poca eficacia?",
     opciones: [
@@ -414,7 +414,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1029,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿Desde qué edad se puede obtener la licencia de conducir Clase C (motocicleta) en Chile?",
     opciones: [
@@ -428,7 +428,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1030,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 1,
     pregunta: "¿Qué autoriza la licencia de conducir Clase C en Chile?",
     opciones: [
@@ -442,7 +442,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1031,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Cuántos pasajeros puede transportar una motocicleta además del conductor?",
     opciones: [
@@ -456,7 +456,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1032,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Qué documentos debe portar obligatoriamente el conductor de una motocicleta?",
     opciones: [
@@ -470,7 +470,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1033,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Cuál es la velocidad máxima permitida para motocicletas en zonas urbanas en Chile?",
     opciones: [
@@ -484,7 +484,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1034,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Cuál es la velocidad máxima permitida para motocicletas en carreteras fuera de zona urbana?",
     opciones: [
@@ -498,7 +498,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1035,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "Conducir una motocicleta bajo la influencia del alcohol con una concentración de 0,5 g/L o más en la sangre se considera:",
     opciones: [
@@ -512,7 +512,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1036,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Qué ocurre si el conductor de una motocicleta es sorprendido sin casco?",
     opciones: [
@@ -526,7 +526,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1037,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Está permitido que una motocicleta lleve carga en la zona trasera?",
     opciones: [
@@ -540,7 +540,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1038,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 3,
     puntaje: 2,
     pregunta: "Un motociclista que no respeta una luz roja de semáforo comete una infracción:",
@@ -555,7 +555,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1039,
     categoria: "Reglamentación",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Puede una motocicleta circular con las luces apagadas de día?",
     opciones: [
@@ -572,7 +572,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1040,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Qué efecto tiene el cansancio en la conducción de una motocicleta?",
     opciones: [
@@ -586,7 +586,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1041,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Cómo influye el estrés en la conducción de una motocicleta?",
     opciones: [
@@ -600,7 +600,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1042,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "Un motociclista que conduce con exceso de confianza en sus habilidades tiende a:",
     opciones: [
@@ -614,7 +614,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1043,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Qué debe hacer un motociclista si siente que está muy cansado para conducir con seguridad?",
     opciones: [
@@ -628,7 +628,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1044,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "¿Puede un medicamento de venta libre afectar la conducción de una motocicleta?",
     opciones: [
@@ -645,7 +645,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1045,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "Al circular en moto detrás de otro vehículo, ¿qué distancia de seguimiento debe mantener?",
     opciones: [
@@ -659,7 +659,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1046,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Con cuánta anticipación debe señalizar un motociclista antes de realizar un viraje?",
     opciones: [
@@ -673,7 +673,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1047,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Por qué lado debe adelantar una motocicleta a otro vehículo?",
     opciones: [
@@ -687,7 +687,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1048,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 3,
     pregunta: "Al ingresar a una rotonda en moto, ¿a quién debe ceder el paso?",
     opciones: [
@@ -701,7 +701,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1049,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Qué debe hacer un motociclista al llegar a un cruce no señalizado donde se enfrentan dos vehículos?",
     opciones: [
@@ -715,7 +715,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1050,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "¿Puede un motociclista estacionar su moto sobre la vereda (acera)?",
     opciones: [
@@ -729,7 +729,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1051,
     categoria: "Normas de Circulación",
-    icono: "🚦",
+    icono: "traffic-lights",
     dificultad: 3,
     pregunta: "¿Qué debe hacer un motociclista si en una intersección el semáforo está en rojo y un Carabinero le indica que avance?",
     opciones: [
@@ -746,7 +746,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1052,
     categoria: "Convivencia Vial",
-    icono: "🤝",
+    icono: "heart-handshake",
     dificultad: 2,
     pregunta: "¿Por qué es importante que los motociclistas respeten especialmente el espacio de los ciclistas?",
     opciones: [
@@ -760,7 +760,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1053,
     categoria: "Convivencia Vial",
-    icono: "🤝",
+    icono: "heart-handshake",
     dificultad: 2,
     pregunta: "Al acercarse a un paso de cebra donde hay un peatón esperando cruzar, ¿qué debe hacer el motociclista?",
     opciones: [
@@ -774,7 +774,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1054,
     categoria: "Convivencia Vial",
-    icono: "🤝",
+    icono: "heart-handshake",
     dificultad: 2,
     pregunta: "¿Cuándo puede el conductor de una motocicleta usar la bocina?",
     opciones: [
@@ -788,7 +788,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1055,
     categoria: "Convivencia Vial",
-    icono: "🤝",
+    icono: "heart-handshake",
     dificultad: 2,
     pregunta: "Si el motociclista está involucrado en un siniestro con personas lesionadas, ¿qué debe hacer?",
     opciones: [
@@ -805,7 +805,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1056,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 2,
     pregunta: "¿Qué técnica de conducción permite reducir el consumo de combustible en una motocicleta?",
     opciones: [
@@ -819,7 +819,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1057,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 2,
     pregunta: "¿Por qué es importante el mantenimiento preventivo de la motocicleta?",
     opciones: [
@@ -836,7 +836,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1058,
     categoria: "Conducta Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 1,
     pregunta: "¿Cuál es el mayor riesgo a la hora de conducir una motocicleta?",
     opciones: [
@@ -850,7 +850,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1059,
     categoria: "Conducta Vial",
-    icono: "🔍",
+    icono: "search",
     dificultad: 1,
     pregunta: "Mientras conduce, lo más apropiado y seguro es mirar regularmente por los espejos retrovisores:",
     opciones: [
@@ -864,7 +864,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1060,
     categoria: "Conducta Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 2,
     pregunta: "Las señales manuales que se realicen por el líder de un grupo de motociclistas deben ser acordadas previamente y después repetidas por los demás.",
     opciones: [
@@ -877,7 +877,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1061,
     categoria: "Convivencia Vial",
-    icono: "🚥",
+    icono: "traffic-lights",
     dificultad: 2,
     pregunta: "Un peatón ESTÁ ATRAVESANDO un cruce regulado por un semáforo. El semáforo cambia a rojo y aún no termina de cruzar. ¿Qué debe hacer el peatón?",
     opciones: [
@@ -891,7 +891,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1062,
     categoria: "Mecánica Básica",
-    icono: "⚙️",
+    icono: "settings",
     dificultad: 2,
     pregunta: "Al desenganchar el motor (poner el embrague o punto muerto), usted NO pierde el dominio del vehículo:",
     opciones: [
@@ -904,7 +904,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1063,
     categoria: "Normas de Circulación",
-    icono: "↪️",
+    icono: "corner-up-right",
     dificultad: 2,
     pregunta: "¿Cuáles situaciones son correctas tratándose de sobrepasos por la derecha?",
     opciones: [
@@ -918,7 +918,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1064,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 1,
     pregunta: "Para conducir con seguridad, lo más decisivo es:",
     opciones: [
@@ -932,7 +932,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1065,
     categoria: "Normas de Circulación",
-    icono: "↩️",
+    icono: "corner-up-left",
     dificultad: 2,
     pregunta: "Un conductor va por una calle de doble sentido de tránsito. ¿Dónde se ubica para virar a la izquierda?",
     opciones: [
@@ -946,7 +946,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1066,
     categoria: "Conducta Vial",
-    icono: "📏",
+    icono: "ruler",
     dificultad: 3,
     pregunta: "Si su distancia de reacción es de 10 metros y la de frenado es de 20 metros, dando una distancia total de detención de 30 metros, ¿cuál sería su nueva distancia de detención si duplica su velocidad en las mismas condiciones de calzada?",
     opciones: [
@@ -960,7 +960,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1067,
     categoria: "El Individuo en el Tránsito",
-    icono: "💊",
+    icono: "pill",
     dificultad: 1,
     pregunta: "El doctor le ha recetado unos remedios. ¿Cuál es la principal razón por la que debe consultarle si puede conducir o no?",
     opciones: [
@@ -974,7 +974,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1068,
     categoria: "Convivencia Vial",
-    icono: "🐎",
+    icono: "horse",
     dificultad: 2,
     pregunta: "Usted va conduciendo por un camino de doble tránsito cuando se encuentra con personas que van a caballo delante suyo. ¿Qué es lo primero que usted debería hacer?",
     opciones: [
@@ -988,7 +988,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1069,
     categoria: "Convivencia Vial",
-    icono: "🐎",
+    icono: "horse",
     dificultad: 2,
     pregunta: "¿Cómo debería usted adelantar a personas que van a caballo?",
     opciones: [
@@ -1002,7 +1002,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1070,
     categoria: "El Individuo en el Tránsito",
-    icono: "💊",
+    icono: "pill",
     dificultad: 2,
     pregunta: "El mayor riesgo de conducir habiendo consumido drogas está dado por el hecho de que todas ellas actúan sobre:",
     opciones: [
@@ -1016,7 +1016,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1071,
     categoria: "Normas de Circulación",
-    icono: "🚆",
+    icono: "train",
     dificultad: 2,
     pregunta: "En un cruce ferroviario, ¿cuál afirmación es FALSA?",
     opciones: [
@@ -1030,7 +1030,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1072,
     categoria: "Conducta Vial",
-    icono: "🌃",
+    icono: "building-skyscraper",
     dificultad: 2,
     pregunta: "Usted va conduciendo de noche por una carretera urbana, cerca de otros vehículos que van delante suyo. ¿Qué luces debería mantener encendidas?",
     opciones: [
@@ -1044,7 +1044,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1073,
     categoria: "Reglamentación",
-    icono: "🚒",
+    icono: "firetruck",
     dificultad: 2,
     pregunta: "¿A cuántos metros de un grifo para incendio y de un cuartel de bomberos se puede estacionar un vehículo?",
     opciones: [
@@ -1058,7 +1058,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1074,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 1,
     pregunta: "¿Qué tipo de casco es mayormente recomendable?",
     opciones: [
@@ -1073,7 +1073,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1075,
     categoria: "Mecánica Básica",
-    icono: "🛞",
+    icono: "steering-wheel",
     dificultad: 2,
     pregunta: "Es esencial que la presión de los neumáticos sea chequeada regularmente. ¿Cuándo se debe hacer esto?",
     opciones: [
@@ -1087,7 +1087,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1076,
     categoria: "Mecánica Básica",
-    icono: "⚙️",
+    icono: "settings",
     dificultad: 2,
     pregunta: "Conducir sin retirar totalmente el pie del pedal de embrague produce:",
     opciones: [
@@ -1101,7 +1101,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1077,
     categoria: "Mecánica Básica",
-    icono: "🌡️",
+    icono: "temperature",
     dificultad: 2,
     pregunta: "Con respecto al funcionamiento del vehículo, ¿qué afirmación es verdadera?",
     opciones: [
@@ -1115,7 +1115,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1078,
     categoria: "Convivencia Vial",
-    icono: "🧒",
+    icono: "user",
     dificultad: 2,
     pregunta: "Estadísticamente, la mayor cantidad de niños atropellados son varones entre:",
     opciones: [
@@ -1129,7 +1129,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1079,
     categoria: "Conducta Vial",
-    icono: "🚗",
+    icono: "car",
     dificultad: 2,
     pregunta: "¿Cuál o cuáles de las siguientes situaciones podrían ser la causa de que un conductor choque por detrás a otro vehículo? I) Falta de atención al tránsito II) Conducir muy cerca del vehículo que va adelante III) Una frenada violenta y sorpresiva del vehículo que va adelante",
     opciones: [
@@ -1143,7 +1143,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1080,
     categoria: "Conducta Vial",
-    icono: "↔️",
+    icono: "arrows-left-right",
     dificultad: 3,
     pregunta: "Una persona conduce durante largo rato por una calzada recta en muy buen estado y con poco tránsito en contra. En estas circunstancias, el conductor encuentra un vehículo al que desea adelantar. Respecto a esta acción, ¿cuál de las siguientes afirmaciones es VERDADERA?",
     opciones: [
@@ -1157,7 +1157,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1081,
     categoria: "Convivencia Vial",
-    icono: "🚶",
+    icono: "walk",
     dificultad: 1,
     pregunta: "¿Qué debemos hacer cuando nos aproximamos a un cruce peatonal marcado en la vía?",
     opciones: [
@@ -1171,7 +1171,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1082,
     categoria: "El Individuo en el Tránsito",
-    icono: "💊",
+    icono: "pill",
     dificultad: 3,
     pregunta: "Con respecto al éxtasis, indique las afirmaciones verdaderas: I) Es posible experimentar ilusiones ópticas, como flashes en la periferia del campo visual, lo que podría ocasionar la acción de maniobras evasivas bruscas y peligrosas. II) Períodos de mayor sensibilidad a la luz. III) Dificultad para mantener la concentración, episodios de depresión o ansiedad y, una vez que desaparecen los síntomas, períodos de agotamiento físico y mental.",
     opciones: [
@@ -1185,7 +1185,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1083,
     categoria: "El Individuo en el Tránsito",
-    icono: "😴",
+    icono: "zzz",
     dificultad: 2,
     pregunta: "¿Qué situación puede favorecer la aparición de la fatiga al volante?",
     opciones: [
@@ -1199,7 +1199,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1084,
     categoria: "Convivencia Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 1,
     pregunta: "Usted desea adelantar a un motociclista que va delante suyo, ¿qué hace usted?",
     opciones: [
@@ -1213,7 +1213,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1085,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "¿Influye el comportamiento del conductor en el consumo de combustible de un vehículo?",
     opciones: [
@@ -1227,7 +1227,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1086,
     categoria: "Mecánica Básica",
-    icono: "🛞",
+    icono: "steering-wheel",
     dificultad: 2,
     pregunta: "Cuando un neumático delantero tiene baja presión:",
     opciones: [
@@ -1241,7 +1241,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1087,
     categoria: "Reglamentación",
-    icono: "🌃",
+    icono: "building-skyscraper",
     dificultad: 2,
     pregunta: "Cuando siendo de noche estacione en una vía sin alumbrado público o cuando las condiciones de visibilidad sean deficientes, asegúrese de poder ser visto por los demás conductores manteniendo siempre encendidas sus luces de estacionamiento.",
     opciones: [
@@ -1254,7 +1254,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1088,
     categoria: "Mecánica Básica",
-    icono: "⚙️",
+    icono: "settings",
     dificultad: 1,
     pregunta: "La función del embrague es:",
     opciones: [
@@ -1271,7 +1271,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1089,
     categoria: "Seguridad Vial",
-    icono: "⛑️",
+    icono: "helmet",
     dificultad: 1,
     pregunta: "¿Por qué es recomendable que el casco tenga orificios?",
     opciones: [
@@ -1285,7 +1285,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1090,
     categoria: "Conducta Vial",
-    icono: "📏",
+    icono: "ruler",
     dificultad: 2,
     pregunta: "La distancia de frenado es la distancia que recorre un vehículo desde que se acciona el freno hasta que se detiene completamente. ¿Qué sucede con la distancia de frenado si se duplica la velocidad?",
     opciones: [
@@ -1299,7 +1299,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1091,
     categoria: "Convivencia Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 2,
     pregunta: "Los peatones, los ciclistas y los conductores de vehículos de motor de dos ruedas son los usuarios de la vía más vulnerables, ¿Por qué?",
     opciones: [
@@ -1313,7 +1313,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1092,
     categoria: "Conducta Vial",
-    icono: "⚡",
+    icono: "bolt",
     dificultad: 2,
     pregunta: "Un conductor al encontrar un imprevisto en su conducción, ¿alrededor de cuánto es el tiempo de reacción?",
     opciones: [
@@ -1327,7 +1327,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1093,
     categoria: "Conocimientos Legales",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "La Ley Emilia, ¿sanciona con cárcel efectiva de al menos un año a los conductores que causen lesiones graves o la muerte de otra persona mientras conducen bajo la influencia del alcohol o las drogas?",
     opciones: [
@@ -1340,7 +1340,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1094,
     categoria: "Conducta Vial",
-    icono: "📏",
+    icono: "ruler",
     dificultad: 2,
     pregunta: "Si el estado de los frenos y neumáticos no es óptimo en su vehículo, la distancia de detención:",
     opciones: [
@@ -1354,7 +1354,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1095,
     categoria: "Conocimientos Legales",
-    icono: "📋",
+    icono: "clipboard-list",
     dificultad: 2,
     pregunta: "¿Cómo se clasifica la infracción de desobedecer las señales u órdenes de Carabineros?",
     opciones: [
@@ -1368,7 +1368,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1096,
     categoria: "Conducta Vial",
-    icono: "🏍️",
+    icono: "motorbike",
     dificultad: 2,
     pregunta: "Si el vehículo no cuenta con luces de freno operativas y se necesita avisar al conductor de atrás que usted está frenando, ¿qué debería hacer?",
     opciones: [
@@ -1382,7 +1382,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1097,
     categoria: "Señalización",
-    icono: "🚫",
+    icono: "ban",
     dificultad: 2,
     pregunta: "¿Cuál descripción corresponde a las señales de prohibición?",
     opciones: [
@@ -1396,7 +1396,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1098,
     categoria: "Conducta Vial",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 1,
     pregunta: "¿Qué medidas de precaución NO son necesarias mientras usted conduce?",
     opciones: [
@@ -1410,7 +1410,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1099,
     categoria: "Mecánica Básica",
-    icono: "🔧",
+    icono: "tool",
     dificultad: 2,
     pregunta: "El que los frenos rocen puede deberse a...",
     opciones: [
@@ -1424,7 +1424,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1100,
     categoria: "Conducta Vial",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 2,
     pregunta: "De pronto, el aire de la cabina se impregna con aroma a bencina mientras el vehículo está en movimiento. ¿Qué debe hacer?",
     opciones: [
@@ -1438,7 +1438,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1101,
     categoria: "Conducta Vial",
-    icono: "👁️",
+    icono: "eye",
     dificultad: 2,
     pregunta: "¿Cómo difiere la visión periférica entre conductores con experiencia y conductores sin experiencia?",
     opciones: [
@@ -1452,7 +1452,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1102,
     categoria: "Conducta Vial",
-    icono: "❄️",
+    icono: "snowflake",
     dificultad: 2,
     pregunta: "Conducir en forma segura cuando la calzada está con hielo es:",
     opciones: [
@@ -1466,7 +1466,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1103,
     categoria: "Conocimientos Legales",
-    icono: "💡",
+    icono: "bulb",
     dificultad: 1,
     pregunta: "Los vehículos deben obligatoriamente circular en zona urbana en la noche con:",
     opciones: [
@@ -1480,7 +1480,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1104,
     categoria: "Conducta Vial",
-    icono: "🌍",
+    icono: "world",
     dificultad: 2,
     pregunta: "¿Qué daños provoca el dióxido de azufre?",
     opciones: [
@@ -1494,7 +1494,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1105,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧑",
+    icono: "user",
     dificultad: 1,
     pregunta: "¿Cuál es la segunda causa de muerte en la población joven de Chile?",
     opciones: [
@@ -1508,7 +1508,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1106,
     categoria: "Conocimientos Legales",
-    icono: "⚖️",
+    icono: "scale",
     dificultad: 2,
     pregunta: "En caso de un siniestro que deja lesionados, ¿quiénes pueden reclamar indemnización al seguro obligatorio?",
     opciones: [
@@ -1522,7 +1522,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1107,
     categoria: "El Individuo en el Tránsito",
-    icono: "👁️",
+    icono: "eye",
     dificultad: 2,
     pregunta: "La pérdida de la agudeza visual que se pueda corregir mediante el empleo de lentes, ¿es impedimento para tener licencia de conducir?",
     opciones: [
@@ -1536,7 +1536,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1108,
     categoria: "El Individuo en el Tránsito",
-    icono: "🧠",
+    icono: "brain",
     dificultad: 2,
     pregunta: "Si hablamos del desarrollo de la moral, ¿cuál de estas sería una conducta que refleja el estadio más avanzado?",
     opciones: [
@@ -1550,7 +1550,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1109,
     categoria: "El Individuo en el Tránsito",
-    icono: "🍺",
+    icono: "beer",
     dificultad: 2,
     pregunta: "¿Qué significa que una persona tenga 0,31 gramos de alcohol por litro de sangre al conducir?",
     opciones: [
@@ -1564,7 +1564,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1110,
     categoria: "Conducta Vial",
-    icono: "🚗",
+    icono: "car",
     dificultad: 3,
     pregunta: "El auto azul circula a 70 km/h y el rojo a 90 km/h. ¿Dónde es más probable que ocurra un siniestro entre ambos?",
     opciones: [
@@ -1578,7 +1578,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1111,
     categoria: "Normas de Circulación",
-    icono: "↩️",
+    icono: "corner-up-left",
     dificultad: 2,
     pregunta: "Usted va por una calle de doble sentido de tránsito. Para virar a la izquierda, ¿dónde debe ubicarse?",
     opciones: [
@@ -1592,7 +1592,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1112,
     categoria: "Conocimientos Legales",
-    icono: "🛡️",
+    icono: "shield",
     dificultad: 2,
     pregunta: "¿El seguro obligatorio en el caso de vehículos particulares y motocicletas cubre los daños materiales ocasionados a terceros?",
     opciones: [
@@ -1606,7 +1606,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1113,
     categoria: "Conducción Eficiente",
-    icono: "⛽",
+    icono: "gas-station",
     dificultad: 1,
     pregunta: "Una conducción eficiente sirve para:",
     opciones: [
@@ -1620,7 +1620,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1114,
     categoria: "Conducta Vial",
-    icono: "📦",
+    icono: "package",
     dificultad: 2,
     pregunta: "Apilar cargas contra el respaldo del pasajero o detrás del asiento provoca:",
     opciones: [
@@ -1634,7 +1634,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1115,
     categoria: "Normas de Circulación",
-    icono: "↩️",
+    icono: "corner-up-left",
     dificultad: 2,
     pregunta: "Usted está en una calle de un solo sentido de tránsito y desea virar a la izquierda. ¿Dónde debe ubicarse?",
     opciones: [
@@ -1648,7 +1648,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1116,
     categoria: "Conocimientos Legales",
-    icono: "🚌",
+    icono: "bus",
     dificultad: 2,
     pregunta: "¿Qué es una pista de uso exclusivo?",
     opciones: [
@@ -1662,7 +1662,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1117,
     categoria: "Convivencia Vial",
-    icono: "🚛",
+    icono: "truck",
     dificultad: 2,
     pregunta: "Usted va detrás de un camión articulado que va a doblar a la derecha hacia una calle angosta. El camión primero gira hacia la izquierda. ¿Qué hace usted?",
     opciones: [
@@ -1676,7 +1676,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1118,
     categoria: "Mecánica Básica",
-    icono: "🌡️",
+    icono: "temperature",
     dificultad: 2,
     pregunta: "¿Cuáles son los sistemas de refrigeración del motor de una motocicleta?",
     opciones: [
@@ -1691,7 +1691,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1119,
     categoria: "Normas de Circulación",
-    icono: "🐢",
+    icono: "hourglass-low",
     dificultad: 2,
     pregunta: "La velocidad más baja a la que se puede circular es:",
     opciones: [
@@ -1705,7 +1705,7 @@ export const PREGUNTAS_MOTO = [
   {
     id: 1120,
     categoria: "Conducta Vial",
-    icono: "🚀",
+    icono: "rocket",
     dificultad: 2,
     pregunta: "Conducir a una velocidad elevada, ¿afecta la capacidad de anticipación del conductor?",
     opciones: [

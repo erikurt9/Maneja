@@ -5,34 +5,51 @@ import { calcularProbabilidadAprobar, obtenerResumenAdaptativo } from "./adaptat
 import { supabase } from "./supabase";
 import { PREGUNTAS } from "./preguntas";
 import { PREGUNTAS_MOTO } from "./preguntas_moto";
+import { PREGUNTAS_PROFESIONAL, COMPOSICION_PROFESIONAL } from "./preguntas_profesional";
 import { useGameStore } from "./useGameStore";
 import { XPBar, LivesDisplay, StreakDisplay, InteligenteLockedModal } from "./FreemiumUI";
 import { fadeUp } from "./utils/motion";
 import { HeroProgreso } from "./components/HeroProgreso";
+import QuestionIcon from "./components/QuestionIcon";
+import {
+  IconArrowLeft as IconTablerArrowLeft, IconConfetti, IconBooks, IconCheck as IconTablerCheck,
+  IconX as IconTablerX, IconBulb, IconFlame, IconBrain, IconAlertTriangle,
+  IconCircleCheckFilled, IconCircleX, IconArrowUpRight, IconArrowDownRight, IconTrendingUp,
+  IconPin, IconArrowUp, IconArrowDown, IconClipboardList, IconBook2,
+} from "@tabler/icons-react";
 
-const TODAS_PREGUNTAS = [...PREGUNTAS, ...PREGUNTAS_MOTO];
+const TODAS_PREGUNTAS = [...PREGUNTAS, ...PREGUNTAS_MOTO, ...PREGUNTAS_PROFESIONAL];
+const CLASES_PROFESIONALES = ["A1", "A2", "D", "E"];
+// Umbral mínimo de aprobación: 33/35 para B y C, y el mínimo oficial CONASET
+// para las clases profesionales (17/20, 16/20, 9/12 y 7/10 respectivamente).
+const umbralAprobado = (clase) => CLASES_PROFESIONALES.includes(clase) ? COMPOSICION_PROFESIONAL[clase].minCorrectas : 33;
 
 // Valores estáticos que no dependen de props/estado — se declaran una sola
 // vez a nivel de módulo en vez de recrearse en cada render de su componente.
-const HITOS_EMOJI_MAP = { "P": "P", "C": "C", "E": "E" };
-const HITOS_LABEL_MAP = { "P": "\uD83D\uDCD6", "C": "\uD83E\uDDE0", "E": "\uD83C\uDFAF" };
-const HITOS_EMOJIS = ["\uD83D\uDCD6", "\uD83E\uDDE0", "\uD83C\uDFAF"];
 const MINI_CHART_PAD = { top: 12, bottom: 28, left: 8, right: 8 };
 const HERO_METRIC_RANGE_LABELS = { 7: "7 días", 15: "14 días", 30: "30 días", Infinity: "Todo" };
 const HERO_METRIC_RANGE_LABELS_SHORT = { 7: "7D", 15: "15D", 30: "1M", Infinity: "Todo" };
 const SIDEBAR_CLASES = [
-  { id: "B", emoji: "🚗", label: "Clase B", sub: "Automóvil" },
-  { id: "C", emoji: "🏍️", label: "Clase C", sub: "Moto" },
+  { id: "B", emoji: "car", label: "Clase B", sub: "Automóvil" },
+  { id: "C", emoji: "motorbike", label: "Clase C", sub: "Moto" },
+  { id: "A1", emoji: "truck", label: "Clase A1", sub: "Profesional" },
+  { id: "A2", emoji: "truck", label: "Clase A2", sub: "Profesional" },
+  { id: "D", emoji: "car", label: "Clase D", sub: "Especial" },
+  { id: "E", emoji: "tractor", label: "Clase E", sub: "Especial" },
 ];
 const MOBILE_TOPBAR_TITLES = { inicio: "Inicio", estadisticas: "Estadísticas", perfil: "Perfil" };
 const LICENCIA_OPCIONES = [
-  { id: "B", emoji: "🚗", label: "Clase B", sub: "Automóvil", cls: "border-blue-500/40", bg: "rgba(59,130,246,0.08)" },
-  { id: "C", emoji: "🏍️", label: "Clase C", sub: "Motocicleta", cls: "border-amber-500/40", bg: "rgba(245,158,11,0.08)" },
+  { id: "B", emoji: "car", label: "Clase B", sub: "Automóvil", cls: "border-blue-500/40", bg: "rgba(59,130,246,0.08)" },
+  { id: "C", emoji: "motorbike", label: "Clase C", sub: "Motocicleta", cls: "border-amber-500/40", bg: "rgba(245,158,11,0.08)" },
+  { id: "A1", emoji: "truck", label: "Clase A1", sub: "Profesional", cls: "border-violet-500/40", bg: "rgba(139,92,246,0.08)" },
+  { id: "A2", emoji: "truck", label: "Clase A2", sub: "Profesional", cls: "border-fuchsia-500/40", bg: "rgba(217,70,239,0.08)" },
+  { id: "D", emoji: "car", label: "Clase D", sub: "Especial", cls: "border-cyan-500/40", bg: "rgba(6,182,212,0.08)" },
+  { id: "E", emoji: "tractor", label: "Clase E", sub: "Especial", cls: "border-lime-500/40", bg: "rgba(132,204,22,0.08)" },
 ];
 const PERFIL_SEXO_OPCIONES = [
-  { id: "masculino", label: "Masculino",  emoji: "👨" },
-  { id: "femenino",  label: "Femenino",   emoji: "👩" },
-  { id: "otro",      label: "Prefiero no indicar", emoji: "🙂" },
+  { id: "masculino", label: "Masculino",  emoji: "man" },
+  { id: "femenino",  label: "Femenino",   emoji: "woman" },
+  { id: "otro",      label: "Prefiero no indicar", emoji: "mood-smile" },
 ];
 
 // ── Hook: countdown hasta próxima vida (2h por vida) ─────────────────────────
@@ -113,7 +130,7 @@ function SwipeToDelete({ onDelete, children, disabled = false }) {
         className="absolute inset-y-0 right-0 flex items-center justify-center bg-red-500/90"
         style={{ width: revealWidth, opacity: deleteOpacity }}
       >
-        <m.span style={{ scale: deleteScale }} className="text-white text-lg">🗑️</m.span>
+        <m.span style={{ scale: deleteScale }} className="text-white"><IconTrash size={18} /></m.span>
       </div>
       <div
         onTouchStart={handleTouchStart}
@@ -206,7 +223,7 @@ const Skeleton = ({ h = "h-16" }) => (
 
 // ── Detalle examen ─────────────────────────────────────────────────────────────
 function DetalleExamen({ examen, respuestas, onVolver }) {
-  const ok = examen.puntaje_obtenido >= 33;
+  const ok = examen.puntaje_obtenido >= umbralAprobado(examen.clase);
   const pct = Math.round((examen.correctas / examen.total) * 100);
   const [activoIdx, setActivoIdx] = useState(0);
   const [explicacionesAbiertas, setExplicacionesAbiertas] = useState({});
@@ -270,14 +287,14 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
 
       {/* ── Header ── */}
       <div className="flex items-center gap-3 px-4 md:px-6 py-4 border-b border-slate-800 flex-shrink-0"
-        style={{ background: "rgba(10,15,26,0.95)", backdropFilter: "blur(10px)" }}>
+        style={{ background: "rgba(10,15,26,0.99)" }}>
         <m.button whileHover={{ x: -3 }} whileTap={{ scale: 0.95 }} onClick={onVolver}
           className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-semibold bg-transparent border-0 outline-none p-0">
-          ← Volver
+          <IconTablerArrowLeft size={16} /> Volver
         </m.button>
         <div className="w-px h-4 bg-slate-800" />
         <span className={`text-sm font-black ${ok ? "text-emerald-400" : "text-red-400"}`}>
-          {ok ? "🎉 Aprobado" : "📚 Reprobado"}
+          {ok ? <><IconConfetti size={16} className="inline -mt-0.5 mr-1" /> Aprobado</> : <><IconBooks size={16} className="inline -mt-0.5 mr-1" /> Reprobado</>}
         </span>
         <span className="text-slate-600 text-xs hidden sm:block ml-1">
           {examen.puntaje_obtenido}/{examen.puntaje_maximo} pts · {new Date(examen.created_at).toLocaleDateString("es-CL", { day: "numeric", month: "long" })}
@@ -301,7 +318,7 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
 
       {/* ── Nav pills — scroll horizontal en una sola fila ── */}
       <div className="flex-shrink-0 border-b border-slate-800/60"
-        style={{ background: "rgba(10,15,26,0.97)", backdropFilter: "blur(10px)" }}>
+        style={{ background: "rgba(10,15,26,0.99)" }}>
         {/* Resumen */}
         <div className="flex items-center gap-4 px-4 pt-2.5 pb-1">
           <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Navegar</span>
@@ -382,9 +399,9 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
                 <div className="px-5 pt-5 pb-3">
                   <div className="flex items-center gap-2 mb-3 flex-wrap">
                     <span className={`text-xs font-black px-3 py-1.5 rounded-full tracking-wide ${r.es_correcta ? "bg-emerald-500/15 text-emerald-400" : "bg-red-500/15 text-red-400"}`}>
-                      {r.es_correcta ? "✓ Correcta" : "✗ Incorrecta"}
+                      {r.es_correcta ? <><IconTablerCheck size={13} className="inline -mt-0.5 mr-0.5" /> Correcta</> : <><IconTablerX size={13} className="inline -mt-0.5 mr-0.5" /> Incorrecta</>}
                     </span>
-                    <span className="text-xs text-slate-500 font-medium">{pregunta.icono} {pregunta.categoria}</span>
+                    <span className="text-xs text-slate-500 font-medium flex items-center gap-1"><QuestionIcon name={pregunta.icono} className="w-3.5 h-3.5" /> {pregunta.categoria}</span>
                     <span className="ml-auto text-xs font-bold text-slate-600">#{i + 1}</span>
                   </div>
                   <p className="text-white font-bold text-xl leading-snug">{pregunta.pregunta}</p>
@@ -410,7 +427,7 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
                         }`}
                         style={{ background: esCorrecta ? "rgba(16,185,129,0.07)" : esIncorrecta ? "rgba(239,68,68,0.07)" : "transparent" }}>
                         <span className={`w-8 h-8 rounded-lg border-2 border-current flex items-center justify-center flex-shrink-0 text-sm font-black ${esCorrecta ? "bg-emerald-500/20" : esIncorrecta ? "bg-red-500/20" : ""}`}>
-                          {esCorrecta ? "✓" : esIncorrecta ? "✗" : String.fromCharCode(65 + j)}
+                          {esCorrecta ? <IconTablerCheck size={15} /> : esIncorrecta ? <IconTablerX size={15} /> : String.fromCharCode(65 + j)}
                         </span>
                         <span className="flex-1 leading-snug">{op}</span>
                         {esRespondida && !esCorrecta && <span className="text-xs text-red-400/70 flex-shrink-0 font-semibold">tu resp.</span>}
@@ -427,8 +444,8 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
                     className="w-full flex items-center justify-between px-4 py-3 border-0 outline-none bg-transparent"
                     style={{ cursor: "pointer" }}
                   >
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      💡 Explicación
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                      <IconBulb size={12} /> Explicación
                     </span>
                     <m.span
                       animate={{ rotate: explicacionesAbiertas[i] ? 180 : 0 }}
@@ -466,7 +483,7 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
                       background: i === 0 ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.07)",
                       color: i === 0 ? "#334155" : "#94a3b8",
                     }}>
-                    ← Anterior
+                    <IconTablerArrowLeft size={13} className="inline -mt-0.5 mr-0.5" /> Anterior
                   </button>
                   <span className="text-xs text-slate-600 font-semibold flex-shrink-0">
                     {i + 1} / {respuestas.length}
@@ -479,7 +496,7 @@ function DetalleExamen({ examen, respuestas, onVolver }) {
                       background: i === respuestas.length - 1 ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.07)",
                       color: i === respuestas.length - 1 ? "#334155" : "#94a3b8",
                     }}>
-                    Siguiente →
+                    Siguiente <IconArrow size={13} />
                   </button>
                 </div>
               </m.div>
@@ -527,7 +544,7 @@ function ManejaLogo({ corner = "tr" }) {
 // acceso de pregunta_stats/examenes ya restringen todo a la fila del
 // usuario logueado.
 async function obtenerTresHitos(clase) {
-  const banco      = clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
+  const banco      = CLASES_PROFESIONALES.includes(clase) ? PREGUNTAS_PROFESIONAL.filter(p => p.clases.includes(clase)) : clase === "C" ? PREGUNTAS_MOTO : PREGUNTAS;
   const totalBanco = banco.length; // 57 para Clase C, 215 para Clase B
 
   const { data: statsClase } = await supabase
@@ -567,7 +584,7 @@ async function obtenerTresHitos(clase) {
     totalSimulacros = examenes.length;
     let rachaAprobados = 0;
     for (const ex of examenes) {
-      if (ex.puntaje_obtenido >= 33) rachaAprobados++;
+      if (ex.puntaje_obtenido >= umbralAprobado(ex.clase)) rachaAprobados++;
       else break;
     }
     if (rachaAprobados >= 3) {
@@ -600,7 +617,7 @@ async function obtenerTresHitos(clase) {
 
 // ---------- TresHitos component ----------------------------------------------
 function TresHitos({ hitos, loading, clase, onIniciar }) {
-  const totalBanco = hitos?.totalBanco ?? (clase === "C" ? 57 : 215);
+  const totalBanco = hitos?.totalBanco ?? (CLASES_PROFESIONALES.includes(clase) ? PREGUNTAS_PROFESIONAL.filter(p => p.clases.includes(clase)).length : clase === "C" ? 57 : 215);
 
   const items = [
     {
@@ -689,7 +706,7 @@ function TresHitos({ hitos, loading, clase, onIniciar }) {
         <span className="text-sm font-black uppercase tracking-widest text-white">Hitos de Preparacion</span>
         <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
         <span className="text-[10px] text-slate-600 font-semibold uppercase tracking-wider flex-shrink-0">
-          {clase === "C" ? "Clase C Moto" : "Clase B Auto"}
+          {clase === "C" ? "Clase C Moto" : clase === "B" ? "Clase B Auto" : `Clase ${clase}`}
         </span>
       </div>
 
@@ -697,7 +714,6 @@ function TresHitos({ hitos, loading, clase, onIniciar }) {
         {items.map((item, idx) => {
           const dashoffset = CIRC * (1 - item.pct / 100);
           const bloqueado  = !item.activo;
-          const emoji      = HITOS_EMOJIS[idx];
 
           return (
             <m.button
@@ -746,8 +762,11 @@ function TresHitos({ hitos, loading, clase, onIniciar }) {
                   />
                   {bloqueado ? (
                     <>
-                      <text x="37" y="34" textAnchor="middle" dominantBaseline="middle"
-                        fill="#334155" fontSize="20" fontFamily="inherit">{emoji}</text>
+                      <foreignObject x="27" y="20" width="20" height="20">
+                        <div className="w-full h-full flex items-center justify-center" style={{ color: "#334155" }}>
+                          <IconLock />
+                        </div>
+                      </foreignObject>
                       <text x="37" y="49" textAnchor="middle" dominantBaseline="middle"
                         fill="#1e293b" fontSize="7.5" fontWeight="700" fontFamily="inherit">
                         pendiente
@@ -804,97 +823,6 @@ function TresHitos({ hitos, loading, clase, onIniciar }) {
   );
 }
 
-// ── Barra de progreso global ───────────────────────────────────────────────────
-function GlobalProgressBar({ globalPct = 0, sinDatos = false }) {
-  const pct = sinDatos ? 0 : globalPct;
-  return (
-    <m.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="relative rounded-2xl overflow-hidden px-5 py-3.5"
-      style={{
-        background: sinDatos
-          ? "linear-gradient(145deg, rgba(15,20,30,0.97) 0%, rgba(10,14,22,0.99) 100%)"
-          : "linear-gradient(145deg, rgba(10,20,50,0.97) 0%, rgba(6,14,35,0.99) 100%)",
-        border: sinDatos ? "1px solid rgba(100,116,139,0.18)" : "1px solid rgba(37,99,235,0.25)",
-        boxShadow: sinDatos ? "none" : "0 2px 20px rgba(37,99,235,0.12)",
-      }}
-    >
-      {/* Glow sutil fondo */}
-      {!sinDatos && (
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 80% at 0% 50%, rgba(37,99,235,0.08), transparent 70%)" }} />
-      )}
-
-      <div className="relative flex flex-col gap-2">
-        {/* Fila superior: label + porcentaje */}
-        <div className="flex items-baseline justify-between gap-2">
-          <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500 leading-none">
-            Probabilidad de aprobar
-          </span>
-          <div className="flex items-baseline gap-2 flex-shrink-0">
-            {sinDatos && (
-              <span className="text-[10px] text-slate-600 font-medium leading-tight">
-                Haz un examen para calcularlo
-              </span>
-            )}
-            <m.span
-              key={pct}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-xl font-black leading-none"
-              style={sinDatos ? { color: "#475569", letterSpacing: "-0.5px" } : {
-                background: "linear-gradient(90deg, #60a5fa, #22d3ee, #4ade80)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                letterSpacing: "-0.5px",
-              }}
-            >
-              {sinDatos ? "—" : `${pct}%`}
-            </m.span>
-          </div>
-        </div>
-
-        {/* Barra full-width */}
-        <div className="flex flex-col gap-1.5">
-          <div className="relative h-2.5 rounded-full overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.05)" }}>
-            <m.div
-              className="absolute inset-y-0 left-0 w-full rounded-full"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: sinDatos ? 0 : pct / 100 }}
-              transition={{ duration: 1.3, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-              style={sinDatos ? { transformOrigin: "left" } : {
-                background: "linear-gradient(90deg, #2563eb 0%, #06b6d4 50%, #22c55e 100%)",
-                boxShadow: "0 0 12px rgba(34,211,238,0.5)",
-                transformOrigin: "left",
-              }}
-            />
-            <div className="absolute inset-0 rounded-full pointer-events-none"
-              style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%)" }} />
-          </div>
-
-          {/* Milestones */}
-          <div className="flex items-center justify-between">
-            {[0, 25, 50, 75, 100].map(m => (
-              <div key={m} className="flex flex-col items-center gap-0.5">
-                <div className="w-px h-1"
-                  style={{ background: (!sinDatos && m <= pct) ? "rgba(34,211,238,0.5)" : "rgba(255,255,255,0.1)" }} />
-                <span className="text-[9px] font-semibold tabular-nums"
-                  style={{ color: (!sinDatos && m <= pct) ? "rgba(34,211,238,0.6)" : "rgba(100,116,139,0.5)" }}>
-                  {m === 0 ? "" : `${m}%`}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </m.div>
-  );
-}
-
 // ── Sección Inicio ─────────────────────────────────────────────────────────────
 // ── LivesCountdownTimer: solo el número grande del countdown ─────────────────
 function LivesCountdownTimer() {
@@ -912,305 +840,98 @@ function LivesCountdownTimer() {
   );
 }
 
-// ─── CARD MODO EXAMEN ──────────────────────────────────────────────────────
-// Extraída de SeccionInicio (antes tenía >300 líneas). Encapsula el cálculo
-// de stats del último examen + la card visual con el CTA "Iniciar examen".
-function CardModoExamen({ datos, clase, onIniciar }) {
+// ─── MODOS SECUNDARIOS (Examen + Estudio) ──────────────────────────────────
+// Reforma UX: antes eran dos cards grandes de ancho completo con CTA propio,
+// compitiendo visualmente con la recomendación de HeroProgreso. Se bajan a
+// tiles compactos lado a lado — siguen siendo un toque de distancia, pero
+// su peso visual dice "esto es alternativo", no "esto también es lo principal".
+// Mismo componente sirve para web y mobile: el grid de 2 columnas responde
+// solo por ancho de contenedor, sin breakpoints específicos de plataforma.
+function TileModo({ icon, titulo, subtitulo, accentColor, accentBg, accentBorder, onClick, disabled, disabledLabel }) {
+  return (
+    <m.button
+      whileTap={disabled ? {} : { scale: 0.97 }}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      className="relative flex-1 flex flex-col items-start gap-2 rounded-2xl p-4 text-left outline-none border-0"
+      style={{
+        background: disabled ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.045)",
+        border: `1px solid ${disabled ? "rgba(255,255,255,0.06)" : accentBorder}`,
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? "default" : "pointer",
+      }}
+    >
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+        style={{ background: disabled ? "rgba(255,255,255,0.06)" : accentBg }}>
+        {icon}
+      </div>
+      <div>
+        <p className="text-white font-bold text-sm leading-tight">{titulo}</p>
+        <p className="text-slate-500 text-[11px] mt-0.5 leading-snug">{disabled ? disabledLabel : subtitulo}</p>
+      </div>
+    </m.button>
+  );
+}
+
+function ModosSecundarios({ datos, clase, sinVidas, onIniciar }) {
   const examenes = datos?.examenes ?? [];
   const examenesExamen = examenes.filter(e => e.modo === "examen" || !e.modo);
-  const ultimo = examenesExamen[0];
-  const ultimoLabel = ultimo ? `${ultimo.correctas}/${ultimo.total}` : null;
-  const ultimoOk = ultimo ? ultimo.puntaje_obtenido >= 33 : false;
-
-  // Racha de aprobados (cualquier modo)
-  let racha = 0;
-  for (const ex of examenes) {
-    if (ex.puntaje_obtenido >= 33) racha++;
-    else break;
-  }
-
-  // Mejor puntaje en modo examen
   const mejorPts = examenesExamen.length > 0
     ? Math.max(...examenesExamen.map(e => e.puntaje_obtenido))
     : null;
 
   return (
-    <>
-      {/* Label sección entrenamiento libre */}
-      <div className="flex items-center gap-2.5 px-0.5 mt-1">
-        <span className="text-sm font-black uppercase tracking-widest text-white">🎯 Entrenamiento Libre</span>
-        <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
+    <m.div {...fadeUp(0.3)} className="flex flex-col gap-2.5">
+      <div className="flex items-center gap-2.5 px-0.5">
+        <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Otros modos</span>
+        <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
       </div>
-    <m.div {...fadeUp(0.3)} className="relative rounded-2xl overflow-hidden" style={{ boxShadow: "0 4px 32px rgba(37,99,235,0.18), 0 1px 0 rgba(99,179,255,0.08) inset" }}>
-      {/* Fondo glassmorphism */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: "linear-gradient(145deg, rgba(15,25,60,0.97) 0%, rgba(10,18,45,0.99) 100%)",
-        borderRadius: "inherit",
-      }} />
-      {/* Borde degradado */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{
-        border: "1px solid transparent",
-        background: "linear-gradient(145deg, rgba(99,179,255,0.35), rgba(37,99,235,0.18), rgba(29,78,216,0.08)) border-box",
-        WebkitMask: "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)",
-        WebkitMaskComposite: "destination-out",
-        maskComposite: "exclude",
-      }} />
-      {/* Glow radial esquina */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse 65% 55% at 100% 0%, rgba(59,130,246,0.14), transparent 70%)",
-      }} />
-      {/* Línea superior accent cian */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{
-        background: "linear-gradient(90deg, transparent, rgba(99,220,255,0.5), rgba(59,130,246,0.6), rgba(99,220,255,0.3), transparent)",
-      }} />
-
-      <div className="relative p-5">
-        {/* ── Fila superior: icono + título + badge ── */}
-        <div className="flex items-start gap-3 mb-4">
-          {/* Icono cronómetro */}
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: "rgba(37,99,235,0.20)", border: "1px solid rgba(99,179,255,0.25)", boxShadow: "0 0 18px rgba(37,99,235,0.25)" }}>
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+      <div className="flex gap-2.5">
+        <TileModo
+          titulo="Examen"
+          subtitulo={mejorPts !== null ? `35 preguntas · récord ${mejorPts} pts` : "35 preguntas · simulación real"}
+          accentColor="#60a5fa"
+          accentBg="rgba(37,99,235,0.18)"
+          accentBorder="rgba(59,130,246,0.22)"
+          onClick={() => onIniciar("examen", clase)}
+          icon={
+            <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
               <circle cx="12" cy="13" r="8" stroke="#60a5fa" strokeWidth="1.8"/>
               <path d="M12 9v4l2.5 2.5" stroke="#93c5fd" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M9 2h6M12 2v3" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round"/>
-              <path d="M19.5 6.5l-1 1" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="text-white font-black text-base leading-tight">Modo Examen</p>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0"
-                style={{ background: "rgba(99,220,255,0.12)", color: "#67e8f9", border: "1px solid rgba(99,220,255,0.22)" }}>
-                Simulación Real
-              </span>
-            </div>
-            <p className="text-slate-400 text-xs mt-0.5 leading-snug">
-              Simulación real · Sin retroalimentación · Condiciones del examen
-            </p>
-          </div>
-        </div>
-
-        {/* ── Chips de metadata ── */}
-        <div className="flex items-center gap-2 flex-wrap mb-4">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#94a3b8" strokeWidth="2"/><path d="M12 7v5l3 3" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round"/></svg>
-            <span className="text-xs text-slate-400 font-medium">35 min</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            <span className="text-xs text-slate-400 font-medium">35 preguntas</span>
-          </div>
-          {mejorPts !== null && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-              style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.20)" }}>
-              <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              <span className="text-xs font-bold" style={{ color: "#6ee7b7" }}>Récord: {mejorPts} pts</span>
-            </div>
-          )}
-        </div>
-
-        {/* ── Stats recientes (si hay exámenes) ── */}
-        {(ultimoLabel || racha >= 2) && (
-          <div className="flex items-center gap-3 mb-4 px-3 py-2.5 rounded-xl"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            {ultimoLabel && (
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${ultimoOk ? "bg-emerald-400" : "bg-red-400"}`} />
-                <span className="text-xs text-slate-500">Último:</span>
-                <span className={`text-xs font-bold ${ultimoOk ? "text-emerald-400" : "text-red-400"}`}>{ultimoLabel}</span>
-                {/* Mini barra */}
-                {ultimo && (
-                  <div className="flex-1 h-1 rounded-full overflow-hidden ml-1" style={{ background: "rgba(255,255,255,0.07)" }}>
-                    <div className={`h-full rounded-full ${ultimoOk ? "bg-emerald-500" : "bg-red-500"}`}
-                      style={{ width: `${Math.round((ultimo.correctas / ultimo.total) * 100)}%` }} />
-                  </div>
-                )}
-              </div>
-            )}
-            {racha >= 2 && (
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="text-sm">🔥</span>
-                <span className="text-xs font-bold text-amber-400">{racha} aprobados seguidos</span>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── Botón CTA ── */}
-        <m.button
-          whileTap={{ scale: 0.97 }}
-          whileHover={{ filter: "brightness(1.1)" }}
-          onClick={() => onIniciar("examen", clase)}
-          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-black text-sm text-white outline-none border-0"
-          style={{
-            background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 50%, #1e3a8a 100%)",
-            boxShadow: "0 4px 20px rgba(29,78,216,0.45), 0 1px 0 rgba(99,179,255,0.15) inset",
-          }}
-        >
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2"/>
-            <path d="M10 8l6 4-6 4V8z" fill="currentColor"/>
-          </svg>
-          Iniciar examen
-          <m.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>→</m.span>
-        </m.button>
-      </div>
-    </m.div>
-    </>
-  );
-}
-
-// ─── CARD MODO ESTUDIO ─────────────────────────────────────────────────────
-// Extraída de SeccionInicio junto con CardModoExamen. Tiene dos variantes
-// (bloqueada sin vidas / normal) que antes vivían como JSX condicional
-// inline dentro del componente gigante.
-function CardModoEstudio({ sinVidas, clase, onIniciar }) {
-  if (sinVidas) {
-    /* ── BLOQUEADA: sin vidas ── */
-    return (
-      <m.div {...fadeUp(0.35)} className="relative rounded-2xl overflow-hidden"
-        style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
-        {/* Fondo oscuro apagado */}
-        <div className="absolute inset-0 pointer-events-none rounded-2xl"
-          style={{ background: "linear-gradient(145deg, rgba(12,14,20,0.97) 0%, rgba(8,10,16,0.99) 100%)" }} />
-        {/* Overlay de bloqueo con blur */}
-        <div className="absolute inset-0 pointer-events-none rounded-2xl"
-          style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(1px)" }} />
-
-        <div className="relative p-5 flex flex-col items-center text-center gap-4">
-          {/* Header apagado */}
-          <div className="flex items-center gap-2.5 w-full opacity-30">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#94a3b8" strokeWidth="2" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="text-slate-400 font-black text-sm">Modo Estudio</span>
-            <span className="text-xs px-2 py-0.5 rounded-full ml-auto"
-              style={{ background: "rgba(255,255,255,0.05)", color: "#475569", border: "1px solid rgba(255,255,255,0.07)" }}>
-              Bloqueado
-            </span>
-          </div>
-
-          {/* Candado + timer central */}
-          <div className="flex flex-col items-center gap-3 py-2">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{ background: "rgba(239,68,68,0.10)", border: "1px solid rgba(239,68,68,0.20)" }}>
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24">
+          }
+        />
+        <TileModo
+          titulo="Estudio"
+          subtitulo="Con explicaciones · sin tiempo"
+          disabledLabel="Sin vidas por ahora"
+          disabled={sinVidas}
+          accentColor="#fbbf24"
+          accentBg="rgba(245,158,11,0.18)"
+          accentBorder="rgba(245,158,11,0.22)"
+          onClick={() => onIniciar("estudio", clase)}
+          icon={
+            sinVidas ? (
+              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
                 <rect x="5" y="11" width="14" height="10" rx="2" stroke="#f87171" strokeWidth="1.8"/>
                 <path d="M8 11V7a4 4 0 018 0v4" stroke="#fca5a5" strokeWidth="1.8" strokeLinecap="round"/>
-                <circle cx="12" cy="16" r="1.5" fill="#f87171"/>
               </svg>
-            </div>
-
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-[11px] font-bold uppercase tracking-widest"
-                style={{ color: "rgba(239,68,68,0.6)" }}>
-                Sin vidas · disponible en
-              </span>
-              <LivesCountdownTimer />
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <span key={i} className="text-sm opacity-20 grayscale">❤️</span>
-              ))}
-            </div>
-
-            <p className="text-xs leading-snug max-w-xs"
-              style={{ color: "rgba(100,116,139,0.7)" }}>
-              1 vida cada 2h · <span style={{ color: "rgba(192,132,252,0.7)" }}>Pro</span> tiene vidas ilimitadas
-            </p>
-          </div>
-        </div>
-      </m.div>
-    );
-  }
-
-  /* ── NORMAL: con vidas ── */
-  return (
-    <m.div {...fadeUp(0.35)} className="relative rounded-2xl overflow-hidden"
-      style={{ boxShadow: "0 4px 24px rgba(245,158,11,0.12), 0 1px 0 rgba(253,230,138,0.06) inset" }}>
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(145deg, rgba(30,20,5,0.97) 0%, rgba(20,14,2,0.99) 100%)", borderRadius: "inherit" }} />
-      <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{
-        border: "1px solid transparent",
-        background: "linear-gradient(145deg, rgba(253,186,48,0.30), rgba(245,158,11,0.14), rgba(180,110,0,0.06)) border-box",
-        WebkitMask: "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)",
-        WebkitMaskComposite: "destination-out",
-        maskComposite: "exclude",
-      }} />
-      <div className="absolute top-0 left-0 right-0 h-px" style={{
-        background: "linear-gradient(90deg, transparent, rgba(253,186,48,0.45), rgba(245,158,11,0.55), rgba(253,186,48,0.3), transparent)",
-      }} />
-      <div className="relative p-5">
-        <div className="flex items-start gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: "rgba(245,158,11,0.15)", border: "1px solid rgba(253,186,48,0.25)", boxShadow: "0 0 14px rgba(245,158,11,0.20)" }}>
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-              <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#fbbf24" strokeWidth="1.8" strokeLinejoin="round"/>
-              <path d="M9 21h6M10 17v4M14 17v4" stroke="#fcd34d" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="text-white font-black text-base leading-tight">Modo Estudio</p>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0"
-                style={{ background: "rgba(253,186,48,0.12)", color: "#fcd34d", border: "1px solid rgba(253,186,48,0.22)" }}>
-                Con explicaciones
-              </span>
-            </div>
-            <p className="text-slate-400 text-xs mt-0.5 leading-snug">
-              Feedback inmediato · Aprende de cada error · Sin límite de tiempo
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 flex-wrap mb-4">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#94a3b8" strokeWidth="2" strokeLinejoin="round"/></svg>
-            <span className="text-xs text-slate-400 font-medium">Sin tiempo</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            <span className="text-xs text-slate-400 font-medium">35 preguntas</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-            style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.18)" }}>
-            <span className="text-xs" style={{ color: "#6ee7b7" }}>💡 Explicación en cada respuesta</span>
-          </div>
-        </div>
-
-        {/* Vidas — integradas en la card */}
-        <div className="flex items-center justify-between px-3 py-2.5 rounded-xl mb-3"
-          style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.14)" }}>
-          <span className="text-xs font-semibold" style={{ color: "rgba(253,186,48,0.7)" }}>Vidas disponibles</span>
+            ) : (
+              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
+                <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#fbbf24" strokeWidth="1.8" strokeLinejoin="round"/>
+                <path d="M9 21h6M10 17v4M14 17v4" stroke="#fcd34d" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            )
+          }
+        />
+      </div>
+      {!sinVidas && (
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[10px] text-slate-600">Vidas para Modo Estudio</span>
           <LivesDisplay size="sm" />
         </div>
-        <m.button
-          whileTap={{ scale: 0.97 }}
-          whileHover={{ filter: "brightness(1.1)" }}
-          onClick={() => onIniciar("estudio", clase)}
-          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-black text-sm text-white outline-none border-0"
-          style={{
-            background: "linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%)",
-            boxShadow: "0 4px 20px rgba(217,119,6,0.40), 0 1px 0 rgba(253,186,48,0.15) inset",
-          }}
-        >
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24">
-            <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            <path d="M9 21h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          Estudiar ahora
-          <m.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>→</m.span>
-        </m.button>
-      </div>
+      )}
     </m.div>
   );
 }
@@ -1231,42 +952,123 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
     setTimeout(() => onEliminar(id), 320);
   };
 
-  // Calcular pctTotal desde tresHitos para la barra global
-  // Solo promedia los hitos activos (con datos reales), divide entre 3 siempre
-  // para que refleje el progreso global real (llegar al 100% requiere los 3 hitos en 100%)
-  const h1 = tresHitos?.hito1?.activo ? tresHitos.hito1.pct : 0;
-  const h2 = tresHitos?.hito2?.activo ? tresHitos.hito2.pct : 0;
-  const h3 = tresHitos?.hito3?.activo ? tresHitos.hito3.pct : 0;
-  const pctTotal = Math.round((h1 + h2 + h3) / 3);
-  const sinDatosGlobal = !tresHitos || (!tresHitos.hito1?.activo && !tresHitos.hito2?.activo && !tresHitos.hito3?.activo);
-
   const lives = useGameStore(s => s.lives);
   const isPremium = useGameStore(s => s.isPremium);
   const sinVidas = !isPremium && lives === 0;
 
   return (
-    <div className="flex flex-col gap-5 p-5 md:p-8 pb-36 md:pb-10">
+    <div className="p-5 md:p-8 pb-36 md:pb-10">
+      <div className="flex flex-col lg:flex-row lg:items-start gap-6 max-w-5xl mx-auto w-full">
 
-      {/* ── Barra de Progreso Global — promedio de los 3 hitos ───────────── */}
-      <GlobalProgressBar globalPct={pctTotal} sinDatos={sinDatosGlobal} />
+        <div className="flex flex-col gap-6 w-full max-w-2xl mx-auto lg:mx-0">
+          {/* ── Hero Progreso: única acción primaria (ring + CTA recomendado) ── */}
+          <HeroProgreso
+            probabilidad={probabilidad}
+            adaptativo={adaptativo}
+            datos={datos}
+            onIniciar={onIniciar}
+            loading={loading}
+            clase={clase}
+            tresHitos={tresHitos}
+          />
 
-      {/* ── Hero Progreso (versión refinada) ──────────────────────────────── */}
-      <HeroProgreso
-        probabilidad={probabilidad}
-        adaptativo={adaptativo}
-        datos={datos}
-        onIniciar={onIniciar}
-        loading={loading}
-        clase={clase}
-        tresHitos={tresHitos}
-      />
+          {/* ── Examen / Estudio: tiles secundarios, un toque de distancia ──── */}
+          <ModosSecundarios datos={datos} clase={clase} sinVidas={sinVidas} onIniciar={onIniciar} />
+        </div>
 
-      {/* ── Card Modo Examen ──────────────────────────────────────────────── */}
-      <CardModoExamen datos={datos} clase={clase} onIniciar={onIniciar} />
+        {/* ── Panel lateral: solo desktop, misma presencia visual que el hero ── */}
+        <PanelLateral datos={datos} onBanco={onBanco} onAbrirDetalle={onAbrirDetalle} loadingDetalle={loadingDetalle} />
 
-      {/* ── Tarjeta Modo Estudio ── */}
-      <CardModoEstudio sinVidas={sinVidas} clase={clase} onIniciar={onIniciar} />
+      </div>
+    </div>
+  );
+}
 
+// ─── PANEL LATERAL (solo desktop) ──────────────────────────────────────────
+// v2: la primera versión dejaba una columna angosta y plana flotando junto
+// al hero — mismo ancho de card pero mitad de altura y sin nada que tocar,
+// por eso "se sentía vacía" aunque tuviera texto. Esta versión le da al
+// panel su propio contenido con profundidad real (mini historial clickeable)
+// para que iguale la presencia visual de la columna izquierda, y comprime
+// las 3 métricas en una fila de píldoras en vez de una lista con aire.
+function PanelLateral({ datos, onBanco, onAbrirDetalle, loadingDetalle }) {
+  const examenes = datos?.examenes ?? [];
+
+  let racha = 0;
+  for (const ex of examenes) {
+    if (ex.puntaje_obtenido >= umbralAprobado(ex.clase)) racha++;
+    else break;
+  }
+
+  const examenesExamen = examenes.filter(e => e.modo === "examen" || !e.modo);
+  const mejorPts = examenesExamen.length > 0
+    ? Math.max(...examenesExamen.map(e => e.puntaje_obtenido))
+    : null;
+
+  const stats = [
+    { label: "Racha", valor: racha > 0 ? racha : "—", icon: <IconFlame size={14} /> },
+    { label: "Récord", valor: mejorPts !== null ? mejorPts : "—", icon: <IconTarget size={14} /> },
+    { label: "Rendidos", valor: examenes.length || "—", icon: <IconClipboardList size={14} /> },
+  ];
+
+  const recientes = examenes.slice(0, 3);
+
+  return (
+    <div className="hidden lg:flex flex-col gap-4 w-80 flex-shrink-0">
+      <div className="rounded-2xl overflow-hidden"
+        style={{ background: "linear-gradient(145deg, rgba(15,20,30,0.97) 0%, rgba(10,15,22,0.99) 100%)", border: "1px solid rgba(255,255,255,0.08)" }}>
+
+        {/* ── Fila de métricas compactas ── */}
+        <div className="grid grid-cols-3 divide-x px-2 py-4" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col items-center gap-1 px-1">
+              <span className="text-slate-500">{s.icon}</span>
+              <span className="text-lg font-black text-white tabular-nums leading-none">{s.valor}</span>
+              <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wide">{s.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="h-px" style={{ background: "rgba(255,255,255,0.07)" }} />
+
+        {/* ── Mini historial reciente ── */}
+        <div className="flex flex-col">
+          <span className="text-[11px] font-black uppercase tracking-widest text-slate-500 px-4 pt-4 pb-2">
+            Actividad reciente
+          </span>
+          {recientes.length === 0 ? (
+            <p className="text-slate-600 text-xs px-4 pb-4">Aún no rindes ningún examen.</p>
+          ) : (
+            recientes.map((ex) => {
+              const ok = ex.puntaje_obtenido >= umbralAprobado(ex.clase);
+              return (
+                <button key={ex.id} type="button" disabled={loadingDetalle}
+                  onClick={() => onAbrirDetalle(ex)}
+                  className="flex items-center gap-2.5 px-4 py-2.5 text-left outline-none border-0 bg-transparent transition-colors hover:bg-white/5"
+                  style={{ cursor: loadingDetalle ? "default" : "pointer" }}>
+                  <div className={`w-1 h-8 rounded-full flex-shrink-0 ${ok ? "bg-emerald-500" : "bg-red-500"}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-slate-300 text-xs font-semibold">
+                      {new Date(ex.created_at).toLocaleDateString("es-CL", { day: "numeric", month: "short" })}
+                    </p>
+                    <p className="text-slate-500 text-[11px]">{ex.correctas}/{ex.total} correctas</p>
+                  </div>
+                  <span className={`text-xs font-black ${ok ? "text-emerald-400" : "text-red-400"}`}>{ex.puntaje_obtenido}</span>
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      <button type="button" onClick={onBanco}
+        className="rounded-2xl p-4 text-left outline-none border-0 flex items-center justify-between"
+        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", cursor: "pointer" }}>
+        <span className="flex items-center gap-2 text-sm font-bold text-slate-300">
+          <IconBook2 size={16} className="text-slate-500" /> Banco de preguntas
+        </span>
+        <IconArrow size={14} className="text-slate-600" />
+      </button>
     </div>
   );
 }
@@ -1298,14 +1100,14 @@ function SeccionHistorial({ datos, loading, onAbrirDetalle, loadingDetalle, onEl
         <div className="flex flex-col gap-3">{[...Array(6)].map((_, i) => <Skeleton key={i} />)}</div>
       ) : datos?.examenes.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <m.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="text-5xl mb-4">🎯</m.div>
+          <m.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="mb-4 flex justify-center text-amber-400" style={{ transform: "scale(3)" }}><IconTarget /></m.div>
           <p className="text-white font-bold text-lg mb-1">Sin exámenes aún</p>
           <p className="text-slate-500 text-sm">Completa tu primer examen para ver el historial aquí.</p>
         </div>
       ) : (
         <m.div {...fadeUp(0.1)} className="rounded-2xl border border-slate-800/60 overflow-hidden">
           {datos.examenes.map((ex, i) => {
-            const ok = ex.puntaje_obtenido >= 33;
+            const ok = ex.puntaje_obtenido >= umbralAprobado(ex.clase);
             const pct = Math.round((ex.correctas / ex.total) * 100);
             return (
               <SwipeToDelete key={ex.id} onDelete={() => handleEliminar(ex.id)} disabled={loadingDetalle}>
@@ -1322,8 +1124,8 @@ function SeccionHistorial({ datos, loading, onAbrirDetalle, loadingDetalle, onEl
                           {ex.clase && (
                             <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${ex.clase === "C" ? "bg-orange-500/20 text-orange-400" : "bg-slate-700/60 text-slate-400"}`}>{ex.clase}</span>
                           )}
-                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${ex.modo === "estudio" ? "bg-amber-500/20 text-amber-400" : ex.modo === "inteligente" ? "bg-pink-500/20 text-pink-400" : "bg-blue-500/20 text-blue-400"}`}>
-                            {ex.modo === "estudio" ? "Estudio" : ex.modo === "inteligente" ? "🧠 Inteligente" : "Examen"}
+                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full inline-flex items-center gap-1 ${ex.modo === "estudio" ? "bg-amber-500/20 text-amber-400" : ex.modo === "inteligente" ? "bg-pink-500/20 text-pink-400" : "bg-blue-500/20 text-blue-400"}`}>
+                            {ex.modo === "estudio" ? "Estudio" : ex.modo === "inteligente" ? <><IconBrain size={12} /> Inteligente</> : "Examen"}
                           </span>
                         </div>
                         <div className="flex items-center gap-2 mt-1">
@@ -1354,7 +1156,7 @@ function SeccionHistorial({ datos, loading, onAbrirDetalle, loadingDetalle, onEl
                       onMouseEnter={e => e.currentTarget.style.color = "#f87171"}
                       onMouseLeave={e => e.currentTarget.style.color = "#64748b"}
                       title="Eliminar examen">
-                      🗑︎
+                      <IconTrash size={16} />
                     </m.button>
                   </div>
                 </div>
@@ -1447,7 +1249,7 @@ function getRecomendacion(weaknesses, prob) {
   const top   = weaknesses[0];
   const isCrit = CRITICAL_CATEGORIES.has(top.categoria);
   if (isCrit && top.errorRate > 0.4)
-    return { urgency: "alta",  text: `⚠️ Urgente: fallaste ${top.categoria} — categoría crítica con doble peso. Practica SOLO esta temática hoy.`,       cta: "inteligente" };
+    return { urgency: "alta",  text: `Urgente: fallaste ${top.categoria} — categoría crítica con doble peso. Practica SOLO esta temática hoy.`,       cta: "inteligente" };
   if (prob && prob >= 75)
     return { urgency: "baja",  text: `Vas muy bien. Refuerza ${top.categoria} para asegurar el margen y luego simula un examen final.`,                    cta: "examen" };
   return       { urgency: "media", text: `Enfócate en ${top.categoria} primero — corregir esta categoría te da el mayor salto de probabilidad.`,              cta: "inteligente" };
@@ -1469,20 +1271,20 @@ const IconArrowRight = () => (<svg width="16" height="16" fill="none" viewBox="0
 // ── MiniLineChart (SVG puro, sin dependencias) ─────────────────────────────────
 // Mapa de HITOS_EMOJIS por categoría
 const CATEGORIA_EMOJI = {
-  "Señales de Tránsito":    "🚦",
-  "Normas de Tránsito":     "📋",
-  "Conducta Vial":          "🛣️",
-  "Conducción segura":      "🛡️",
-  "Prioridad de paso":      "⬆️",
-  "Velocidad":              "⚡",
-  "Alcohol y Drogas":       "🍺",
-  "Semáforos":              "🔴",
-  "Demarcación":            "🟡",
-  "Convivencia Vial":       "🤝",
-  "Conocimientos Legales":  "⚖️",
-  "Mecánica Básica":        "🔧",
-  "Condiciones climáticas": "🌧️",
-  "Señalización":           "🔶",
+  "Señales de Tránsito":    "traffic-lights",
+  "Normas de Tránsito":     "clipboard-list",
+  "Conducta Vial":          "road",
+  "Conducción segura":      "shield",
+  "Prioridad de paso":      "arrow-up",
+  "Velocidad":              "bolt",
+  "Alcohol y Drogas":       "beer",
+  "Semáforos":              "point-filled",
+  "Demarcación":            "square-rotated-filled",
+  "Convivencia Vial":       "heart-handshake",
+  "Conocimientos Legales":  "scale",
+  "Mecánica Básica":        "tool",
+  "Condiciones climáticas": "cloud-rain",
+  "Señalización":           "diamond-filled",
 };
 
 function MiniLineChart({ data, color = "#3b82f6", height = 150, examenes = [], onVerExamen }) {
@@ -1693,8 +1495,8 @@ function MiniLineChart({ data, color = "#3b82f6", height = 150, examenes = [], o
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500 text-xs">Resultado:</span>
-                  <span className={`text-xs font-bold ${hoveredExamen.puntaje_obtenido >= 33 ? "text-emerald-400" : "text-red-400"}`}>
-                    {hoveredExamen.puntaje_obtenido >= 33 ? "✅ Aprobado" : "❌ Reprobado"}
+                  <span className={`text-xs font-bold ${hoveredExamen.puntaje_obtenido >= umbralAprobado(hoveredExamen.clase) ? "text-emerald-400" : "text-red-400"}`}>
+                    {hoveredExamen.puntaje_obtenido >= umbralAprobado(hoveredExamen.clase) ? <><IconCircleCheckFilled size={13} className="inline -mt-0.5 mr-1 text-emerald-400" /> Aprobado</> : <><IconCircleX size={13} className="inline -mt-0.5 mr-1 text-red-400" /> Reprobado</>}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -1727,7 +1529,7 @@ function MiniLineChart({ data, color = "#3b82f6", height = 150, examenes = [], o
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(59,130,246,0.30)"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "rgba(59,130,246,0.18)"; }}
                   onClick={() => hoveredExamen?.id && onVerExamen && onVerExamen(hoveredExamen.id)}>
-                  Revisar →
+                  Revisar <IconArrow size={13} />
                 </button>
               </div>
             </div>
@@ -1768,7 +1570,7 @@ function buildTimeSeries(examenes, days) {
     value: Math.round((e.correctas / e.total) * 100),
     label: new Date(e.created_at).toLocaleDateString("es-CL", { day: "numeric", month: "short" }),
     date: e.created_at,
-    aprobado: e.puntaje_obtenido >= 33,
+    aprobado: e.puntaje_obtenido >= umbralAprobado(e.clase),
     examen: {
       ...e,
       numero: idx + 1,
@@ -1829,7 +1631,7 @@ function HeroMetric({ prob, trend, timeRange, onTimeRange, series, theme, examen
                   transition={{ delay: 0.2 }}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold mb-1"
                   style={{ background: trendBg, color: trendColor }}>
-                  {isUp ? "↗" : "↘"} {isUp ? "+" : ""}{trend}% ({trendLabel})
+                  {isUp ? <IconArrowUpRight size={13} className="inline -mt-0.5" /> : <IconArrowDownRight size={13} className="inline -mt-0.5" />} {isUp ? "+" : ""}{trend}% ({trendLabel})
                 </m.span>
               )}
             </div>
@@ -1860,7 +1662,7 @@ function HeroMetric({ prob, trend, timeRange, onTimeRange, series, theme, examen
           <MiniLineChart data={series} color={lineColor} height={160} examenes={examenes} onVerExamen={onVerExamen} />
         ) : (
           <div className="flex flex-col items-center justify-center py-10 text-center gap-2">
-            <span className="text-3xl">📈</span>
+            <span className="text-3xl"><IconTrendingUp size={32} /></span>
             <p className="text-slate-500 text-sm font-semibold">Sin suficientes datos en este período</p>
             <p className="text-slate-600 text-xs">Necesitas al menos 2 exámenes</p>
           </div>
@@ -1911,7 +1713,7 @@ function WeaknessTable({ weaknesses, theme, onPractice }) {
         const badge    = badgeForWeakness(cat.pct, isCrit);
         const impacto  = impactoForWeakness(cat);
         const pctColor = cat.pct < 50 ? "#ef4444" : cat.pct < 70 ? "#f59e0b" : "#10b981";
-        const emoji    = CATEGORIA_EMOJI[cat.categoria] ?? "📌";
+        const emoji    = CATEGORIA_EMOJI[cat.categoria] ?? "pin";
 
         return (
           <m.div
@@ -1927,7 +1729,7 @@ function WeaknessTable({ weaknesses, theme, onPractice }) {
 
               {/* Categoría con emoji */}
               <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                <span className="text-base flex-shrink-0">{emoji}</span>
+                <QuestionIcon name={emoji} className="w-4 h-4 text-slate-400 flex-shrink-0" />
                 <span className="text-slate-200 text-sm font-semibold truncate">{cat.categoria}</span>
               </div>
 
@@ -1972,7 +1774,7 @@ function WeaknessTable({ weaknesses, theme, onPractice }) {
             {/* ── Layout móvil (compacto) ── */}
             <button type="button" onClick={() => onPractice(cat.categoria)}
               className="sm:hidden w-full flex items-center gap-3 px-4 py-3.5 bg-transparent border-0 outline-none text-left">
-              <span className="text-lg flex-shrink-0">{emoji}</span>
+              <QuestionIcon name={emoji} className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                   <span className="text-slate-200 text-sm font-semibold truncate">{cat.categoria}</span>
@@ -2062,7 +1864,7 @@ function AllCategoriesTable({ allCats, showAll, onToggle, theme }) {
         <button type="button" onClick={onToggle}
           className="w-full py-3 text-xs font-semibold border-t bg-transparent border-0 outline-none hover:bg-white/[0.02] transition-colors"
           style={{ borderColor: "rgba(255,255,255,0.05)", color: theme.primaryText }}>
-          {showAll ? "Ver menos ↑" : `Ver ${allCats.length - 6} más ↓`}
+          {showAll ? <>Ver menos <IconArrowUp size={12} className="inline" /></> : <>Ver {allCats.length - 6} más <IconArrowDown size={12} className="inline" /></>}
         </button>
       )}
     </m.div>
@@ -2228,7 +2030,7 @@ function AIRecomendacionCard({ rec, theme, onIniciar }) {
     <m.div initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.4, delay:0.1 }}
       className="rounded-2xl border p-4" style={{ background:styles.bg, borderColor:styles.border }}>
       <div className="flex items-center gap-2 mb-2.5">
-        <span className="text-base">💡</span>
+        {rec.urgency === "alta" ? <IconAlertTriangle size={16} style={{ color: styles.accent }} /> : <IconBulb size={16} style={{ color: styles.accent }} />}
         <p className="text-xs font-bold uppercase tracking-widest" style={{ color:styles.text }}>Consejo</p>
       </div>
       <p className="text-slate-300 text-sm leading-relaxed mb-3">{rec.text}</p>
@@ -2237,7 +2039,7 @@ function AIRecomendacionCard({ rec, theme, onIniciar }) {
         style={{ background:`linear-gradient(135deg,${styles.accent}cc,${styles.accent}88)` }}>
         <IconPlayStat />
         {rec.cta === "examen" ? "Simular examen" : "Practicar ahora"}
-        <m.span animate={{ x:[0,3,0] }} transition={{ repeat:Infinity, duration:1.6 }}>→</m.span>
+        <m.span animate={{ x:[0,3,0] }} transition={{ repeat:Infinity, duration:1.6 }}><IconArrow /></m.span>
       </m.button>
     </m.div>
   );
@@ -2269,7 +2071,7 @@ function HistorialEnEstadisticas({ datos, onAbrirDetalle, loadingDetalle, onElim
       </div>
       <div className="rounded-2xl border border-slate-800/60 overflow-hidden">
         {datos.examenes.map((ex, i) => {
-          const ok = ex.puntaje_obtenido >= 33;
+          const ok = ex.puntaje_obtenido >= umbralAprobado(ex.clase);
           const pct = Math.round((ex.correctas / ex.total) * 100);
           return (
             <SwipeToDelete key={ex.id} onDelete={() => handleEliminar(ex.id)} disabled={loadingDetalle}>
@@ -2286,8 +2088,8 @@ function HistorialEnEstadisticas({ datos, onAbrirDetalle, loadingDetalle, onElim
                         {ex.clase && (
                           <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${ex.clase === "C" ? "bg-orange-500/20 text-orange-400" : "bg-slate-700/60 text-slate-400"}`}>{ex.clase}</span>
                         )}
-                        <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${ex.modo === "estudio" ? "bg-amber-500/20 text-amber-400" : ex.modo === "inteligente" ? "bg-pink-500/20 text-pink-400" : "bg-blue-500/20 text-blue-400"}`}>
-                          {ex.modo === "estudio" ? "Estudio" : ex.modo === "inteligente" ? "🧠 Inteligente" : "Examen"}
+                        <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full inline-flex items-center gap-1 ${ex.modo === "estudio" ? "bg-amber-500/20 text-amber-400" : ex.modo === "inteligente" ? "bg-pink-500/20 text-pink-400" : "bg-blue-500/20 text-blue-400"}`}>
+                          {ex.modo === "estudio" ? "Estudio" : ex.modo === "inteligente" ? <><IconBrain size={12} /> Inteligente</> : "Examen"}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 mt-1">
@@ -2317,7 +2119,7 @@ function HistorialEnEstadisticas({ datos, onAbrirDetalle, loadingDetalle, onElim
                     onMouseEnter={e => e.currentTarget.style.color = "#f87171"}
                     onMouseLeave={e => e.currentTarget.style.color = "#64748b"}
                     title="Eliminar examen">
-                    🗑︎
+                    <IconTrash size={16} />
                   </m.button>
                 </div>
               </div>
@@ -2373,7 +2175,7 @@ function SeccionEstadisticas({ datos, loading, clase = "B", onIniciar, onAbrirDe
         </div>
       ) : allCats.length === 0 && (!datos?.examenes || datos.examenes.length === 0) ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <m.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="text-5xl mb-4">📊</m.div>
+          <m.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="mb-4 flex justify-center text-slate-400" style={{ transform: "scale(3)" }}><IconTrendingUp /></m.div>
           <p className="text-white font-bold text-lg mb-1">Sin datos aún</p>
           <p className="text-slate-500 text-sm">Completa exámenes para activar el análisis.</p>
         </div>
@@ -2520,11 +2322,11 @@ function MenuDrawer({ user, onLogout, onLibro, onBanco, onLegal, onClose, clase,
           <p className="text-xs text-slate-600 uppercase tracking-widest px-2 mb-2">Recursos</p>
           <button type="button" onClick={() => { onBanco(); onClose(); }}
             className="w-full text-left px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium bg-transparent border-0 outline-none flex items-center justify-between">
-            <span>📚 Banco de Preguntas</span><IconArrow />
+            <span className="flex items-center gap-2"><IconBook2 size={16} /> Banco de Preguntas</span><IconArrow />
           </button>
           <button type="button" onClick={() => { onLibro(); onClose(); }}
             className="w-full text-left px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium bg-transparent border-0 outline-none flex items-center justify-between">
-            <span>📖 Manual del Conductor</span><IconArrow />
+            <span className="flex items-center gap-2"><IconBooks size={16} /> Manual del Conductor</span><IconArrow />
           </button>
           {onLegal && (
             <>
@@ -2608,7 +2410,7 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
           <button type="button" onClick={() => setClaseOpen(o => !o)}
             className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all outline-none"
             style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.09)" }}>
-            <span className="text-base">{claseActual?.emoji}</span>
+            <QuestionIcon name={claseActual?.emoji} className="w-4 h-4 text-slate-300 flex-shrink-0" />
             <div className="flex-1 text-left min-w-0">
               <p className="text-white text-sm font-bold leading-tight">{claseActual?.label}</p>
               <p className="text-slate-500 text-xs">{claseActual?.sub}</p>
@@ -2628,7 +2430,7 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
                   <button type="button" key={id} onClick={() => { onClase(id); setClaseOpen(false); }}
                     className="w-full flex items-center gap-3 px-3 py-3 transition-colors border-0 outline-none text-left hover:bg-white/5"
                     style={{ background: clase === id ? "rgba(59,130,246,0.10)" : "transparent" }}>
-                    <span className="text-base">{emoji}</span>
+                    <QuestionIcon name={emoji} className="w-4 h-4 text-slate-300 flex-shrink-0" />
                     <div className="flex-1">
                       <p className="text-sm font-bold" style={{ color: clase === id ? "#93c5fd" : "white" }}>{label}</p>
                       <p className="text-xs text-slate-500">{sub}</p>
@@ -2683,13 +2485,13 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
       <div className="px-3 py-3 flex flex-col gap-0.5 flex-shrink-0">
         <p className="text-xs text-slate-600 uppercase tracking-widest font-semibold mb-1.5 px-2">Practicar</p>
         {[
-          { label: "Modo Examen",      emoji: "📋", onClick: () => onIniciar("examen") },
-          { label: "Modo Estudio",     emoji: "💡", onClick: () => onIniciar("estudio") },
-          { label: "Modo Inteligente", emoji: "🧠", onClick: () => onIniciar("inteligente") },
+          { label: "Modo Examen",      emoji: "clipboard-list", onClick: () => onIniciar("examen") },
+          { label: "Modo Estudio",     emoji: "bulb", onClick: () => onIniciar("estudio") },
+          { label: "Modo Inteligente", emoji: "brain", onClick: () => onIniciar("inteligente") },
         ].map(({ label, emoji, onClick }) => (
           <button type="button" key={label} onClick={onClick}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left text-slate-400 hover:text-white hover:bg-white/5">
-            <span className="text-base">{emoji}</span>
+            <QuestionIcon name={emoji} className="w-4 h-4" />
             <span className="flex-1">{label}</span>
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" opacity="0.35"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
@@ -2703,12 +2505,12 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
         <p className="text-xs text-slate-600 uppercase tracking-widest font-semibold mb-1.5 px-2">Recursos</p>
         <button type="button" onClick={onBanco}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left text-slate-400 hover:text-white hover:bg-white/5">
-          <span className="text-base">📚</span><span className="flex-1 truncate">Banco de Pregun...</span>
+          <IconBook2 size={16} /><span className="flex-1 truncate">Banco de Pregun...</span>
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" opacity="0.35"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
         <button type="button" onClick={onLibro}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left text-slate-400 hover:text-white hover:bg-white/5">
-          <span className="text-base">📖</span><span className="flex-1 truncate">Manual del Condu...</span>
+          <IconBooks size={16} /><span className="flex-1 truncate">Manual del Condu...</span>
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" opacity="0.35"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
       </div>
@@ -2752,8 +2554,7 @@ function BottomNav({ activeSection, onSection, onMenuOpen, clase, foto, nombre }
       transition={{ duration: 0.5 }}
       className="lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t"
       style={{
-        background: clase === "C" ? "rgba(18,13,4,0.98)" : "rgba(10,15,26,0.97)",
-        backdropFilter: "blur(10px)",
+        background: clase === "C" ? "rgba(18,13,4,0.99)" : "rgba(10,15,26,0.99)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
         paddingLeft: "env(safe-area-inset-left, 0px)",
         paddingRight: "env(safe-area-inset-right, 0px)",
@@ -2806,9 +2607,8 @@ function MobileTopBar({ activeSection, clase, onSection, onMenuOpen }) {
         paddingBottom: "14px",
         paddingLeft: "calc(env(safe-area-inset-left, 0px) + 16px)",
         paddingRight: "calc(env(safe-area-inset-right, 0px) + 16px)",
-        background: clase === "C" ? "rgba(18,13,4,0.98)" : "rgba(10,15,26,0.95)",
+        background: clase === "C" ? "rgba(18,13,4,0.99)" : "rgba(10,15,26,0.99)",
         borderColor: clase === "C" ? "rgba(217,119,6,0.2)" : "rgba(30,41,59,0.8)",
-        backdropFilter: "blur(10px)"
       }}>
       {/* Logo + sección centrados absolutamente */}
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
@@ -2843,7 +2643,7 @@ function ModalLicencia({ clase, onClase, onClose }) {
   return (
     <m.div className="fixed inset-0 z-50 flex items-end justify-center"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <m.div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }} onClick={onClose} />
+      <m.div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)" }} onClick={onClose} />
       <m.div
         initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 320, damping: 35 }}
@@ -2868,7 +2668,7 @@ function ModalLicencia({ clase, onClase, onClose }) {
                 className={`w-full text-left p-4 rounded-2xl border-2 transition-all outline-none flex items-center justify-between ${selected ? cls : "border-transparent"}`}
                 style={{ background: selected ? bg : "rgba(255,255,255,0.03)" }}>
                 <div className="flex items-center gap-3">
-                  <span className="text-xl">{emoji}</span>
+                  <QuestionIcon name={emoji} className="w-5 h-5 text-slate-300" />
                   <div>
                     <p className="text-white font-bold text-sm">{label}</p>
                     <p className="text-slate-500 text-xs mt-0.5">{sub}</p>
@@ -3010,7 +2810,7 @@ function SeccionPerfil({ user, onLogout }) {
                   background: sexo === op.id ? "rgba(59,130,246,0.12)" : "rgba(255,255,255,0.03)",
                   border: `1px solid ${sexo === op.id ? "rgba(59,130,246,0.35)" : "rgba(255,255,255,0.06)"}`,
                 }}>
-                <span className="text-lg">{op.emoji}</span>
+                <QuestionIcon name={op.emoji} className="w-4.5 h-4.5 text-slate-300" />
                 <span className="text-sm font-semibold flex-1"
                   style={{ color: sexo === op.id ? "#93c5fd" : "#cbd5e1" }}>
                   {op.label}

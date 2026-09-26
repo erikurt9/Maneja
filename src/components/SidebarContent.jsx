@@ -1,7 +1,6 @@
 import { m } from "framer-motion";
 import { useStore, fmt } from "../store/quizStore.js";
 import { useGameStore } from "../useGameStore.js";
-import { LivesDisplay, XPBar } from "../FreemiumUI.jsx";
 import { IconBrain, IconFlame, IconArrowLeft } from "@tabler/icons-react";
 
 export function SidebarContent({ onClose }) {
@@ -23,14 +22,6 @@ export function SidebarContent({ onClose }) {
           {clase === "C" ? "C" : "B"}
         </span>
       </div>
-      {/* Corazones visibles en desktop sidebar — solo modo estudio */}
-      {modo === "estudio" && (
-        <div className="hidden md:flex items-center gap-2 px-1">
-          <span className="text-xs text-slate-500">Vidas:</span>
-          <LivesDisplay size="sm" />
-        </div>
-      )}
-
       {modo !== "inteligente" && (
       <div className={`hidden md:block rounded-2xl border p-4 text-center ${urgente ? "border-red-500/40 bg-red-500/5" : "border-slate-700/60 bg-slate-800/40"}`}>
         <p className="text-xs text-slate-500 uppercase tracking-widest mb-1">Tiempo restante</p>
@@ -101,10 +92,6 @@ export function SidebarContent({ onClose }) {
         className="md:hidden mt-4 border border-slate-700 hover:border-slate-500 text-slate-500 hover:text-slate-300 text-sm font-semibold py-2.5 rounded-xl transition-all bg-transparent outline-none">
         <IconArrowLeft size={14} className="inline -mt-0.5 mr-1" /> Salir al inicio
       </button>
-      {/* XP Bar en sidebar */}
-      <div className="mt-2">
-        <XPBar compact />
-      </div>
     </div>
   );
 }

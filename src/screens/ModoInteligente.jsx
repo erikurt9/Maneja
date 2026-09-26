@@ -3,7 +3,6 @@ import { m, AnimatePresence } from "framer-motion";
 import { useStore } from "../store/quizStore.js";
 import { ProgressTopBar, TopBar } from "../components/ExamHeader.jsx";
 import { ImagenPregunta } from "../components/QuizQuestionUI.jsx";
-import { XPBar } from "../FreemiumUI.jsx";
 import QuestionIcon from "../components/QuestionIcon";
 import {
   IconBrain, IconArrowRight, IconArrowLeft, IconRefresh, IconFlame, IconBulb,
@@ -105,7 +104,6 @@ function SidebarProgresoCola({ clase, dominadas, totalOriginal, pctDominadas, co
           className="mt-auto border border-slate-700 hover:border-slate-500 text-slate-500 hover:text-slate-300 text-sm font-semibold py-2.5 rounded-xl transition-all bg-transparent outline-none">
           <IconArrowLeft size={14} className="inline -mt-0.5 mr-1" /> Salir al inicio
         </button>
-        <XPBar compact />
       </div>
     </div>
   );

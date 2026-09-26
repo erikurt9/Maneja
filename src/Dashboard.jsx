@@ -7,7 +7,7 @@ import { PREGUNTAS } from "./preguntas";
 import { PREGUNTAS_MOTO } from "./preguntas_moto";
 import { PREGUNTAS_PROFESIONAL, COMPOSICION_PROFESIONAL } from "./preguntas_profesional";
 import { useGameStore } from "./useGameStore";
-import { XPBar, LivesDisplay, StreakDisplay, InteligenteLockedModal } from "./FreemiumUI";
+import { StreakDisplay, InteligenteLockedModal } from "./FreemiumUI";
 import { fadeUp } from "./utils/motion";
 import { HeroProgreso } from "./components/HeroProgreso";
 import QuestionIcon from "./components/QuestionIcon";
@@ -51,33 +51,6 @@ const PERFIL_SEXO_OPCIONES = [
   { id: "femenino",  label: "Femenino",   emoji: "woman" },
   { id: "otro",      label: "Prefiero no indicar", emoji: "mood-smile" },
 ];
-
-// ── Hook: countdown hasta próxima vida (2h por vida) ─────────────────────────
-function useNextLifeCountdown() {
-  const lastLifeLoss = useGameStore(s => s.lastLifeLoss);
-  const lives = useGameStore(s => s.lives);
-  const [timeLeft, setTimeLeft] = useState("");
-
-  useEffect(() => {
-    if (!lastLifeLoss || lives >= 5) { setTimeLeft(""); return; }
-    const MS_PER_LIFE = 2 * 60 * 60 * 1000; // 2 horas
-    const calc = () => {
-      const lost = new Date(lastLifeLoss).getTime();
-      const now = Date.now();
-      const elapsed = now - lost;
-      const nextIn = MS_PER_LIFE - (elapsed % MS_PER_LIFE);
-      const h = Math.floor(nextIn / 3600000);
-      const m = Math.floor((nextIn % 3600000) / 60000);
-      const s = Math.floor((nextIn % 60000) / 1000);
-      setTimeLeft(`${h > 0 ? h + "h " : ""}${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`);
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [lastLifeLoss, lives]);
-
-  return timeLeft;
-}
 
 // ── SwipeToDelete ──────────────────────────────────────────────────────────────
 function SwipeToDelete({ onDelete, children, disabled = false }) {
@@ -824,22 +797,6 @@ function TresHitos({ hitos, loading, clase, onIniciar }) {
 }
 
 // ── Sección Inicio ─────────────────────────────────────────────────────────────
-// ── LivesCountdownTimer: solo el número grande del countdown ─────────────────
-function LivesCountdownTimer() {
-  const timeLeft = useNextLifeCountdown();
-  return (
-    <m.span
-      key={timeLeft}
-      initial={{ scale: 0.95, opacity: 0.7 }}
-      animate={{ scale: 1, opacity: 1 }}
-      className="text-3xl font-black tabular-nums leading-none"
-      style={{ color: "#f87171", letterSpacing: "-1px", textShadow: "0 0 20px rgba(239,68,68,0.4)" }}
-    >
-      {timeLeft || "--:--"}
-    </m.span>
-  );
-}
-
 // ─── MODOS SECUNDARIOS (Examen + Estudio) ──────────────────────────────────
 // Reforma UX: antes eran dos cards grandes de ancho completo con CTA propio,
 // compitiendo visualmente con la recomendación de HeroProgreso. Se bajan a
@@ -873,7 +830,7 @@ function TileModo({ icon, titulo, subtitulo, accentColor, accentBg, accentBorder
   );
 }
 
-function ModosSecundarios({ datos, clase, sinVidas, onIniciar }) {
+function ModosSecundarios({ datos, clase, onIniciar }) {
   const examenes = datos?.examenes ?? [];
   const examenesExamen = examenes.filter(e => e.modo === "examen" || !e.modo);
   const mejorPts = examenesExamen.length > 0
@@ -905,33 +862,18 @@ function ModosSecundarios({ datos, clase, sinVidas, onIniciar }) {
         <TileModo
           titulo="Estudio"
           subtitulo="Con explicaciones · sin tiempo"
-          disabledLabel="Sin vidas por ahora"
-          disabled={sinVidas}
           accentColor="#fbbf24"
           accentBg="rgba(245,158,11,0.18)"
           accentBorder="rgba(245,158,11,0.22)"
           onClick={() => onIniciar("estudio", clase)}
           icon={
-            sinVidas ? (
-              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
-                <rect x="5" y="11" width="14" height="10" rx="2" stroke="#f87171" strokeWidth="1.8"/>
-                <path d="M8 11V7a4 4 0 018 0v4" stroke="#fca5a5" strokeWidth="1.8" strokeLinecap="round"/>
-              </svg>
-            ) : (
-              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
-                <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#fbbf24" strokeWidth="1.8" strokeLinejoin="round"/>
-                <path d="M9 21h6M10 17v4M14 17v4" stroke="#fcd34d" strokeWidth="1.8" strokeLinecap="round"/>
-              </svg>
-            )
+            <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
+              <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L15 17H9l-.7-2C6.3 13.7 5 11.5 5 9a7 7 0 017-7z" stroke="#fbbf24" strokeWidth="1.8" strokeLinejoin="round"/>
+              <path d="M9 21h6M10 17v4M14 17v4" stroke="#fcd34d" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
           }
         />
       </div>
-      {!sinVidas && (
-        <div className="flex items-center justify-between px-1">
-          <span className="text-[10px] text-slate-600">Vidas para Modo Estudio</span>
-          <LivesDisplay size="sm" />
-        </div>
-      )}
     </m.div>
   );
 }
@@ -952,10 +894,6 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
     setTimeout(() => onEliminar(id), 320);
   };
 
-  const lives = useGameStore(s => s.lives);
-  const isPremium = useGameStore(s => s.isPremium);
-  const sinVidas = !isPremium && lives === 0;
-
   return (
     <div className="p-5 md:p-8 pb-36 md:pb-10">
       <div className="flex flex-col lg:flex-row lg:items-start gap-6 max-w-5xl mx-auto w-full">
@@ -973,7 +911,7 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
           />
 
           {/* ── Examen / Estudio: tiles secundarios, un toque de distancia ──── */}
-          <ModosSecundarios datos={datos} clase={clase} sinVidas={sinVidas} onIniciar={onIniciar} />
+          <ModosSecundarios datos={datos} clase={clase} onIniciar={onIniciar} />
         </div>
 
         {/* ── Panel lateral: solo desktop, misma presencia visual que el hero ── */}
@@ -2308,12 +2246,8 @@ function MenuDrawer({ user, onLogout, onLibro, onBanco, onLegal, onClose, clase,
         <div className="px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-600 uppercase tracking-widest">Progreso</p>
-            <div className="flex items-center gap-2">
-              <StreakDisplay />
-              <LivesDisplay size="sm" />
-            </div>
+            <StreakDisplay />
           </div>
-          <XPBar compact />
         </div>
 
         <div className="h-px bg-slate-800 mx-4" />
@@ -2467,17 +2401,6 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
           );
         })}
       </nav>
-
-      <div className="h-px bg-slate-800/60 mx-4 flex-shrink-0" />
-
-      {/* ── XP + Vidas ───────────────────────────────────────────── */}
-      <div className="px-4 py-3 flex-shrink-0">
-        <div className="flex items-center justify-between mb-2">
-
-          <LivesDisplay size="sm" />
-        </div>
-        <XPBar compact />
-      </div>
 
       <div className="h-px bg-slate-800/60 mx-4 flex-shrink-0" />
 

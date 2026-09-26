@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { m } from "framer-motion";
 import { guardarSesionAdaptativa } from "../adaptativo.js";
 import { useStore } from "../store/quizStore.js";
-import { useGameStore } from "../useGameStore.js";
 import { IconRocket, IconTarget, IconArrowRight, IconRefresh } from "@tabler/icons-react";
 
 export default function ResultadoInteligente({ user, onReintentar, onVolver, onIniciarExamen }) {
@@ -23,7 +22,6 @@ export default function ResultadoInteligente({ user, onReintentar, onVolver, onI
   useEffect(() => {
     if (user && !guardadoRef.current && preguntas.length > 0) {
       guardadoRef.current = true;
-      useGameStore.getState().gainXP(25); // bonus por completar todas
       // Guardar cada pregunta como correcta (todas dominadas)
       const respuestasCorrectas = Object.fromEntries(preguntas.map((p, i) => [i, p.correcta]));
       // BUG: guardarSesionAdaptativa ya no recibe `userId` como primer

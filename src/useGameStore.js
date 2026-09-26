@@ -2,42 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { supabase, getAuthenticatedUserId } from "./supabase";
 
-// ─── VIDAS ───────────────────────────────────────────────────────────────────
-// Horas que toma regenerar 1 vida. Única fuente de verdad: usar esta constante
-// en cualquier lugar de la UI que muestre el tiempo de regeneración.
-export const LIFE_REGEN_HOURS = 2;
-export const MAX_LIVES = 5;
-
-// ─── DIVISIONES ──────────────────────────────────────────────────────────────
-export const DIVISIONES = [
-  { id: "bronce", label: "Bronce", emoji: "medal", minXP: 0,    maxXP: 500,  color: "#cd7f32" },
-  { id: "plata",  label: "Plata",  emoji: "medal", minXP: 500,  maxXP: 1500, color: "#94a3b8" },
-  { id: "oro",    label: "Oro",    emoji: "medal", minXP: 1500, maxXP: 9999, color: "#f59e0b" },
-];
-
-export function getDivision(xp) {
-  return DIVISIONES.findLast(d => xp >= d.minXP) ?? DIVISIONES[0];
-}
-
-export function getXPProgress(xp) {
-  const div = getDivision(xp);
-  const next = DIVISIONES[DIVISIONES.indexOf(div) + 1];
-  if (!next) return { division: div, pct: 100, xpInLevel: xp - div.minXP, xpNeeded: 0 };
-  const xpInLevel = xp - div.minXP;
-  const xpNeeded = next.minXP - div.minXP;
-  return { division: div, next, pct: Math.round((xpInLevel / xpNeeded) * 100), xpInLevel, xpNeeded };
-}
-
 // ─── STORE ───────────────────────────────────────────────────────────────────
 export const useGameStore = create(
   persist(
     (set, get) => ({
+      // isPremium sigue existiendo: controla el límite de 1 sesión diaria de
+      // Modo Inteligente. Ya NO controla Modo Estudio (libre para todos) ni
+      // ningún sistema de vidas/XP/divisiones (eliminados).
       // En modo review (VITE_FORCE_PREMIUM=true) arranca siempre como premium
       isPremium: import.meta.env.VITE_FORCE_PREMIUM === "true",
-      lives: MAX_LIVES,
-      lastLifeLoss: null,
       streak: 0,
-      xp: 0,
 
       // Inteligente: controla 1 sesión gratuita por día
       lastInteligenteDate: null, // "YYYY-MM-DD"
@@ -45,55 +19,10 @@ export const useGameStore = create(
 
       // ── Setters directos (útiles para pruebas / sync con Supabase) ──────────
       setIsPremium: (v) => set({ isPremium: v }),
-      setLives: (v) => set({ lives: Math.max(0, Math.min(MAX_LIVES, v)) }),
       setStreak: (v) => set({ streak: v }),
-      setXP: (v) => set({ xp: v }),
 
       // ── Toggle para localhost ────────────────────────────────────────────────
       togglePremium: () => set((s) => ({ isPremium: !s.isPremium })),
-
-      // ── Perder 1 vida (en modo estudio) ─────────────────────────────────────
-      loseLife: () => {
-        const { lives, isPremium } = get();
-        if (isPremium) return { dead: false };
-        const next = Math.max(0, lives - 1);
-        set({ lives: next, lastLifeLoss: new Date().toISOString() });
-        return { dead: next === 0 };
-      },
-
-      // ── Restaurar vidas cada LIFE_REGEN_HOURS horas ──────────────────────────
-      checkLifeRegen: () => {
-        const { lastLifeLoss, lives } = get();
-        if (!lastLifeLoss || lives >= MAX_LIVES) return;
-        const lost = new Date(lastLifeLoss);
-        const now = new Date();
-        const horasTranscurridas = (now - lost) / (1000 * 60 * 60);
-        const vidasRegeneradas = Math.floor(horasTranscurridas / LIFE_REGEN_HOURS);
-        if (vidasRegeneradas > 0) {
-          const nuevas = Math.min(MAX_LIVES, lives + vidasRegeneradas);
-          set({ lives: nuevas });
-          // Si ya llegamos al máximo, no queda nada pendiente por regenerar.
-          // Si no, "reanclamos" lastLifeLoss al punto exacto donde debería
-          // empezar a contar la próxima vida, para no perder el resto fraccionario.
-          if (nuevas < MAX_LIVES) {
-            const msPorVida = LIFE_REGEN_HOURS * 60 * 60 * 1000;
-            const nuevoAncla = new Date(lost.getTime() + vidasRegeneradas * msPorVida);
-            set({ lastLifeLoss: nuevoAncla.toISOString() });
-          }
-        }
-      },
-
-      // ── Timestamp (ms) en el que se regenerará la próxima vida ──────────────
-      // Devuelve null si ya está al máximo de vidas (no hay nada pendiente).
-      getNextLifeRegenAt: () => {
-        const { lastLifeLoss, lives } = get();
-        if (lives >= MAX_LIVES || !lastLifeLoss) return null;
-        const msPorVida = LIFE_REGEN_HOURS * 60 * 60 * 1000;
-        return new Date(lastLifeLoss).getTime() + msPorVida;
-      },
-
-      // ── Ganar XP ────────────────────────────────────────────────────────────
-      gainXP: (points) => set((s) => ({ xp: s.xp + points })),
 
       // ── Registrar sesión inteligente ─────────────────────────────────────────
       useInteligenteSession: () => {
@@ -129,16 +58,13 @@ export const useGameStore = create(
           await getAuthenticatedUserId();
           const { data } = await supabase
             .from("profiles")
-            .select("is_premium, lives, last_life_loss, streak, xp_points")
+            .select("is_premium, streak")
             .maybeSingle();
           if (data) {
             set({
               // En modo review ignorar el valor de Supabase y forzar premium
               isPremium: import.meta.env.VITE_FORCE_PREMIUM === "true" ? true : (data.is_premium ?? false),
-              lives: data.lives ?? MAX_LIVES,
-              lastLifeLoss: data.last_life_loss ?? null,
               streak: data.streak ?? 0,
-              xp: data.xp_points ?? 0,
             });
           }
         } catch (e) {
@@ -155,21 +81,11 @@ export const useGameStore = create(
         // exclusivamente el webhook de RevenueCat -> función server-side
         // (service_role). Ver secure_profiles_authority.sql para el
         // bloqueo a nivel de base de datos (REVOKE UPDATE (is_premium)).
-        //
-        // NOTA DE SEGURIDAD 2: antes esto era un `upsert` que mandaba
-        // `id: userId` en el body — es decir, el cliente "escribía" el
-        // campo de autoría (el dueño de la fila), aunque el valor fuera
-        // correcto. El perfil siempre existe de antemano (lo crea un
-        // trigger en el registro, ver freemium_migration.sql), así que acá
-        // basta un `update` filtrado por `.eq("id", userId)`: `id` se usa
-        // solo para decir QUÉ fila tocar, nunca se manda como valor a
-        // escribir, y la política RLS (`auth.uid() = id`) igual lo
-        // verifica del lado del servidor.
-        const { lives, lastLifeLoss, streak, xp } = get();
+        const { streak } = get();
         try {
           const userId = await getAuthenticatedUserId();
           await supabase.from("profiles")
-            .update({ lives, last_life_loss: lastLifeLoss, streak, xp_points: xp })
+            .update({ streak })
             .eq("id", userId);
         } catch (e) {
           console.warn("No se pudo guardar profile:", e.message);
@@ -181,10 +97,7 @@ export const useGameStore = create(
       partialize: (s) => ({
         // En modo review no persistir isPremium para que el env siempre mande
         ...(import.meta.env.VITE_FORCE_PREMIUM !== "true" && { isPremium: s.isPremium }),
-        lives: s.lives,
-        lastLifeLoss: s.lastLifeLoss,
         streak: s.streak,
-        xp: s.xp,
         lastInteligenteDate: s.lastInteligenteDate,
         intelligenteUsedToday: s.intelligenteUsedToday,
       }),

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
+import { IconArrowRight, IconConfetti } from "@tabler/icons-react";
 import { useStore } from "../store/quizStore.js";
 import { ProgressTopBar, TopBar } from "../components/ExamHeader.jsx";
 import { SidebarContent } from "../components/SidebarContent.jsx";
-import { ImagenPregunta } from "../components/QuizQuestionUI.jsx";
+import { ImagenPregunta, InfoPanel } from "../components/QuizQuestionUI.jsx";
 
-export default function ModoExamen() {
+export default function ModoEstudio() {
   const { preguntaActual, respuestas, tick, preguntas } = useStore();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -15,6 +16,8 @@ export default function ModoExamen() {
   if (!pregunta) return null;
   const respuestaGuardada = respuestas[preguntaActual];
   const yaRespondida = respuestaGuardada !== undefined;
+  const esUltima = preguntaActual === preguntas.length - 1;
+  const correctasHasta = Object.entries(respuestas).filter(([i, r]) => preguntas[+i]?.correcta === r).length;
 
   return (
     <div className="flex w-full h-full overflow-hidden relative">
@@ -48,32 +51,56 @@ export default function ModoExamen() {
                 <ImagenPregunta src={pregunta.imagen} />
                 <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug max-w-2xl mb-8 tracking-tight">{pregunta.pregunta}</h2>
                 <div className="flex flex-col gap-3">
-                  {pregunta.opciones.map((op, i) => (
-                    <m.button key={`${pregunta.id}-${i}`}
-                      onClick={() => !yaRespondida && useStore.getState().responder(i)}
-                      disabled={yaRespondida}
-                      whileTap={!yaRespondida ? { scale: 0.98 } : {}}
-                      whileHover={!yaRespondida ? { scale: 1.01 } : {}}
-                      className={`text-left px-5 md:px-7 py-4 rounded-2xl border-2 transition-all duration-150 text-base font-medium ${
-                        yaRespondida && i === respuestaGuardada ? "border-blue-500 bg-blue-500/10 text-blue-200" :
-                        yaRespondida ? "border-slate-700/30 bg-slate-800/20 text-slate-500 cursor-default" :
-                        "border-slate-700/60 bg-slate-800/40 text-slate-200 hover:border-blue-400 hover:bg-slate-700/60 hover:shadow-lg hover:shadow-blue-500/10"
-                      }`}>
-                      <span className="flex items-center gap-4">
-                        <span className={`w-8 h-8 rounded-xl border-2 border-current flex items-center justify-center flex-shrink-0 font-black text-sm ${yaRespondida && i === respuestaGuardada ? "bg-blue-500/20" : ""}`}>
-                          {String.fromCharCode(65 + i)}
+                  {pregunta.opciones.map((op, i) => {
+                    const esCorrecta = i === pregunta.correcta;
+                    const esElegida = i === respuestaGuardada;
+                    const estilo = !yaRespondida
+                      ? "border-slate-700/60 bg-slate-800/40 text-slate-200 hover:border-amber-400 hover:bg-slate-700/60 hover:shadow-lg hover:shadow-amber-500/10"
+                      : esCorrecta
+                        ? "border-emerald-500 bg-emerald-500/10 text-emerald-300"
+                        : esElegida
+                          ? "border-red-500 bg-red-500/10 text-red-300"
+                          : "border-slate-700/30 bg-slate-800/20 text-slate-500 cursor-default";
+                    return (
+                      <m.button key={`${pregunta.id}-${i}`}
+                        onClick={() => !yaRespondida && useStore.getState().responder(i)}
+                        disabled={yaRespondida}
+                        whileTap={!yaRespondida ? { scale: 0.98 } : {}}
+                        whileHover={!yaRespondida ? { scale: 1.01 } : {}}
+                        animate={yaRespondida && esElegida && !esCorrecta ? { x: [0, -6, 6, -4, 4, 0] } : {}}
+                        transition={{ duration: 0.3 }}
+                        className={`text-left px-5 md:px-7 py-4 rounded-2xl border-2 transition-all duration-150 text-base font-medium ${estilo}`}>
+                        <span className="flex items-center gap-4">
+                          <span className={`w-8 h-8 rounded-xl border-2 border-current flex items-center justify-center flex-shrink-0 font-black text-sm ${yaRespondida && (esCorrecta || esElegida) ? (esCorrecta ? "bg-emerald-500/20" : "bg-red-500/20") : ""}`}>
+                            {String.fromCharCode(65 + i)}
+                          </span>
+                          <span className="flex-1">{op}</span>
                         </span>
-                        <span className="flex-1">{op}</span>
-                      </span>
-                    </m.button>
-                  ))}
+                      </m.button>
+                    );
+                  })}
                 </div>
                 <AnimatePresence>
                   {yaRespondida && (
-                    <m.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 text-slate-500 text-sm flex items-center gap-2">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                      Respuesta registrada · Pasando a la siguiente pregunta...
-                    </m.p>
+                    <m.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-6">
+                      <InfoPanel
+                        pregunta={pregunta}
+                        respuestaGuardada={respuestaGuardada}
+                        yaRespondida={yaRespondida}
+                        correctasHasta={correctasHasta}
+                        preguntas={preguntas}
+                        respuestas={respuestas}
+                      />
+                      <m.button
+                        onClick={() => useStore.getState().siguiente()}
+                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                        className="mt-6 w-full md:w-auto px-8 py-3 font-bold rounded-xl transition-all text-sm text-white border-0 outline-none"
+                        style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", boxShadow: "0 4px 20px rgba(245,158,11,0.3)" }}>
+                        {esUltima
+                          ? <><IconConfetti size={15} className="inline -mt-0.5 mr-1" /> Ver resultados</>
+                          : <>Siguiente <IconArrowRight size={15} className="inline -mt-0.5" /></>}
+                      </m.button>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </m.div>

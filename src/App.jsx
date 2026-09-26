@@ -7,7 +7,6 @@ import { AuthModal } from "./AuthModal.jsx";
 import { Dashboard } from "./Dashboard.jsx";
 import { useGameStore } from "./useGameStore.js";
 import {
-  NoLivesModal,
   InteligenteLockedModal,
   DevPanel,
 } from "./FreemiumUI.jsx";
@@ -28,7 +27,6 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import {
   inicializarNotificaciones,
-  programarNotificacionVidaLista,
   programarRecordatorioRacha,
 } from "./notificaciones.js";
 
@@ -54,7 +52,6 @@ export default function App() {
   const [legalTipo, setLegalTipo] = useState(null);
   const [selectorClase, setSelectorClase] = useState(null);
   const [claseParaSelector, setClaseParaSelector] = useState(null);
-  const [showNoLivesModal, setShowNoLivesModal] = useState(false);
   const [showInteligenteModal, setShowInteligenteModal] = useState(false);
   const [dashboardRefreshKey, setDashboardRefreshKey] = useState(0);
   // "cargando" evita el parpadeo Dashboard→Onboarding mientras se resuelve
@@ -116,11 +113,6 @@ export default function App() {
     }
   }, [pantalla, user]);
 
-  useEffect(() => {
-    window.__showNoLivesModal = () => setShowNoLivesModal(true);
-    return () => { delete window.__showNoLivesModal; };
-  }, []);
-
   // Sync from Supabase on login
   useEffect(() => {
     if (user) useGameStore.getState().syncFromProfile();
@@ -128,33 +120,16 @@ export default function App() {
 
   // Notificaciones locales de re-enganche: el recordatorio de racha se agenda
   // una sola vez por sesión iniciada (Capacitor lo repite solo cada día a la
-  // misma hora, no hace falta reprogramarlo). La de "vida lista" se maneja
-  // en un efecto aparte más abajo porque depende de lives/lastLifeLoss.
+  // misma hora, no hace falta reprogramarlo).
   useEffect(() => {
     if (!user) return;
     inicializarNotificaciones().then(() => programarRecordatorioRacha());
   }, [user]);
 
-  // Vida lista: cada vez que cambian lives/lastLifeLoss/isPremium se
-  // recalcula getNextLifeRegenAt() y se reprograma (o cancela, si llegó al
-  // máximo o es premium) la notificación — programarNotificacionVidaLista
-  // ya cancela la anterior antes de agendar la nueva, así que nunca quedan
-  // duplicadas.
-  const lives = useGameStore((s) => s.lives);
-  const lastLifeLoss = useGameStore((s) => s.lastLifeLoss);
-  const isPremium = useGameStore((s) => s.isPremium);
+  // Check reset diario de Modo Inteligente cada minuto
   useEffect(() => {
-    if (!user) return;
-    if (isPremium) { programarNotificacionVidaLista(null); return; }
-    programarNotificacionVidaLista(useGameStore.getState().getNextLifeRegenAt());
-  }, [user, lives, lastLifeLoss, isPremium]);
-
-  // Check regen every minute
-  useEffect(() => {
-    useGameStore.getState().checkLifeRegen();
     useGameStore.getState().checkInteligenteReset();
     const t = setInterval(() => {
-      useGameStore.getState().checkLifeRegen();
       useGameStore.getState().checkInteligenteReset();
     }, 60000);
     return () => clearInterval(t);
@@ -175,7 +150,7 @@ export default function App() {
   // estado más reciente a través de backStateRef.current.
   const backStateRef = useRef();
   backStateRef.current = {
-    showAuthModal, legalTipo, selectorClase, showNoLivesModal,
+    showAuthModal, legalTipo, selectorClase,
     showInteligenteModal, showCarruselModos, pantallaExtra, pantalla,
   };
   useEffect(() => {
@@ -185,7 +160,6 @@ export default function App() {
       if (s.showAuthModal) return setShowAuthModal(false);
       if (s.legalTipo) return setLegalTipo(null);
       if (s.selectorClase) return setSelectorClase(null);
-      if (s.showNoLivesModal) { setShowNoLivesModal(false); return useStore.getState().reiniciar(); }
       if (s.showInteligenteModal) return setShowInteligenteModal(false);
       if (s.showCarruselModos) return cerrarCarruselModos();
       if (s.pantallaExtra) return setPantallaExtra(null);
@@ -211,13 +185,6 @@ export default function App() {
       if (!canUseInteligente() && !isPremium) {
         setShowInteligenteModal(true);
         return;
-      }
-    }
-    if (modo === "estudio") {
-      const { lives, isPremium } = useGameStore.getState();
-      if (!isPremium && lives === 0) {
-        setShowNoLivesModal(true);
-        return; // bloqueado — sin vidas, se muestra el modal con countdown
       }
     }
     if (modo === "examen" || modo === "inteligente") {
@@ -390,21 +357,6 @@ const handleIniciarConClase = async (modo, clase, numPreguntas = 35) => {
         </AnimatePresence>
       </div>
       {/* ── FREEMIUM OVERLAYS ── */}
-      <AnimatePresence>
-        {showNoLivesModal && (
-          <NoLivesModal
-            onClose={() => { setShowNoLivesModal(false); useStore.getState().reiniciar(); }}
-            onContinue={() => setShowNoLivesModal(false)}
-            onPremium={async () => {
-              setShowNoLivesModal(false);
-              const { getOfferings, purchasePro } = await import('./Usebilling');
-              const offering = await getOfferings();
-              const pkg = offering?.availablePackages[0];
-              if (pkg) { const ok = await purchasePro(pkg); if (ok) useStore.getState().reiniciar(); }
-}}
-          />
-        )}
-      </AnimatePresence>
       <AnimatePresence>
         {showInteligenteModal && (
           <InteligenteLockedModal

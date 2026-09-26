@@ -1,6 +1,5 @@
 import { m } from "framer-motion";
 import { useStore, fmt } from "../store/quizStore.js";
-import { LivesDisplay } from "../FreemiumUI.jsx";
 import { IconBrain } from "@tabler/icons-react";
 
 const PROGRESS_BAR_COLOR_MAP = {
@@ -90,10 +89,6 @@ export function TopBar({ onMenuToggle, showMenu }) {
             className="font-mono font-black text-sm text-red-400">
             {fmt(tiempoRestante)}
           </m.span>
-        )}
-        {/* Corazones solo en estudio */}
-        {modo === "estudio" && (
-          <LivesDisplay size="sm" />
         )}
         {/* Modo inteligente: mostrar badge modo + clase */}
         {modo === "inteligente" && (

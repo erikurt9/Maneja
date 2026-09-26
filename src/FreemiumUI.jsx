@@ -1,262 +1,12 @@
-import { m, AnimatePresence } from "framer-motion";
-import { useGameStore, getDivision, getXPProgress, DIVISIONES, LIFE_REGEN_HOURS, MAX_LIVES } from "./useGameStore";
-import { useState, useCallback, useEffect, useMemo, useRef } from "react";
+import { m } from "framer-motion";
+import { useGameStore } from "./useGameStore";
+import { useState } from "react";
 import { supabase, getAuthenticatedUserId } from "./supabase";
 import {
-  IconHeart, IconHeartFilled, IconTrophy, IconFlame, IconBrain, IconBolt, IconBarbell, IconRocket,
-  IconLock, IconStar, IconConfetti, IconInfinity, IconWalk, IconBike, IconCar, IconTool, IconRefreshDot,
+  IconFlame, IconBrain, IconBolt, IconBarbell, IconRocket,
+  IconLock, IconStar, IconTool,
   IconCheck, IconX, IconArrowsShuffle, IconPencil, IconHourglass, IconDice, IconTrash, IconEraser,
-  IconMedal,
 } from "@tabler/icons-react";
-
-// ─── HOOK: countdown hasta la próxima vida ────────────────────────────────────
-// Se re-sincroniza solo con el store (no recibe props), así que cualquier
-// componente puede usarlo y todos quedan siempre coherentes entre sí.
-function useLifeCountdown() {
-  const lives = useGameStore((s) => s.lives);
-  const lastLifeLoss = useGameStore((s) => s.lastLifeLoss);
-  const checkLifeRegen = useGameStore((s) => s.checkLifeRegen);
-  const [now, setNow] = useState(() => Date.now());
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      checkLifeRegen();
-      setNow(Date.now());
-    }, 1000);
-    return () => clearInterval(t);
-  }, [checkLifeRegen]);
-
-  // Cálculo trivial (unas pocas operaciones aritméticas), no necesita useMemo.
-  // Se deriva directamente de `lives`/`lastLifeLoss`, que ya están en scope.
-  const nextRegenAt = lives >= MAX_LIVES || !lastLifeLoss
-    ? null
-    : new Date(lastLifeLoss).getTime() + LIFE_REGEN_HOURS * 60 * 60 * 1000;
-  const msRemaining = nextRegenAt ? Math.max(0, nextRegenAt - now) : 0;
-
-  const totalSeconds = Math.ceil(msRemaining / 1000);
-  const hh = Math.floor(totalSeconds / 3600);
-  const mm = Math.floor((totalSeconds % 3600) / 60);
-  const ss = totalSeconds % 60;
-  const label = hh > 0
-    ? `${hh}:${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`
-    : `${mm}:${String(ss).padStart(2, "0")}`;
-
-  return {
-    lives,
-    isFull: lives >= MAX_LIVES,
-    msRemaining,
-    label,
-  };
-}
-
-// ─── COMPONENTE: countdown + corazones regenerados ────────────────────────────
-function LifeRegenCountdown({ compact = false }) {
-  const { lives, isFull, label } = useLifeCountdown();
-
-  if (isFull) return null;
-
-  if (compact) {
-    return (
-      <span className="text-[11px] text-slate-500 font-medium tabular-nums">
-        <IconHeart size={12} className="inline -mt-0.5 mr-1" /> +1 en {label}
-      </span>
-    );
-  }
-
-  return (
-    <div className="flex items-center justify-between gap-3">
-      <span className="text-xs text-slate-500 flex items-center gap-1">Próximo <IconHeart size={13} /> en</span>
-      <span className="text-sm font-black text-white tabular-nums" style={{ textShadow: "0 0 8px rgba(244,114,182,0.4)" }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-// ─── BARRA XP ─────────────────────────────────────────────────────────────────
-export function XPBar({ compact = false }) {
-  const xp = useGameStore((s) => s.xp);
-  const { division, next, pct, xpInLevel, xpNeeded } = getXPProgress(xp);
-
-  if (compact) {
-    return (
-      <div className="w-full">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs font-bold flex items-center gap-1.5" style={{ color: division.color }}>
-            <IconMedal size={14} style={{ color: division.color }} />
-            <span>{division.label}</span>
-          </span>
-          {next && (
-            <span className="text-xs text-slate-500">{xpInLevel}/{xpNeeded} XP</span>
-          )}
-        </div>
-        <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
-          <m.div
-            className="h-full w-full rounded-full relative overflow-hidden"
-            animate={{ scaleX: pct / 100 }}
-            transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
-            style={{ background: `linear-gradient(90deg, ${division.color}99, ${division.color})`, transformOrigin: "left" }}
-          >
-            <m.div
-              className="absolute inset-0"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-              style={{ width: "50%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)" }}
-            />
-          </m.div>
-        </div>
-        {!next && (
-          <p className="text-xs text-center mt-1" style={{ color: division.color }}>¡Rango máximo!</p>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full px-4 py-3 rounded-2xl border border-white/5" style={{ background: "rgba(255,255,255,0.03)" }}>
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <IconMedal size={20} style={{ color: division.color }} />
-          <div>
-            <p className="text-xs font-black" style={{ color: division.color }}>{division.label}</p>
-            <p className="text-xs text-slate-500">{xp} XP totales</p>
-          </div>
-        </div>
-        {next && (
-          <div className="text-right">
-            <p className="text-xs text-slate-500">Siguiente</p>
-            <p className="text-xs font-bold text-slate-400 flex items-center gap-1"><IconMedal size={12} /> {next.label}</p>
-          </div>
-        )}
-      </div>
-      <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
-        <m.div
-          className="h-full w-full rounded-full relative overflow-hidden"
-          animate={{ scaleX: pct / 100 }}
-          transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
-          style={{ background: `linear-gradient(90deg, ${division.color}88, ${division.color})`, transformOrigin: "left" }}
-        >
-          <m.div
-            className="absolute inset-0"
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-            style={{ width: "50%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)" }}
-          />
-        </m.div>
-      </div>
-      {!next ? (
-        <p className="text-xs text-center mt-2 font-bold flex items-center justify-center gap-1.5" style={{ color: division.color }}><IconTrophy size={14} /> Rango máximo alcanzado</p>
-      ) : (
-        <p className="text-xs text-center mt-1.5 text-slate-600">{xpInLevel} / {xpNeeded} XP para {next.label}</p>
-      )}
-    </div>
-  );
-}
-
-// Partículas que salen disparadas desde el centro y se desvanecen. Son
-// siempre las mismas 8 posiciones (no dependen de nada del componente), así
-// que se calculan una sola vez a nivel de módulo en vez de por render.
-const HEART_BURST_PARTICLES = Array.from({ length: 8 }).map((_, i) => {
-  const angle = (i / 8) * Math.PI * 2;
-  return { id: i, dx: Math.cos(angle) * 22, dy: Math.sin(angle) * 22 };
-});
-
-// ─── DISPLAY DE VIDAS ─────────────────────────────────────────────────────────
-// Un solo corazón + contador numérico (en vez de 5 corazones en fila).
-// Al perder una vida, el corazón "explota" en partículas y luego vuelve a armarse.
-function HeartBurst({ burstKey }) {
-  const particles = HEART_BURST_PARTICLES;
-
-  return (
-    <AnimatePresence>
-      {particles.map((p) => (
-        <m.span
-          key={`${burstKey}-${p.id}`}
-          initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-          animate={{ opacity: 0, x: p.dx, y: p.dy, scale: 0.3 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            fontSize: "8px",
-            pointerEvents: "none",
-          }}
-        >
-          <IconHeart size={8} style={{ opacity: 0.6 }} />
-        </m.span>
-      ))}
-    </AnimatePresence>
-  );
-}
-
-export function LivesDisplay({ size = "md" }) {
-  const lives = useGameStore((s) => s.lives);
-  const isPremium = useGameStore((s) => s.isPremium);
-  const MAX = MAX_LIVES;
-
-  const [burstKey, setBurstKey] = useState(0);
-  const prevLives = useRef(lives);
-
-  useEffect(() => {
-    if (lives < prevLives.current) {
-      // Perdió una vida → dispara la explosión.
-      setBurstKey((k) => k + 1);
-    }
-    prevLives.current = lives;
-  }, [lives]);
-
-  if (isPremium) {
-    return (
-      <div className="flex items-center gap-1">
-        <span className="text-xs font-black px-2 py-0.5 rounded-full"
-          style={{ background: "rgba(168,85,247,0.2)", color: "#c084fc", border: "1px solid rgba(168,85,247,0.4)" }}>
-          ∞ Pro
-        </span>
-      </div>
-    );
-  }
-
-  const heartSize = size === "sm" ? "text-base" : "text-xl";
-  const numSize = size === "sm" ? "text-xs" : "text-sm";
-  const sinVidas = lives <= 0;
-
-  return (
-    <div className="flex flex-col items-center gap-0.5">
-      <div className="flex items-center gap-1" style={{ position: "relative" }}>
-        <span style={{ position: "relative", display: "inline-flex" }}>
-          <m.span
-            key={burstKey}
-            initial={{ scale: 1 }}
-            animate={sinVidas ? { scale: [1, 1.3, 0.9, 1] } : { scale: [1, 1.4, 1] }}
-            transition={{ duration: 0.4 }}
-            className={heartSize}
-            style={{
-              filter: sinVidas ? "none" : "drop-shadow(0 0 4px #f472b6)",
-              opacity: sinVidas ? 0.35 : 1,
-              display: "inline-block",
-            }}
-          >
-            {sinVidas ? <IconHeart /> : <IconHeartFilled />}
-          </m.span>
-          {burstKey > 0 && <HeartBurst burstKey={burstKey} />}
-        </span>
-        <m.span
-          key={`count-${lives}`}
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
-          className={`${numSize} font-black tabular-nums`}
-          style={{ color: sinVidas ? "rgba(148,163,184,0.7)" : "#f472b6" }}
-        >
-          {lives}
-        </m.span>
-      </div>
-      {lives < MAX && <LifeRegenCountdown compact />}
-    </div>
-  );
-}
 
 // ─── DISPLAY DE RACHA ─────────────────────────────────────────────────────────
 export function StreakDisplay() {
@@ -276,134 +26,6 @@ export function StreakDisplay() {
         {streak}
       </span>
     </div>
-  );
-}
-
-const NO_LIVES_MSGS = [
-  "¡Tu cerebro necesita un descanso!",
-  "Los mejores conductores también paran a cargar energía.",
-  "Pausa breve, regreso épico. ¡Tú puedes!",
-  "Cada error es una lección. Vuelve con más fuerza.",
-];
-
-// ─── MODAL: SIN VIDAS ─────────────────────────────────────────────────────────
-export function NoLivesModal({ onClose, onPremium, onContinue }) {
-  const [msg] = useState(() => NO_LIVES_MSGS[Math.floor(Math.random() * NO_LIVES_MSGS.length)]);
-  const { lives, isFull, label } = useLifeCountdown();
-  const yaPuedeContinuar = lives > 0;
-
-  return (
-    <m.div
-      className="fixed inset-0 z-[200] flex items-center justify-center px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)" }}
-    >
-      <m.div
-        initial={{ scale: 0.85, opacity: 0, y: 30 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.85, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 22 }}
-        className="w-full max-w-sm rounded-3xl p-8 text-center relative overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #1a0a2e 0%, #0d1626 50%, #1a0818 100%)",
-          border: "1px solid rgba(244,114,182,0.3)",
-          boxShadow: "0 0 60px rgba(244,114,182,0.15), 0 0 120px rgba(168,85,247,0.1)",
-        }}
-      >
-        {/* Glow de fondo */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse at 50% 0%, rgba(244,114,182,0.12) 0%, transparent 60%)",
-        }} />
-
-        <m.div
-          animate={yaPuedeContinuar ? { scale: [1, 1.15, 1] } : { y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
-          transition={{ duration: yaPuedeContinuar ? 0.6 : 2, repeat: Infinity }}
-          className="text-6xl mb-4"
-        >
-          {yaPuedeContinuar ? <IconHeartFilled /> : <IconHeart style={{ opacity: 0.5 }} />}
-        </m.div>
-
-        <h2 className="text-2xl font-black text-white mb-2">
-          {yaPuedeContinuar ? "¡Ya tienes una vida!" : "Sin vidas restantes"}
-        </h2>
-        <p className="text-slate-400 text-sm leading-relaxed mb-6">
-          {yaPuedeContinuar
-            ? "Puedes seguir estudiando. El resto de tus vidas sigue regenerándose."
-            : msg}
-        </p>
-
-        {/* Progreso de corazones regenerados + countdown en vivo */}
-        <div className="rounded-2xl p-4 mb-6" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-          <div className="flex items-center justify-center gap-1 mb-3">
-            {Array.from({ length: MAX_LIVES }).map((_, i) => (
-              <m.span
-                key={i}
-                animate={i === lives ? { scale: [1, 1.3, 1] } : {}}
-                transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
-                className={`text-lg ${i < lives ? "opacity-100" : "opacity-20 grayscale"}`}
-              >
-                <IconHeartFilled size={16} />
-              </m.span>
-            ))}
-          </div>
-          {isFull ? (
-            <p className="text-white font-bold text-sm flex items-center justify-center gap-1.5">Vidas al máximo <IconConfetti size={15} /></p>
-          ) : (
-            <>
-              <p className="text-xs text-slate-500 mb-1">Próxima vida en</p>
-              <p className="text-white font-black text-xl tabular-nums" style={{ textShadow: "0 0 10px rgba(244,114,182,0.4)" }}>
-                {label}
-              </p>
-              <p className="text-[11px] text-slate-600 mt-1">1 vida cada {LIFE_REGEN_HOURS} horas</p>
-            </>
-          )}
-        </div>
-
-        {/* CTA principal: continuar si ya hay vida, si no, Pro */}
-        {yaPuedeContinuar ? (
-          <m.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={onContinue}
-            className="w-full py-3.5 rounded-2xl font-black text-white text-sm mb-3"
-            style={{
-              background: "linear-gradient(135deg, #ec4899, #f472b6)",
-              boxShadow: "0 0 30px rgba(244,114,182,0.4)",
-            }}
-          >
-            <IconHeartFilled size={15} className="inline -mt-0.5 mr-1" /> Continuar estudiando
-          </m.button>
-        ) : (
-          <m.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={onPremium}
-            className="w-full py-3.5 rounded-2xl font-black text-white text-sm mb-3 relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, #7c3aed, #9333ea, #a855f7)",
-              boxShadow: "0 0 30px rgba(139,92,246,0.4)",
-            }}
-          >
-            <m.div
-              className="absolute inset-0"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-              style={{ width: "60%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)" }}
-            />
-            <IconStar size={15} className="inline -mt-0.5 mr-1" /> Ir a Pro — Vidas ilimitadas
-          </m.button>
-        )}
-
-        <button type="button"
-          onClick={onClose}
-          className="w-full py-2.5 rounded-xl text-slate-500 text-sm hover:text-slate-300 transition-colors bg-transparent border-0"
-        >
-          {yaPuedeContinuar ? "Volver al inicio" : "Esperar y volver al inicio"}
-        </button>
-      </m.div>
-    </m.div>
   );
 }
 
@@ -444,7 +66,7 @@ export function InteligenteLockedModal({ onClose, onPremium }) {
           <p className="text-slate-300 text-sm">1 sesión inteligente / día</p>
           <div className="h-px my-3" style={{ background: "rgba(168,85,247,0.15)" }} />
           <p className="text-xs text-purple-300 font-semibold mb-1 flex items-center gap-1.5"><IconStar size={13} /> Plan Pro</p>
-          <p className="text-slate-300 text-sm">Sesiones ilimitadas + Vidas ilimitadas</p>
+          <p className="text-slate-300 text-sm">Sesiones ilimitadas de Modo Inteligente</p>
         </div>
 
         <m.button
@@ -610,10 +232,10 @@ function DevPanelHeader({ tab, setTab, minimized, setMinimized, onClose }) {
   );
 }
 
-function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, setStreak, xp, setXP, intelligenteUsedToday, onBorrarMemoria }) {
+function DevPanelGameTab({ isPremium, togglePremium, streak, setStreak, intelligenteUsedToday, onBorrarMemoria }) {
   return (
     <div className="p-3 flex flex-col gap-2.5">
-      {/* Premium toggle */}
+      {/* Premium toggle — solo afecta Modo Inteligente (sesiones ilimitadas) */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-slate-400">Premium</span>
         <button type="button" onClick={togglePremium}
@@ -627,53 +249,12 @@ function DevPanelGameTab({ isPremium, togglePremium, lives, setLives, streak, se
         </button>
       </div>
 
-      {/* Vidas */}
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs text-slate-400">Vidas ({lives})</span>
-        <div className="flex gap-1">
-          <button type="button" onClick={() => setLives(lives - 1)} className="w-6 h-6 rounded-lg text-xs font-bold bg-red-500/20 text-red-400 border-0 outline-none hover:bg-red-500/30">−</button>
-          <button type="button" onClick={() => setLives(5)} className="w-6 h-6 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border-0 outline-none hover:bg-emerald-500/30"><IconRefreshDot size={12} className="inline" /></button>
-          <button type="button" onClick={() => setLives(lives + 1)} className="w-6 h-6 rounded-lg text-xs font-bold bg-blue-500/20 text-blue-400 border-0 outline-none hover:bg-blue-500/30">+</button>
-        </div>
-      </div>
-
       {/* Racha */}
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs text-slate-400">Racha ({streak})</span>
         <div className="flex gap-1">
           <button type="button" onClick={() => setStreak(Math.max(0, streak - 1))} className="w-6 h-6 rounded-lg text-xs font-bold bg-slate-700/60 text-slate-400 border-0 outline-none">−</button>
           <button type="button" onClick={() => setStreak(streak + 1)} className="w-6 h-6 rounded-lg text-xs font-bold bg-orange-500/20 text-orange-400 border-0 outline-none">+</button>
-        </div>
-      </div>
-
-      {/* XP */}
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs text-slate-400">XP ({xp})</span>
-        <div className="flex gap-1">
-          <button type="button" onClick={() => setXP(Math.max(0, xp - 50))} className="w-6 h-6 rounded-lg text-xs font-bold bg-slate-700/60 text-slate-400 border-0 outline-none">−</button>
-          <button type="button" onClick={() => setXP(xp + 50)} className="w-6 h-6 rounded-lg text-xs font-bold bg-blue-500/20 text-blue-400 border-0 outline-none">+</button>
-        </div>
-      </div>
-
-      {/* XP Presets */}
-      <div>
-        <p className="text-xs text-slate-600 mb-1.5">División rápida:</p>
-        <div className="grid grid-cols-3 gap-1">
-          {[
-            { label: "0", icon: "walk", v: 0 },
-            { label: "150", icon: "bike", v: 150 },
-            { label: "400", icon: "car", v: 400 },
-            { label: "900", icon: "trophy", v: 900 },
-            { label: "1600", icon: "star", v: 1600 },
-          ].map(({ label, icon, v }) => {
-            const PresetIcon = { walk: IconWalk, bike: IconBike, car: IconCar, trophy: IconTrophy, star: IconStar }[icon];
-            return (
-              <button type="button" key={v} onClick={() => setXP(v)}
-                className="px-1 py-1 rounded-lg text-xs font-semibold bg-slate-800/80 text-slate-400 border border-slate-700/50 outline-none hover:border-slate-500 transition-colors flex items-center justify-center gap-1">
-                <PresetIcon size={12} /> {label}
-              </button>
-            );
-          })}
         </div>
       </div>
 
@@ -852,7 +433,7 @@ function DevPanelExamsTab({ genConfig, setGenConfig, PRESETS, generating, genRes
 }
 
 export function DevPanel() {
-  const { isPremium, lives, streak, xp, togglePremium, setLives, setStreak, setXP, intelligenteUsedToday } = useGameStore();
+  const { isPremium, streak, togglePremium, setStreak, intelligenteUsedToday } = useGameStore();
   const [tab, setTab] = useState("game");
   const [minimized, setMinimized] = useState(false);
   const [closed, setClosed] = useState(false);
@@ -877,10 +458,7 @@ export function DevPanel() {
     localStorage.removeItem("perfil_foto");
     useGameStore.setState({
       isPremium: false,
-      lives: 5,
-      lastLifeLoss: null,
       streak: 0,
-      xp: 0,
       lastInteligenteDate: null,
       intelligenteUsedToday: false,
     });
@@ -1007,9 +585,7 @@ export function DevPanel() {
         {tab === "game" && (
           <DevPanelGameTab
             isPremium={isPremium} togglePremium={togglePremium}
-            lives={lives} setLives={setLives}
             streak={streak} setStreak={setStreak}
-            xp={xp} setXP={setXP}
             intelligenteUsedToday={intelligenteUsedToday}
             onBorrarMemoria={handleBorrarMemoria}
           />

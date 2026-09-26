@@ -45,10 +45,6 @@ export default function Resultado({ user, onAuthSuccess }) {
     if (user && !guardadoRef.current) {
       guardadoRef.current = true; // Bloquear inmediatamente antes del await
       setGuardando(true);
-      // XP por examen completado
-      const _correctas = Object.entries(respuestas).filter(([i,r]) => preguntas[+i]?.correcta === r).length;
-      const _xpGanado = _correctas >= Math.floor(preguntas.length * 0.8) ? 30 : _correctas >= Math.floor(preguntas.length * 0.6) ? 15 : 5;
-      useGameStore.getState().gainXP(_xpGanado);
       if (modo === "inteligente") useGameStore.getState().useInteligenteSession();
       Promise.allSettled([
         guardarResultado({ preguntas, respuestas, modo, clase, puntajeObtenido, puntajeMaximo }),

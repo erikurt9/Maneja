@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Capacitor } from "@capacitor/core";
 import { m, AnimatePresence } from "framer-motion";
 import { guardarResultado } from "../db.js";
 import { IconArrowLeft } from "@tabler/icons-react";
@@ -12,7 +13,9 @@ import { COMPOSICION_PROFESIONAL, evaluarExamenProfesional } from "../preguntas_
 
 const CLASES_PROFESIONALES = ["A1", "A2", "D", "E"];
 
-export default function Resultado({ user, onAuthSuccess }) {
+const CLAVE_PENDIENTE = "maneja-resultado-pendiente";
+
+export default function Resultado({ user, onAuthSuccess, onGoogle, onRecuperar }) {
   const { respuestas, tiemposRespuesta, reiniciar, modo, clase, iniciar, preguntas } = useStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [guardado, setGuardado] = useState(false);
@@ -42,8 +45,10 @@ export default function Resultado({ user, onAuthSuccess }) {
   // reacciona a esos cambios cuando en realidad solo le interesa el momento
   // en que aparece `user`. Se deja `[user]` a propósito.
   useEffect(() => {
+    if (user) setShowAuthModal(false); // sesión llegó por Google: cerrar el modal
     if (user && !guardadoRef.current) {
       guardadoRef.current = true; // Bloquear inmediatamente antes del await
+      try { sessionStorage.removeItem(CLAVE_PENDIENTE); } catch { /* sin storage */ }
       setGuardando(true);
       if (modo === "inteligente") useGameStore.getState().useInteligenteSession();
       Promise.allSettled([
@@ -61,6 +66,7 @@ export default function Resultado({ user, onAuthSuccess }) {
     setShowAuthModal(false);
     if (!guardadoRef.current) {
       guardadoRef.current = true;
+      try { sessionStorage.removeItem(CLAVE_PENDIENTE); } catch { /* sin storage */ }
       setGuardando(true);
       await guardarResultado({ preguntas, respuestas, modo, clase, puntajeObtenido, puntajeMaximo });
       setGuardando(false);
@@ -69,10 +75,28 @@ export default function Resultado({ user, onAuthSuccess }) {
     return u;
   };
 
+  // En web, Google saca al usuario de la página y el resultado se perdería:
+  // se deja en sessionStorage y App.jsx lo guarda al volver con la sesión.
+  // En Android la app sigue viva, así que el efecto de arriba lo guarda normal.
+  const handleGoogle = async () => {
+    if (!Capacitor.isNativePlatform() && !guardadoRef.current) {
+      try {
+        sessionStorage.setItem(CLAVE_PENDIENTE, JSON.stringify({
+          preguntas, respuestas, modo, clase, puntajeObtenido, puntajeMaximo,
+          tiempos: tiemposRespuesta ?? {}, ts: Date.now(),
+        }));
+      } catch { /* sin storage: se pierde el resultado, pero el login funciona */ }
+    }
+    return onGoogle();
+  };
+
   return (
     <>
       <AnimatePresence>
-        {showAuthModal && <AuthModal onSuccess={handleAuthSuccess} onClose={() => setShowAuthModal(false)} />}
+        {showAuthModal && (
+          <AuthModal onSuccess={handleAuthSuccess} onGoogle={handleGoogle} onRecuperar={onRecuperar}
+            onClose={() => setShowAuthModal(false)} />
+        )}
       </AnimatePresence>
 
       <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}

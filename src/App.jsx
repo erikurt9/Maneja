@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { generarExamenAdaptativo, obtenerPreguntasDebiles } from "./adaptativo.js";
+import { generarExamenAdaptativo, obtenerPreguntasDebiles, guardarSesionAdaptativa } from "./adaptativo.js";
 import { useAuth } from "./useAuth.js";
 import { InicioCompleto } from "./iniciocompleto.jsx";
 import { AuthModal } from "./AuthModal.jsx";
@@ -22,7 +22,7 @@ import Resultado from "./screens/Resultado.jsx";
 import SelectorClase from "./screens/SelectorClase.jsx";
 import { OnboardingDiagnostico } from "./screens/OnboardingDiagnostico.jsx";
 import { CarruselModos } from "./screens/CarruselModos.jsx";
-import { tieneExamenesPrevios } from "./db.js";
+import { tieneExamenesPrevios, guardarResultado } from "./db.js";
 import { App as CapacitorApp } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import {
@@ -32,7 +32,10 @@ import {
 
 export default function App() {
   const { pantalla, modo } = useStore();
-  const { user, loading, registrar, login, logout } = useAuth();
+  const {
+    user, loading, registrar, login, logout,
+    loginConGoogle, recuperarPassword, actualizarPassword, recovery, cerrarRecovery,
+  } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalModo, setAuthModalModo] = useState("login");
   const [pantallaExtra, setPantallaExtra] = useState(null);
@@ -171,6 +174,35 @@ export default function App() {
     return () => { listenerPromise.then((l) => l.remove()); };
   }, []);
 
+  // Al volver de Google (o del link de recuperación) la sesión aparece sola:
+  // se cierra el modal, salvo que el usuario esté eligiendo su contraseña nueva.
+  useEffect(() => {
+    if (user && !recovery) setShowAuthModal(false);
+  }, [user, recovery]);
+
+  // Link del correo "recuperar contraseña" → abrir el modal en modo "nueva".
+  useEffect(() => {
+    if (recovery) { setAuthModalModo("nueva"); setShowAuthModal(true); }
+  }, [recovery]);
+
+  // En web, Google redirige fuera de la página y el resultado del examen (que
+  // vive solo en memoria) se perdería. Resultado.jsx lo deja en sessionStorage
+  // antes de salir y aquí se guarda apenas la sesión vuelve.
+  useEffect(() => {
+    if (!user) return;
+    let pendiente = null;
+    try {
+      const raw = sessionStorage.getItem("maneja-resultado-pendiente");
+      if (raw) { sessionStorage.removeItem("maneja-resultado-pendiente"); pendiente = JSON.parse(raw); }
+    } catch { return; }
+    // Si pasaron más de 10 min, el usuario canceló y volvió después: se descarta.
+    if (!pendiente || Date.now() - (pendiente.ts ?? 0) > 10 * 60 * 1000) return;
+    Promise.allSettled([
+      guardarResultado(pendiente),
+      guardarSesionAdaptativa(pendiente.preguntas, pendiente.respuestas, pendiente.clase, pendiente.tiempos ?? {}),
+    ]).then(() => setDashboardRefreshKey((k) => k + 1));
+  }, [user]);
+
   if (loading) {
     return (
       <div className="w-screen h-screen flex items-center justify-center" style={{ background: "#0a0f1a" }}>
@@ -239,6 +271,12 @@ const handleIniciarConClase = async (modo, clase, numPreguntas = 35) => {
     return await login(email, password);
   };
 
+  const handleNuevaPassword = async (password) => {
+    await actualizarPassword(password);
+    cerrarRecovery();
+    setShowAuthModal(false);
+  };
+
   const handleLogout = async () => {
     await logout();
     setPantallaExtra(null);
@@ -271,7 +309,13 @@ const handleIniciarConClase = async (modo, clase, numPreguntas = 35) => {
       />
       <AnimatePresence>
         {showAuthModal && (
-          <AuthModal modoInicial={authModalModo} onSuccess={async (m, e, p) => { const u = await handleAuthSuccess(m, e, p); setShowAuthModal(false); return u; }} onClose={() => setShowAuthModal(false)} />
+          <AuthModal
+            modoInicial={authModalModo}
+            onSuccess={async (m, e, p) => { const u = await handleAuthSuccess(m, e, p); setShowAuthModal(false); return u; }}
+            onGoogle={loginConGoogle}
+            onRecuperar={recuperarPassword}
+            onNuevaPassword={handleNuevaPassword}
+            onClose={() => { setShowAuthModal(false); if (recovery) cerrarRecovery(); }} />
         )}
         {selectorClase && (
           <SelectorClase modo={selectorClase} clasePreseleccionada={claseParaSelector} onSeleccionar={handleIniciarConClase} onCancelar={handleCancelarSelector} user={user} />
@@ -352,7 +396,7 @@ const handleIniciarConClase = async (modo, clase, numPreguntas = 35) => {
         onReintentar={() => handleIniciarConClase("inteligente", useStore.getState().clase)}
         onVolver={() => useStore.getState().reiniciar()}
         onIniciarExamen={() => handleIniciar("examen", useStore.getState().clase)} />
-    : <Resultado key="resultado" user={user} onAuthSuccess={handleAuthSuccess} />
+    : <Resultado key="resultado" user={user} onAuthSuccess={handleAuthSuccess} onGoogle={loginConGoogle} onRecuperar={recuperarPassword} />
 )}
         </AnimatePresence>
       </div>

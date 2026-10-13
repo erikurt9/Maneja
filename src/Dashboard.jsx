@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { obtenerDashboard, obtenerDetalleExamen, eliminarExamen, limpiarStats } from "./db";
-import { calcularProbabilidadAprobar, obtenerResumenAdaptativo } from "./adaptativo";
+import { calcularProbabilidadAprobar, obtenerResumenAdaptativo, SESION_TEMA } from "./adaptativo";
 import { supabase } from "./supabase";
 import { PREGUNTAS } from "./preguntas";
 import { PREGUNTAS_MOTO } from "./preguntas_moto";
@@ -878,6 +878,112 @@ function ModosSecundarios({ datos, clase, onIniciar }) {
   );
 }
 
+// ─── PUNTOS DÉBILES EN INICIO ──────────────────────────────────────────────
+// Antes el fondo de Inicio quedaba vacío (sobre todo en móvil, donde el panel
+// lateral no se muestra) y las debilidades solo se veían en Estadísticas.
+// Aparece solo cuando hay datos reales (>= 3 respuestas en una categoría); hasta
+// entonces muestra cuánto falta para desbloquearla en vez de desaparecer.
+const DEBILES_META_PREGUNTAS = 15;   // preguntas distintas vistas para "desbloquear"
+const DEBILES_MAX_FILAS = 3;
+
+function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
+  if (loading) return <Skeleton h="h-40" />;
+
+  const cats = adaptativo?.porCategoria ?? [];
+  const filas = cats.slice(0, DEBILES_MAX_FILAS);
+  const vistas = adaptativo?.totalVistas ?? 0;
+  const totalSesion = SESION_TEMA.cantidadCat + SESION_TEMA.cantidadMix;
+  const minSesion = Math.round(totalSesion * 0.4);
+  const todoBien = filas.length > 0 && filas[0].pct >= 80;
+
+  return (
+    <m.div {...fadeUp(0.4)} className="flex flex-col gap-2.5">
+      <div className="flex items-center gap-2.5 px-0.5">
+        <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Tus puntos débiles</span>
+        <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
+      </div>
+
+      <div className="rounded-2xl overflow-hidden"
+        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
+
+        {filas.length === 0 ? (
+          <div className="p-4 flex flex-col gap-3">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "rgba(168,85,247,0.15)" }}>
+                <IconBrain size={17} className="text-purple-300" />
+              </div>
+              <div>
+                <p className="text-white font-bold text-sm leading-tight">Aún estamos conociendo tu nivel</p>
+                <p className="text-slate-500 text-xs mt-1 leading-snug">
+                  Cuando respondas más preguntas, aquí aparecerán los temas que más te cuestan, con una sesión lista para practicarlos.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                <m.div className="h-full rounded-full" style={{ background: "#a855f7", transformOrigin: "left" }}
+                  initial={{ scaleX: 0 }} animate={{ scaleX: Math.min(vistas / DEBILES_META_PREGUNTAS, 1) }}
+                  transition={{ duration: 0.5 }} />
+              </div>
+              <span className="text-[11px] text-slate-500 tabular-nums flex-shrink-0">
+                {Math.min(vistas, DEBILES_META_PREGUNTAS)}/{DEBILES_META_PREGUNTAS} preguntas
+              </span>
+            </div>
+          </div>
+        ) : (
+          <>
+            {todoBien && (
+              <p className="px-4 pt-3.5 text-xs text-emerald-400 font-semibold">
+                Vas muy bien. Igual, estos son tus temas más bajos:
+              </p>
+            )}
+            {filas.map((c, i) => {
+              const pctColor = c.pct < 50 ? "#ef4444" : c.pct < 75 ? "#f59e0b" : "#10b981";
+              const crit = CRITICAL_CATEGORIES.has(c.categoria);
+              return (
+                <div key={c.categoria}
+                  className="flex items-center gap-3 px-4 py-3"
+                  style={{ borderTop: i === 0 && !todoBien ? "none" : "1px solid rgba(255,255,255,0.05)" }}>
+                  <QuestionIcon name={CATEGORIA_EMOJI[c.categoria] ?? "pin"} className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-200 text-sm font-semibold truncate">{c.categoria}</span>
+                      {crit && (
+                        <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md flex-shrink-0"
+                          style={{ background: "rgba(239,68,68,0.14)", color: "#fca5a5" }}>x2</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                        <m.div className="h-full rounded-full" style={{ background: pctColor, transformOrigin: "left" }}
+                          initial={{ scaleX: 0 }} animate={{ scaleX: c.pct / 100 }}
+                          transition={{ delay: 0.1 + i * 0.06, duration: 0.45 }} />
+                      </div>
+                      <span className="text-xs font-black tabular-nums flex-shrink-0" style={{ color: pctColor }}>{c.pct}%</span>
+                    </div>
+                  </div>
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => onIniciar("inteligente", clase, c.categoria)}
+                    className="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-black outline-none border-0"
+                    style={{ background: "rgba(168,85,247,0.16)", color: "#d8b4fe", border: "1px solid rgba(168,85,247,0.3)", cursor: "pointer" }}>
+                    Practicar
+                  </m.button>
+                </div>
+              );
+            })}
+            <p className="px-4 py-2.5 text-[11px] text-slate-600"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              Sesión de {totalSesion} preguntas · ~{minSesion} min · modo Inteligente
+            </p>
+          </>
+        )}
+      </div>
+    </m.div>
+  );
+}
+
 function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetalle, loadingDetalle, onEliminar, adaptativo, probabilidad, clase, tresHitos }) {
   // eliminando nunca se lee en el render de este componente (solo se
   // escribe), así que no necesita disparar un re-render: useRef en vez de useState.
@@ -912,6 +1018,9 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
 
           {/* ── Examen / Estudio: tiles secundarios, un toque de distancia ──── */}
           <ModosSecundarios datos={datos} clase={clase} onIniciar={onIniciar} />
+
+          {/* ── Puntos débiles: sesión de práctica por tema ──────────────────── */}
+          <PuntosDebilesInicio adaptativo={adaptativo} clase={clase} onIniciar={onIniciar} loading={loading} />
         </div>
 
         {/* ── Panel lateral: solo desktop, misma presencia visual que el hero ── */}

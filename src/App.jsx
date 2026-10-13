@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { generarExamenAdaptativo, obtenerPreguntasDebiles, guardarSesionAdaptativa } from "./adaptativo.js";
+import { generarExamenAdaptativo, obtenerPreguntasDebiles, obtenerSesionPorCategoria, guardarSesionAdaptativa } from "./adaptativo.js";
 import { useAuth } from "./useAuth.js";
 import { InicioCompleto } from "./iniciocompleto.jsx";
 import { AuthModal } from "./AuthModal.jsx";
@@ -211,7 +211,7 @@ export default function App() {
     );
   }
 
-  const handleIniciar = (modo, clase) => {
+  const handleIniciar = (modo, clase, categoria = null) => {
     if (modo === "inteligente") {
       const { canUseInteligente, isPremium } = useGameStore.getState();
       if (!canUseInteligente() && !isPremium) {
@@ -222,7 +222,7 @@ export default function App() {
     if (modo === "examen" || modo === "inteligente") {
       // Examen e inteligente: no piden cantidad, van directo
       if (clase) {
-        handleIniciarConClase(modo, clase, 35);
+        handleIniciarConClase(modo, clase, 35, categoria);
       } else {
         setClaseParaSelector(null);
         setSelectorClase(modo);
@@ -237,13 +237,23 @@ export default function App() {
       setSelectorClase(modo);
     }
   };
-const handleIniciarConClase = async (modo, clase, numPreguntas = 35) => {
+const handleIniciarConClase = async (modo, clase, numPreguntas = 35, categoria = null) => {
   setSelectorClase(null);
   setPantallaExtra(null);
   if (user && modo === "inteligente") {
     // Register daily session for free users
     useGameStore.getState().useInteligenteSession();
     try {
+      // Sesión por tema (desde "Practicar" en Inicio/Estadísticas o el CTA del
+      // Hero): preguntas de la categoría + repaso. Si no hay nada para esa
+      // categoría, cae al mix de preguntas débiles de siempre.
+      if (categoria) {
+        const sesion = await obtenerSesionPorCategoria(clase, categoria);
+        if (sesion.length > 0) {
+          useStore.getState().iniciar(modo, clase, sesion, sesion.length);
+          return;
+        }
+      }
       const debiles = await obtenerPreguntasDebiles(clase);
       if (debiles.length > 0) {
         useStore.getState().iniciar(modo, clase, debiles, numPreguntas);

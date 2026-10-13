@@ -1,6 +1,7 @@
 import React from "react";
 import { m } from "framer-motion";
 import { fadeUp } from "../utils/motion";
+import { SESION_TEMA } from "../adaptativo";
 import { IconBrain, IconArrowRight, IconAlertTriangle, IconSparkles, IconTarget, IconClipboardCheck } from "@tabler/icons-react";
 
 // ── decidirModo ──────────────────────────────────────────────────────────────
@@ -361,8 +362,9 @@ export function HeroProgreso({ probabilidad, adaptativo, datos, onIniciar, loadi
 
   // Detalle del plan inteligente — solo se calcula/usa si el modo lo requiere
   const cantDebiles = adaptativo?.debiles ?? 0;
-  const pregsCat = cantDebiles > 0 ? Math.min(cantDebiles, 10) : 5;
-  const pregsMix = cantDebiles >= 10 ? 5 : Math.max(0, 10 - pregsCat);
+  // Mismos números que entrega la sesión por tema (SESION_TEMA en adaptativo.js).
+  const pregsCat = SESION_TEMA.cantidadCat;
+  const pregsMix = SESION_TEMA.cantidadMix;
   const tiempoEst = Math.round((pregsCat + pregsMix) * 0.4);
 
   if (loading) return <HeroProgresoSkeleton />;

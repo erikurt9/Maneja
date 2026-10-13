@@ -18,6 +18,11 @@ const INTERVALO_INICIAL_OK  = 1;
 const INTERVALO_INICIAL_MAL = 0;
 const PREGUNTAS_POR_SESION  = 35;
 
+// Sesión de práctica por tema: N preguntas de la categoría débil + M de repaso
+// general. Se exporta para que la UI (Hero / tarjeta de Inicio) prometa
+// exactamente lo que la sesión entrega.
+export const SESION_TEMA = { cantidadCat: 10, cantidadMix: 5 };
+
 // FIX 5: Normalizar categorías duplicadas a una sola clave
 const NORMALIZAR_CATEGORIA = {
   "Señales":             "Señales de Tránsito",
@@ -291,7 +296,30 @@ export async function obtenerResumenAdaptativo(clase = "B") {
   const totalBanco = banco.length;
   const cobertura = Math.round((totalVistas / totalBanco) * 100);
 
-  return { vencidas, dominadas, debiles: debiles.length, topDebiles, cobertura, totalVistas, totalBanco };
+  // Rendimiento por categoría (mismas claves normalizadas que usa la sesión por
+  // tema). Solo categorías con >= 3 respuestas acumuladas: con menos datos el %
+  // no significa nada. Orden: peor rendimiento primero.
+  const preguntaPorId = new Map(banco.map(p => [p.id, p]));
+  const preguntasPorCat = {};
+  banco.forEach(p => { const c = normalizarCat(p.categoria); preguntasPorCat[c] = (preguntasPorCat[c] || 0) + 1; });
+  const acumCat = {};
+  stats.forEach(s => {
+    const p = preguntaPorId.get(s.pregunta_id);
+    if (!p) return;
+    const cat = normalizarCat(p.categoria);
+    const a = acumCat[cat] || (acumCat[cat] = { categoria: cat, vistas: 0, aciertos: 0, debiles: 0, totalCat: preguntasPorCat[cat] });
+    const vistas = s.veces_vista || 0;
+    const aciertos = s.veces_correcta || 0;
+    a.vistas += vistas;
+    a.aciertos += aciertos;
+    if (vistas >= 1 && aciertos / vistas < 0.5) a.debiles++;
+  });
+  const porCategoria = Object.values(acumCat)
+    .filter(c => c.vistas >= 3)
+    .map(c => ({ ...c, pct: Math.round((c.aciertos / c.vistas) * 100) }))
+    .sort((a, b) => a.pct - b.pct);
+
+  return { vencidas, dominadas, debiles: debiles.length, topDebiles, porCategoria, cobertura, totalVistas, totalBanco };
 }
 
 export async function obtenerPreguntasDebiles(clase = "B") {
@@ -313,4 +341,51 @@ export async function obtenerPreguntasDebiles(clase = "B") {
     const pregunta = banco.find(p => p.id === s.pregunta_id);
     return pregunta ? [pregunta] : [];
   });
+}
+
+// Sesión de práctica enfocada en un tema: `cantidadCat` preguntas de la
+// categoría (falladas primero, luego nunca vistas, luego aún no dominadas) más
+// `cantidadMix` de repaso de otras categorías (falladas > vencidas > nuevas).
+// Si la categoría tiene pocas preguntas, el faltante se completa con repaso para
+// no dejar una sesión demasiado corta. Devuelve [] si la categoría no existe.
+export async function obtenerSesionPorCategoria(clase = "B", categoria, { cantidadCat, cantidadMix } = SESION_TEMA) {
+  const banco = bancoPorClase(clase);
+  const objetivo = normalizarCat(categoria);
+
+  const { data: stats } = await supabase
+    .from("pregunta_stats")
+    .select("pregunta_id, veces_vista, veces_correcta, proxima_vez")
+    .eq("clase", clase);
+
+  const statPorId = new Map((stats || []).map(s => [s.pregunta_id, s]));
+  const ahora = new Date();
+  const tasa = (s) => s.veces_correcta / s.veces_vista;
+  const esDebil = (s) => s && s.veces_vista >= 1 && tasa(s) < 0.5;
+  const esDominada = (s) => s && s.veces_vista >= 3 && tasa(s) >= 0.9;
+  // Barajar y luego ordenar (sort es estable): orden aleatorio dentro de cada grupo.
+  const ordenar = (lista, prioridad) =>
+    lista.toSorted(() => Math.random() - 0.5).sort((a, b) => prioridad(a) - prioridad(b));
+
+  const delTema = banco.filter(p => normalizarCat(p.categoria) === objetivo);
+  if (delTema.length === 0) return [];
+  const resto = banco.filter(p => normalizarCat(p.categoria) !== objetivo);
+
+  const prioridadTema = (p) => {
+    const s = statPorId.get(p.id);
+    if (!s) return 1;                 // nunca vista
+    if (esDebil(s)) return tasa(s);   // 0 a <0.5: la peor primero
+    return esDominada(s) ? 3 : 2;
+  };
+  const prioridadRepaso = (p) => {
+    const s = statPorId.get(p.id);
+    if (!s) return 2;                 // nueva
+    if (esDebil(s)) return tasa(s);
+    return new Date(s.proxima_vez) <= ahora ? 1 : 3;
+  };
+
+  const elegidasTema = ordenar(delTema, prioridadTema).slice(0, cantidadCat);
+  const cantidadRepaso = cantidadMix + (cantidadCat - elegidasTema.length);
+  const repaso = ordenar(resto, prioridadRepaso).slice(0, cantidadRepaso);
+
+  return [...elegidasTema, ...repaso];
 }

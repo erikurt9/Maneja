@@ -7,13 +7,14 @@ import { IconBrain, IconArrowRight, IconAlertTriangle, IconSparkles, IconTarget,
 // ── decidirModo ──────────────────────────────────────────────────────────────
 // Una sola recomendación, nunca dos compitiendo. La regla de negocio:
 //  - Sin exámenes rendidos todavía             → Examen (para tener datos reales)
-//  - Probabilidad baja (<50%)                  → Estudio (reforzar lo básico)
+//  - Probabilidad baja (<50%) CON tema débil   → Inteligente (ataca ese tema; también explica cada respuesta)
+//  - Probabilidad baja (<50%) sin tema débil   → Estudio (reforzar lo básico)
 //  - Probabilidad media/alta CON un fallo       → Inteligente (ataca esa falla puntual)
 //    puntual recurrente detectado
 //  - Probabilidad media/alta SIN fallos claros  → Examen (confirma tu nivel real)
 function decidirModo(nivel, catDebil, esNuevo) {
   if (esNuevo) return "examen";
-  if (nivel === "bajo") return "estudio";
+  if (nivel === "bajo") return catDebil ? "inteligente" : "estudio";
   if (catDebil) return "inteligente";
   return "examen";
 }
@@ -43,11 +44,11 @@ function getHeroConfig(nivel, modo, adaptativo) {
       btnLabel: "Hacer un examen de prueba",
     },
     bajo: {
-      modoLabel: "Modo Estudio",
+      modoLabel: modo === "inteligente" ? "Modo Inteligente" : "Modo Estudio",
       titulo: catDebil ? `Refuerza\n${catDebil}` : "Hay temas\npor reforzar",
-      desc1: "Tema crítico detectado — trabájalo hoy.",
+      desc1: "Es el tema donde más puedes mejorar hoy.",
       desc2: catDebil ? `Fallaste preguntas de ${catDebil} recientemente.` : null,
-      label: "CRÍTICO",
+      label: "Por mejorar",
       ringColor: "#f59e0b",
       ringGlow: "rgba(245,158,11,0.65)",
       ctaBg: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
@@ -57,7 +58,7 @@ function getHeroConfig(nivel, modo, adaptativo) {
       glowColor: "rgba(245,158,11,0.18)",
       accentLine: "linear-gradient(90deg, rgba(245,158,11,0.8), rgba(245,158,11,0.2), transparent)",
       isCritical: true,
-      btnLabel: "Estudiar ahora",
+      btnLabel: modo === "inteligente" ? "Reforzar ahora" : "Estudiar ahora",
     },
     medio_inteligente: {
       titulo: catDebil ? `Vas bien. Corrige\n${catDebil.toLowerCase()}` : "Vas bien. Sigue\npracticando.",
@@ -142,7 +143,7 @@ function HeroProgresoSkeleton() {
 // ── HeroCardPrincipal ─────────────────────────────────────────────────────────
 // La única tarjeta de recomendación. Cuando el modo decidido es "inteligente"
 // integra el detalle del plan (antes vivía en una tarjeta morada aparte).
-function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, topicPct, hitoActual, esNuevo, R, CIRC, onIniciar, clase, catDebil, cantDebiles, pregsCat, pregsMix, tiempoEst }) {
+function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, topicPct, hitoActual, esNuevo, R, CIRC, onIniciar, clase, catDebil, cantDebiles, pregsCat, pregsMix, tiempoEst, probabilidad, meta }) {
   const esInteligente = config.modo === "inteligente";
 
   return (
@@ -153,28 +154,6 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {/* Badge CRÍTICO flotante */}
-      {config.isCritical && (
-        <m.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
-          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
-          style={{
-            background: "rgba(217,119,6,0.95)",
-            border: "1px solid rgba(251,191,36,0.4)",
-            boxShadow: "0 0 16px rgba(245,158,11,0.6)",
-          }}
-        >
-          <m.span
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.2, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"
-          />
-          <span className="text-white text-[10px] font-black uppercase tracking-wider">Estado Crítico</span>
-        </m.div>
-      )}
-
       {/* Fondo glow radial */}
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: `radial-gradient(ellipse 70% 60% at 100% 100%, ${config.glowColor}, transparent 70%)` }} />
@@ -182,22 +161,12 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
       <div className="absolute top-0 left-0 right-0 h-px"
         style={{ background: config.accentLine }} />
 
-      <div className="relative flex items-start gap-4 p-6 pt-11">
+      <div className="relative flex items-start gap-4 p-6">
 
         {/* ── Círculo de progreso ───────────────────────────────────── */}
         <div className="relative flex-shrink-0 flex flex-col items-center gap-2">
           <div className="relative">
             <svg width="116" height="116" viewBox="0 0 116 116">
-              {/* Halo exterior animado (solo crítico) */}
-              {config.isCritical && (
-                <m.circle cx="58" cy="58" r={R + 6}
-                  fill="none" stroke="rgba(245,158,11,0.18)" strokeWidth="1"
-                  strokeDasharray="4 5"
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  style={{ transformOrigin: "58px 58px", transform: "rotate(0deg)" }}
-                />
-              )}
               {/* Track */}
               <circle cx="58" cy="58" r={R} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="8" />
               {/* Arco progreso */}
@@ -228,8 +197,6 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
           {/* Label badge debajo */}
           {config.label && (
             <m.span
-              animate={config.isCritical ? { boxShadow: ["0 0 6px rgba(245,158,11,0.4)", "0 0 14px rgba(245,158,11,0.7)", "0 0 6px rgba(245,158,11,0.4)"] } : {}}
-              transition={{ duration: 2, repeat: Infinity }}
               className="text-[10px] font-black px-2.5 py-0.5 rounded-full tracking-wider uppercase"
               style={{
                 background: `${config.ringColor}25`,
@@ -245,7 +212,7 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
         {/* ── Bloque de texto ──────────────────────────────────────── */}
         <div className="flex flex-col gap-3 flex-1 min-w-0">
           {/* Etiqueta RECOMENDADO */}
-          {config.isCritical && (
+          {nivel !== "sinDatos" && (
             <span className="text-[10px] font-black uppercase tracking-[0.15em]"
               style={{ color: "rgba(251,191,36,0.9)" }}>
               <IconSparkles size={11} className="inline -mt-0.5 mr-1" /> Recomendado para ti
@@ -263,8 +230,8 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
               <>
                 {/* Chip modo recomendado */}
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide"
-                    style={{ background: "rgba(245,158,11,0.15)", color: "rgba(251,191,36,0.7)", border: "1px solid rgba(245,158,11,0.25)" }}>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide"
+                    style={{ background: "rgba(245,158,11,0.15)", color: "rgba(251,191,36,0.95)", border: "1px solid rgba(245,158,11,0.25)" }}>
                     {config.modoLabel}
                   </span>
                 </div>
@@ -279,6 +246,20 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
               </p>
             )}
           </div>
+
+          {/* Dónde estás vs. la meta real: probabilidad de aprobar + lo que exige el examen */}
+          {!esNuevo && probabilidad != null && (
+            <div className="flex flex-wrap gap-2">
+              <span className="text-[11px] font-semibold px-2 py-1 rounded-lg text-slate-200"
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                Probabilidad de aprobar: <span className="font-black text-white">{Math.round(probabilidad)}%</span>
+              </span>
+              <span className="text-[11px] font-semibold px-2 py-1 rounded-lg text-slate-300"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                Examen real: {(meta ?? { min: 33, total: 35 }).min} de {(meta ?? { min: 33, total: 35 }).total} correctas
+              </span>
+            </div>
+          )}
 
           {/* Detalle del plan — solo cuando el modo recomendado es Inteligente */}
           {esInteligente && catDebil && (
@@ -334,7 +315,7 @@ function HeroCardPrincipal({ config, nivel, ringColor, ringGlow, dashoffset, top
 // ── HeroProgreso ──────────────────────────────────────────────────────────────
 // Calcula en qué nivel está el usuario, decide qué modo recomendar (una sola
 // vez, sin tarjetas duplicadas) y arma la config visual de esa combinación.
-export function HeroProgreso({ probabilidad, adaptativo, datos, onIniciar, loading, clase, tresHitos }) {
+export function HeroProgreso({ probabilidad, adaptativo, datos, onIniciar, loading, clase, tresHitos, meta }) {
   const esNuevo = !datos || datos.examenes.length === 0;
   const pct = probabilidad ?? 0;
   const nivel = esNuevo ? "sinDatos" : pct < 50 ? "bajo" : pct < 80 ? "medio" : "alto";
@@ -350,7 +331,7 @@ export function HeroProgreso({ probabilidad, adaptativo, datos, onIniciar, loadi
   // Cada nivel mapea al hito correspondiente
   const hitoMap = {
     sinDatos: { data: null,               sublabel: "sin datos",       ringColorOverride: null },
-    bajo:     { data: tresHitos?.hito1,   sublabel: "dominio manual",  ringColorOverride: "#f59e0b" },
+    bajo:     { data: tresHitos?.hito1,   sublabel: "banco visto",  ringColorOverride: "#f59e0b" },
     medio:    { data: tresHitos?.hito2,   sublabel: "refuerzo",        ringColorOverride: modo === "inteligente" ? "#a855f7" : "#3b82f6" },
     alto:     { data: tresHitos?.hito3,   sublabel: "prob. examen",    ringColorOverride: modo === "inteligente" ? "#a855f7" : "#10b981" },
   };
@@ -396,6 +377,8 @@ export function HeroProgreso({ probabilidad, adaptativo, datos, onIniciar, loadi
         pregsCat={pregsCat}
         pregsMix={pregsMix}
         tiempoEst={tiempoEst}
+        probabilidad={probabilidad}
+        meta={meta}
       />
     </m.div>
   );

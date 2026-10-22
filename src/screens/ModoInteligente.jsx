@@ -135,7 +135,7 @@ function TarjetaPregunta({
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 inline-flex items-center gap-1">
-                      <IconBrain size={13} /> {dominadas.length + 1} / {totalOriginal}
+                      <IconBrain size={13} /> {dominadas.length} / {totalOriginal}
                     </span>
                     <span className={`text-xs px-2 py-1 rounded-full border ${pregunta.dificultad <= 2 ? "border-emerald-500/30 text-emerald-400" : pregunta.dificultad <= 3 ? "border-amber-500/30 text-amber-400" : "border-red-500/30 text-red-400"}`}>
                       {pregunta.dificultad <= 2 ? "Fácil" : pregunta.dificultad <= 3 ? "Media" : "Difícil"}
@@ -288,6 +288,15 @@ export default function ModoInteligente() {
   // Nunca se lee en el render (solo se marca para lógica futura), así
     // que no necesita disparar re-render: useRef en vez de useState.
   const hintUsadoRef = useRef(false);
+  // Guarda anti doble click: evita que "Siguiente" avance dos veces durante
+  // la animación de salida (280 ms).
+  const avanzandoRef = useRef(false);
+  const siguienteTimerRef = useRef(null);
+  const flashTimerRef = useRef(null);
+  useEffect(() => () => {
+    clearTimeout(siguienteTimerRef.current);
+    clearTimeout(flashTimerRef.current);
+  }, []);
   const [racha, setRacha] = useState(0);
   // rachaMax nunca se muestra en pantalla (solo se escribe), así que no
   // necesita disparar un re-render: useRef en vez de useState.
@@ -304,7 +313,8 @@ export default function ModoInteligente() {
   useEffect(() => {
     dispatchQuestionUI({ type: "RESET_PREGUNTA" });
     hintUsadoRef.current = false;
-  }, [pregunta?.id]);
+    avanzandoRef.current = false;
+  }, [pregunta?.id, pregunta?._intentos]);
 
   const handleResponder = (i) => {
     if (yaRespondida) return;
@@ -322,16 +332,18 @@ export default function ModoInteligente() {
       setRacha(nuevaRacha);
       rachaMaxRef.current = Math.max(rachaMaxRef.current, nuevaRacha);
       setFlashRacha(true);
-      setTimeout(() => setFlashRacha(false), 800);
+      clearTimeout(flashTimerRef.current);
+      flashTimerRef.current = setTimeout(() => setFlashRacha(false), 800);
     } else {
       setRacha(0);
     }
   };
 
   const handleSiguiente = () => {
-    if (!yaRespondida) return;
+    if (!yaRespondida || avanzandoRef.current) return;
+    avanzandoRef.current = true;
     dispatchQuestionUI({ type: "SET_ANIM_SALIDA", payload: esCorrecta ? "correct" : "wrong" });
-    setTimeout(() => {
+    siguienteTimerRef.current = setTimeout(() => {
       // Antes el updater de setCola calculaba la nueva cola Y, anidado
       // adentro, llamaba a setDominadas(...) y useStore.setState(...) como
       // efectos secundarios. Si React reejecuta un updater, esas llamadas
@@ -353,14 +365,20 @@ export default function ModoInteligente() {
         }
         setDominadas(nuevasDominadas);
         setCola(resto);
+        avanzandoRef.current = false;
       } else {
         setCola([...resto, { ...actual, _intentos: (actual._intentos || 0) + 1 }]);
+        avanzandoRef.current = false;
       }
     }, 280);
   };
 
   // ── Terminado: todas dominadas, o no había preguntas ────────────────────────
-  if (cola.length === 0 && (dominadas.length > 0 || totalOriginal === 0)) {
+  // La navegación se hace en un efecto (antes se llamaba useStore.setState
+  // durante el render, lo que React no permite).
+  const terminado = cola.length === 0 && (dominadas.length > 0 || totalOriginal === 0);
+  useEffect(() => {
+    if (!terminado) return;
     const preguntasFinales = dominadas.length > 0 ? dominadas : preguntasIniciales;
     const respuestasFinales = Object.fromEntries(preguntasFinales.map((p, i) => [i, p.correcta]));
     useStore.setState({
@@ -368,8 +386,8 @@ export default function ModoInteligente() {
       preguntas: preguntasFinales,
       respuestas: respuestasFinales,
     });
-    return null;
-  }
+  }, [terminado, dominadas, preguntasIniciales]);
+  if (terminado) return null;
 
   const estadoOpcion = (i) => {
     if (!yaRespondida) return "neutro";

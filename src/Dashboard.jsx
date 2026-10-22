@@ -14,8 +14,8 @@ import QuestionIcon from "./components/QuestionIcon";
 import {
   IconArrowLeft as IconTablerArrowLeft, IconConfetti, IconBooks, IconCheck as IconTablerCheck,
   IconX as IconTablerX, IconBulb, IconFlame, IconBrain, IconAlertTriangle,
-  IconCircleCheckFilled, IconCircleX, IconArrowUpRight, IconArrowDownRight, IconTrendingUp,
-  IconPin, IconArrowUp, IconArrowDown, IconClipboardList, IconBook2,
+  IconCircleCheck, IconCircleCheckFilled, IconCircleX, IconArrowUpRight, IconArrowDownRight, IconTrendingUp,
+  IconPin, IconArrowUp, IconArrowDown, IconBook2,
 } from "@tabler/icons-react";
 
 const TODAS_PREGUNTAS = [...PREGUNTAS, ...PREGUNTAS_MOTO, ...PREGUNTAS_PROFESIONAL];
@@ -824,7 +824,7 @@ function TileModo({ icon, titulo, subtitulo, accentColor, accentBg, accentBorder
       </div>
       <div>
         <p className="text-white font-bold text-sm leading-tight">{titulo}</p>
-        <p className="text-slate-500 text-[11px] mt-0.5 leading-snug">{disabled ? disabledLabel : subtitulo}</p>
+        <p className="text-slate-400 text-[11px] mt-0.5 leading-snug">{disabled ? disabledLabel : subtitulo}</p>
       </div>
     </m.button>
   );
@@ -840,7 +840,7 @@ function ModosSecundarios({ datos, clase, onIniciar }) {
   return (
     <m.div {...fadeUp(0.3)} className="flex flex-col gap-2.5">
       <div className="flex items-center gap-2.5 px-0.5">
-        <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Otros modos</span>
+        <span className="text-xs font-bold text-slate-300">Otros modos</span>
         <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
       </div>
       <div className="flex gap-2.5">
@@ -873,6 +873,15 @@ function ModosSecundarios({ datos, clase, onIniciar }) {
             </svg>
           }
         />
+        <TileModo
+          titulo="Inteligente"
+          subtitulo="Repite lo que fallas hasta dominarlo"
+          accentColor="#c084fc"
+          accentBg="rgba(168,85,247,0.18)"
+          accentBorder="rgba(168,85,247,0.25)"
+          onClick={() => onIniciar("inteligente", clase)}
+          icon={<IconBrain size={17} className="text-purple-300" />}
+        />
       </div>
     </m.div>
   );
@@ -890,7 +899,12 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
   if (loading) return <Skeleton h="h-40" />;
 
   const cats = adaptativo?.porCategoria ?? [];
-  const filas = cats.slice(0, DEBILES_MAX_FILAS);
+  // El tema que recomienda el hero va primero, para que ambos digan lo mismo.
+  const catRecomendada = adaptativo?.topDebiles?.[0]?.categoria ?? null;
+  const ordenadas = catRecomendada
+    ? [...cats].sort((a, b) => (b.categoria === catRecomendada) - (a.categoria === catRecomendada))
+    : cats;
+  const filas = ordenadas.slice(0, DEBILES_MAX_FILAS);
   const vistas = adaptativo?.totalVistas ?? 0;
   const totalSesion = SESION_TEMA.cantidadCat + SESION_TEMA.cantidadMix;
   const minSesion = Math.round(totalSesion * 0.4);
@@ -899,7 +913,7 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
   return (
     <m.div {...fadeUp(0.4)} className="flex flex-col gap-2.5">
       <div className="flex items-center gap-2.5 px-0.5">
-        <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Tus puntos débiles</span>
+        <span className="text-xs font-bold text-slate-300">Tus puntos débiles</span>
         <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
       </div>
 
@@ -915,7 +929,7 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
               </div>
               <div>
                 <p className="text-white font-bold text-sm leading-tight">Aún estamos conociendo tu nivel</p>
-                <p className="text-slate-500 text-xs mt-1 leading-snug">
+                <p className="text-slate-400 text-xs mt-1 leading-snug">
                   Cuando respondas más preguntas, aquí aparecerán los temas que más te cuestan, con una sesión lista para practicarlos.
                 </p>
               </div>
@@ -926,7 +940,7 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
                   initial={{ scaleX: 0 }} animate={{ scaleX: Math.min(vistas / DEBILES_META_PREGUNTAS, 1) }}
                   transition={{ duration: 0.5 }} />
               </div>
-              <span className="text-[11px] text-slate-500 tabular-nums flex-shrink-0">
+              <span className="text-[11px] text-slate-400 tabular-nums flex-shrink-0">
                 {Math.min(vistas, DEBILES_META_PREGUNTAS)}/{DEBILES_META_PREGUNTAS} preguntas
               </span>
             </div>
@@ -953,6 +967,10 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
                         <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md flex-shrink-0"
                           style={{ background: "rgba(239,68,68,0.14)", color: "#fca5a5" }}>x2</span>
                       )}
+                      {c.categoria === catRecomendada && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0"
+                          style={{ background: "rgba(168,85,247,0.18)", color: "#d8b4fe" }}>Recomendado</span>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 mt-1.5">
                       <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
@@ -968,14 +986,15 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
                     onClick={() => onIniciar("inteligente", clase, c.categoria)}
                     className="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-black outline-none border-0"
                     style={{ background: "rgba(168,85,247,0.16)", color: "#d8b4fe", border: "1px solid rgba(168,85,247,0.3)", cursor: "pointer" }}>
-                    Practicar
+                    <span className="block">Practicar</span>
+                    <span className="block text-[10px] font-medium opacity-80 mt-0.5">{totalSesion} preguntas · ~{minSesion} min</span>
                   </m.button>
                 </div>
               );
             })}
-            <p className="px-4 py-2.5 text-[11px] text-slate-600"
+            <p className="px-4 py-2.5 text-[11px] text-slate-400"
               style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-              Sesión de {totalSesion} preguntas · ~{minSesion} min · modo Inteligente
+              Cada sesión mezcla preguntas del tema con repaso general · modo Inteligente
             </p>
           </>
         )}
@@ -984,10 +1003,15 @@ function PuntosDebilesInicio({ adaptativo, clase, onIniciar, loading }) {
   );
 }
 
-function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetalle, loadingDetalle, onEliminar, adaptativo, probabilidad, clase, tresHitos }) {
+function SeccionInicio({ user, datos, loading, onIniciar, onAbrirDetalle, loadingDetalle, onEliminar, adaptativo, probabilidad, clase, tresHitos }) {
   // eliminando nunca se lee en el render de este componente (solo se
   // escribe), así que no necesita disparar un re-render: useRef en vez de useState.
   const eliminandoRef = useRef(null);
+
+  // Lo que exige el examen real de la clase (misma fuente que umbralAprobado).
+  const meta = CLASES_PROFESIONALES.includes(clase)
+    ? { min: COMPOSICION_PROFESIONAL[clase].minCorrectas, total: COMPOSICION_PROFESIONAL[clase].total }
+    : { min: 33, total: 35 };
 
   const handleEliminar = (id) => {
     eliminandoRef.current = id;
@@ -1014,6 +1038,7 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
             loading={loading}
             clase={clase}
             tresHitos={tresHitos}
+            meta={meta}
           />
 
           {/* ── Examen / Estudio: tiles secundarios, un toque de distancia ──── */}
@@ -1024,7 +1049,7 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
         </div>
 
         {/* ── Panel lateral: solo desktop, misma presencia visual que el hero ── */}
-        <PanelLateral datos={datos} onBanco={onBanco} onAbrirDetalle={onAbrirDetalle} loadingDetalle={loadingDetalle} />
+        <PanelLateral datos={datos} meta={meta} onAbrirDetalle={onAbrirDetalle} loadingDetalle={loadingDetalle} />
 
       </div>
     </div>
@@ -1038,24 +1063,31 @@ function SeccionInicio({ user, datos, loading, onIniciar, onBanco, onAbrirDetall
 // panel su propio contenido con profundidad real (mini historial clickeable)
 // para que iguale la presencia visual de la columna izquierda, y comprime
 // las 3 métricas en una fila de píldoras en vez de una lista con aire.
-function PanelLateral({ datos, onBanco, onAbrirDetalle, loadingDetalle }) {
+function PanelLateral({ datos, meta, onAbrirDetalle, loadingDetalle }) {
   const examenes = datos?.examenes ?? [];
+
+  // Un mismo criterio para el resumen y la lista de actividad: los exámenes se
+  // evalúan por puntos contra el mínimo oficial; las sesiones de estudio e
+  // inteligente (~10 preguntas) por % de aciertos.
+  const esExamenModo = (ex) => ex.modo === "examen" || !ex.modo;
+  const pctAciertoDe = (ex) => (ex.total > 0 ? Math.round((ex.correctas / ex.total) * 100) : 0);
+  const aprobo = (ex) => (esExamenModo(ex)
+    ? ex.puntaje_obtenido >= umbralAprobado(ex.clase)
+    : pctAciertoDe(ex) >= 80);
+
+  const aprobados = examenes.filter(aprobo).length;
+  const reprobados = examenes.length - aprobados;
 
   let racha = 0;
   for (const ex of examenes) {
-    if (ex.puntaje_obtenido >= umbralAprobado(ex.clase)) racha++;
+    if (aprobo(ex)) racha++;
     else break;
   }
 
-  const examenesExamen = examenes.filter(e => e.modo === "examen" || !e.modo);
-  const mejorPts = examenesExamen.length > 0
-    ? Math.max(...examenesExamen.map(e => e.puntaje_obtenido))
-    : null;
-
   const stats = [
-    { label: "Racha", valor: racha > 0 ? racha : "—", icon: <IconFlame size={14} /> },
-    { label: "Récord", valor: mejorPts !== null ? mejorPts : "—", icon: <IconTarget size={14} /> },
-    { label: "Rendidos", valor: examenes.length || "—", icon: <IconClipboardList size={14} /> },
+    { label: "Aprobados", valor: aprobados, icon: <IconCircleCheck size={14} />, color: "text-emerald-400" },
+    { label: "Reprobados", valor: reprobados, icon: <IconCircleX size={14} />, color: "text-red-400" },
+    { label: "Racha", valor: racha, icon: <IconFlame size={14} />, color: "text-white" },
   ];
 
   const recientes = examenes.slice(0, 3);
@@ -1069,25 +1101,35 @@ function PanelLateral({ datos, onBanco, onAbrirDetalle, loadingDetalle }) {
         <div className="grid grid-cols-3 divide-x px-2 py-4" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
           {stats.map((s) => (
             <div key={s.label} className="flex flex-col items-center gap-1 px-1">
-              <span className="text-slate-500">{s.icon}</span>
-              <span className="text-lg font-black text-white tabular-nums leading-none">{s.valor}</span>
-              <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wide">{s.label}</span>
+              <span className="text-slate-400">{s.icon}</span>
+              <span className={`text-lg font-black tabular-nums leading-none ${s.color}`}>{s.valor}</span>
+              <span className="text-[11px] text-slate-400 font-medium">{s.label}</span>
             </div>
           ))}
         </div>
+
+        <p className="px-4 pb-3 -mt-1 text-[11px] text-slate-400 leading-snug">
+          Racha = aprobados seguidos. Examen: mínimo {meta.min} pts · Estudio: 80% de aciertos.
+        </p>
 
         <div className="h-px" style={{ background: "rgba(255,255,255,0.07)" }} />
 
         {/* ── Mini historial reciente ── */}
         <div className="flex flex-col">
-          <span className="text-[11px] font-black uppercase tracking-widest text-slate-500 px-4 pt-4 pb-2">
+          <span className="text-xs font-bold text-slate-300 px-4 pt-4 pb-2">
             Actividad reciente
           </span>
           {recientes.length === 0 ? (
-            <p className="text-slate-600 text-xs px-4 pb-4">Aún no rindes ningún examen.</p>
+            <p className="text-slate-400 text-xs px-4 pb-4">Aún no rindes ningún examen.</p>
           ) : (
             recientes.map((ex) => {
-              const ok = ex.puntaje_obtenido >= umbralAprobado(ex.clase);
+              // Los exámenes se evalúan por puntos contra el mínimo oficial; las sesiones de
+              // estudio/inteligente son de ~10 preguntas, así que se evalúan por % de aciertos
+              // (antes se comparaban contra 33 pts y siempre salían en rojo).
+              const esExamen = esExamenModo(ex);
+              const pctAcierto = pctAciertoDe(ex);
+              const ok = aprobo(ex);
+              const etiquetaModo = esExamen ? "Examen" : ex.modo === "inteligente" ? "Inteligente" : "Estudio";
               return (
                 <button key={ex.id} type="button" disabled={loadingDetalle}
                   onClick={() => onAbrirDetalle(ex)}
@@ -1098,24 +1140,17 @@ function PanelLateral({ datos, onBanco, onAbrirDetalle, loadingDetalle }) {
                     <p className="text-slate-300 text-xs font-semibold">
                       {new Date(ex.created_at).toLocaleDateString("es-CL", { day: "numeric", month: "short" })}
                     </p>
-                    <p className="text-slate-500 text-[11px]">{ex.correctas}/{ex.total} correctas</p>
+                    <p className="text-slate-400 text-[11px]">{etiquetaModo} · {ex.correctas}/{ex.total} correctas</p>
                   </div>
-                  <span className={`text-xs font-black ${ok ? "text-emerald-400" : "text-red-400"}`}>{ex.puntaje_obtenido}</span>
+                  <span className={`text-xs font-black ${ok ? "text-emerald-400" : "text-red-400"}`}>
+                    {esExamen ? <>{ex.puntaje_obtenido}<span className="text-[10px] font-medium text-slate-400"> pts</span></> : `${pctAcierto}%`}
+                  </span>
                 </button>
               );
             })
           )}
         </div>
       </div>
-
-      <button type="button" onClick={onBanco}
-        className="rounded-2xl p-4 text-left outline-none border-0 flex items-center justify-between"
-        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", cursor: "pointer" }}>
-        <span className="flex items-center gap-2 text-sm font-bold text-slate-300">
-          <IconBook2 size={16} className="text-slate-500" /> Banco de preguntas
-        </span>
-        <IconArrow size={14} className="text-slate-600" />
-      </button>
     </div>
   );
 }
@@ -2503,7 +2538,7 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left"
               style={isActive
                 ? { background: "rgba(59,130,246,0.14)", color: "white" }
-                : { color: "#64748b" }}>
+                : { color: "#94a3b8" }}>
               <Icon size={17} style={{ color: isActive ? "#60a5fa" : "#475569" }} />
               {label}
             </button>
@@ -2515,7 +2550,7 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
 
       {/* ── Modos de práctica ────────────────────────────────────── */}
       <div className="px-3 py-3 flex flex-col gap-0.5 flex-shrink-0">
-        <p className="text-xs text-slate-600 uppercase tracking-widest font-semibold mb-1.5 px-2">Practicar</p>
+        <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1.5 px-2">Practicar</p>
         {[
           { label: "Modo Examen",      emoji: "clipboard-list", onClick: () => onIniciar("examen") },
           { label: "Modo Estudio",     emoji: "bulb", onClick: () => onIniciar("estudio") },
@@ -2534,15 +2569,15 @@ function DesktopSidebar({ user, datos, loading, activeSection, onSection, onInic
 
       {/* ── Recursos ─────────────────────────────────────────────── */}
       <div className="px-3 py-3 flex flex-col gap-0.5 flex-shrink-0">
-        <p className="text-xs text-slate-600 uppercase tracking-widest font-semibold mb-1.5 px-2">Recursos</p>
+        <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1.5 px-2">Recursos</p>
         <button type="button" onClick={onBanco}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left text-slate-400 hover:text-white hover:bg-white/5">
-          <IconBook2 size={16} /><span className="flex-1 truncate">Banco de Pregun...</span>
+          <IconBook2 size={16} /><span className="flex-1 truncate">Banco de preguntas</span>
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" opacity="0.35"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
         <button type="button" onClick={onLibro}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all bg-transparent border-0 outline-none text-left text-slate-400 hover:text-white hover:bg-white/5">
-          <IconBooks size={16} /><span className="flex-1 truncate">Manual del Condu...</span>
+          <IconBooks size={16} /><span className="flex-1 truncate">Manual del conductor</span>
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" opacity="0.35"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
       </div>
@@ -3106,7 +3141,7 @@ export function Dashboard({ user, onIniciar, onLogout, onBanco, onLibro, onLegal
               className="absolute inset-0 overflow-y-auto"
               style={{ paddingBottom: "calc(72px + env(safe-area-inset-bottom, 0px))" }}>
               {activeSection === "inicio" && (
-                <SeccionInicio user={user} datos={datos} loading={loading} onIniciar={(modo, cl, cat) => onIniciar(modo, cl || clase, cat)} onBanco={() => onBanco(clase)} onAbrirDetalle={abrirDetalle} loadingDetalle={loadingDetalle} onEliminar={handleEliminar} adaptativo={adaptativo} probabilidad={probabilidad} clase={clase} tresHitos={tresHitos} />
+                <SeccionInicio user={user} datos={datos} loading={loading} onIniciar={(modo, cl, cat) => onIniciar(modo, cl || clase, cat)} onAbrirDetalle={abrirDetalle} loadingDetalle={loadingDetalle} onEliminar={handleEliminar} adaptativo={adaptativo} probabilidad={probabilidad} clase={clase} tresHitos={tresHitos} />
               )}
               {activeSection === "historial" && (
                 <SeccionHistorial datos={datos} loading={loading} onAbrirDetalle={abrirDetalle} loadingDetalle={loadingDetalle} onEliminar={handleEliminar} />
